@@ -1,0 +1,40 @@
+<h2 class="text-3xl font-bold pb-5 underline">Login</h2>
+
+<form class="flex flex-col gap-2 p-8 w-[40rem] bg-blue-50 rounded-xl shadow-xl" #form="ngForm" (ngSubmit)="onSubmit(form)">
+  <mat-form-field>
+    <mat-label for="email">{{ texts.title }}</mat-label>
+    <input
+      matInput
+      type="text"
+      name="email"
+      id="email"
+      ngModel
+      email
+      #email="ngModel"
+    />
+    @if (email.touched && email.dirty && email.invalid) {
+      <mat-error>{{ texts.emailError }}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label for="password">{{ texts.password }}</mat-label>
+    <input
+      matInput
+      type="password"
+      name="password"
+      id="password"
+      ngModel
+      required
+      minlength="6"
+      #password="ngModel"
+    />
+    @if (password.touched && password.dirty && password.invalid) {
+      <mat-error>{{ texts.passwordError }}</mat-error>
+    }
+  </mat-form-field>
+
+  <button mat-fab extended disabled="{{ form.invalid }}">
+    {{ texts.login }}
+  </button>
+</form>
