@@ -1,14 +1,35 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 
-import { LoginComponent } from './pages/login/login.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { AuthService } from 'services/auth.service';
+import { ROLE_KEY } from '@lib/consts';
+import { ERoles, ERoutes } from '@lib/enums';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LoginComponent],
+  imports: [RouterOutlet, UnauthorizedComponent, HeaderComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
+  private _authService: AuthService = inject(AuthService);
+  private _router: Router = inject(Router);
 
+  constructor() {
+    const isAuthRoleStored = window.localStorage.getItem(ROLE_KEY);
+
+    if (isAuthRoleStored) {
+      const transformedRole: ERoles = isAuthRoleStored as ERoles;
+      this._authService.loginUser(transformedRole);
+      return;
+    };
+
+    this._router.navigate([`/${ERoutes.Auth}`]);
+  }
+
+  get isAuthorized(): boolean {
+    return this._authService.getUserRole === ERoles.Authorized;
+  }
 }

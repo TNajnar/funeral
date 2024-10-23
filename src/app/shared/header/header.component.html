@@ -1,0 +1,13 @@
+<header class="page-layout">
+  <div class="flex justify-between">
+    <div class="flex gap-3">
+      @for (headerItem of _headerItems; track headerItem.id) {
+        <a [routerLink]="['/' + headerItem.url]">
+          {{ headerItem.routeName }}
+        </a>
+      }
+    </div>
+    
+    <span>Logo</span>
+  </div>
+</header>

@@ -1,8 +1,12 @@
-<h2 class="text-3xl font-bold pb-5 underline">Login</h2>
+<h2 class="text-3xl font-bold pb-5 underline">{{ _texts.title }}</h2>
 
-<form class="flex flex-col gap-2 p-8 w-[40rem] bg-blue-50 rounded-xl shadow-xl" #form="ngForm" (ngSubmit)="onSubmit(form)">
+<form
+  class="flex flex-col gap-2 p-8 w-[40rem] bg-blue-50 rounded-xl shadow-xl"
+  #form="ngForm"
+  (ngSubmit)="_onSubmit(form)"
+>
   <mat-form-field>
-    <mat-label for="email">{{ texts.title }}</mat-label>
+    <mat-label for="email">{{ _texts.title }}</mat-label>
     <input
       matInput
       type="text"
@@ -12,13 +16,14 @@
       email
       #email="ngModel"
     />
+
     @if (email.touched && email.dirty && email.invalid) {
-      <mat-error>{{ texts.emailError }}</mat-error>
+      <mat-error>{{ _texts.emailError }}</mat-error>
     }
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label for="password">{{ texts.password }}</mat-label>
+    <mat-label for="password">{{ _texts.password }}</mat-label>
     <input
       matInput
       type="password"
@@ -29,12 +34,13 @@
       minlength="6"
       #password="ngModel"
     />
+
     @if (password.touched && password.dirty && password.invalid) {
-      <mat-error>{{ texts.passwordError }}</mat-error>
+      <mat-error>{{ _texts.passwordError }}</mat-error>
     }
   </mat-form-field>
 
   <button mat-fab extended disabled="{{ form.invalid }}">
-    {{ texts.login }}
+    {{ _texts.login }}
   </button>
 </form>
