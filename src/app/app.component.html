@@ -1,1 +1,7 @@
-<app-login />
+@if (isAuthorized) {
+  <app-header />
+}
+
+<main class="page-layout">
+  <router-outlet />
+</main>
