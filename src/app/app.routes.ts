@@ -6,6 +6,9 @@ import { GardenerServicesComponent } from './pages/authorized/gardener-services/
 import { NegotiationComponent } from './pages/authorized/negotiation/negotiation.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { WarehouseControlComponent } from './pages/authorized/warehouse-control/warehouse-control.component';
+import {
+  WarehouseItemDetailComponent,
+} from '@pages/authorized/warehouse-control/warehouse-item-detail/warehouse-item-detail.component';
 import { hasRoleGuard } from '@lib/has-role.guard';
 import { ERoles, ERoutes } from '@lib/enums';
 
@@ -20,9 +23,28 @@ export const routes: Routes = [
       roles: [ ERoles.Authorized ],
     },
   },
-  { path: ERoutes.BouquetAndMusic, component: BouquetMusicComponent },
-  { path: ERoutes.GardenerServices, component: GardenerServicesComponent },
-  { path: ERoutes.Negotiation, component: NegotiationComponent },
+  {
+    path: 'item/:id',
+    component: WarehouseItemDetailComponent,
+  },
+  {
+    path: ERoutes.BouquetAndMusic,
+    component: BouquetMusicComponent,
+    canActivate: [hasRoleGuard],
+    data: { roles: [ ERoles.Authorized ]}
+  },
+  {
+    path: ERoutes.GardenerServices,
+    component: GardenerServicesComponent,
+    canActivate: [hasRoleGuard],
+    data: { roles: [ ERoles.Authorized ] }
+  },
+  {
+    path: ERoutes.Negotiation,
+    component: NegotiationComponent,
+    canActivate: [hasRoleGuard],
+    data: { roles: [ ERoles.Authorized ] }
+  },
 
   // { path: '**', component: NotFoundComponent } TODO Wildcard route for a 404 page
 ];

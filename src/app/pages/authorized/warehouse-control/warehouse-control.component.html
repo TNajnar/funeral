@@ -1,3 +1,28 @@
-<p>warehouse-control works!</p>
+<table class="w-full border-collapse border border-white">
+  <thead class="border">
+    <tr>
+      <th>{{ _texts.date }}</th>
+      <th>{{ _texts.coffinType }}</th>
+      <th>{{ _texts.name }}</th>
+      <th>{{ _texts.profit }}</th>
+      <th>{{ _texts.outcome }}</th>
+    </tr>
+  </thead>
+
+  <tbody class="border">
+    @for (_wareItem of _wareItems; track _wareItem.id) {
+      <tr (click)="onItemClick(_wareItem.id)">
+        <td>{{ _wareItem.date }}</td>
+        <td>{{ _wareItem.coffinType }}</td>
+        <td>{{ _wareItem.name }}</td>
+        <td>{{ _wareItem.profit }}</td>
+        <td>{{ _wareItem.outcome }}</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
 
 <button (click)="_authService.logoutUser()">Logout</button>
+
+<router-outlet />

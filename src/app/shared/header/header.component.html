@@ -1,8 +1,8 @@
-<header class="page-layout">
-  <div class="flex justify-between">
+<header class="page-layout border-black border-b mb-6">
+  <div class="flex justify-between py-4">
     <div class="flex gap-3">
       @for (headerItem of _headerItems; track headerItem.id) {
-        <a [routerLink]="['/' + headerItem.url]">
+        <a [routerLink]="['/' + headerItem.url]" class="hover:drop-shadow-lg">
           {{ headerItem.routeName }}
         </a>
       }

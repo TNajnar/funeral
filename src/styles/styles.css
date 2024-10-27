@@ -10,10 +10,10 @@
     padding: 0;
     margin: 0;
     min-width: 320px;
-    background-color: #b1b4ba; /* Light Steel Blue */
+    background-color: #FFF; /* Light Steel Blue b1b4ba*/
     font-size: 16px;
     font-size: 100%;
-    color: #0a0983;  /* Light Cyan */
+    color: #000;  /* Light Cyan 0a0983 */
     -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
