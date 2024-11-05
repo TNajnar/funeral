@@ -1,13 +1,20 @@
-<header class="page-layout border-black border-b mb-6">
-  <div class="flex justify-between py-4">
-    <div class="flex gap-3">
+<header class="page-layout mb-6 shadow-sm">
+  <div class="flex gap-9 text-primary-gray font-medium">
+    <div class="flex items-center gap-2 cursor-pointer">
+      <img class="w-10 h-10" src="favicon.ico" />
+      <span>Logo</span>
+    </div>
+
+    <div class="flex items-center gap-5">
       @for (headerItem of _headerItems; track headerItem.id) {
-        <a [routerLink]="['/' + headerItem.url]" class="hover:drop-shadow-lg">
+        <a
+          [routerLink]="['/' + headerItem.url]"
+          class="h-full p-3 border-b-[3px] border-transparent transition-all ease-in-out duration-300 hover:drop-shadow-lg"
+          [routerLinkActive]="'text-primary-blue border-primary-blue'"
+        >
           {{ headerItem.routeName }}
         </a>
       }
     </div>
-    
-    <span>Logo</span>
   </div>
 </header>
