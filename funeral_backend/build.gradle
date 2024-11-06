@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'cz.tomaskopulety'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 
 java {
   toolchain {
@@ -26,10 +26,13 @@ repositories {
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.springframework.boot:spring-boot-starter-web'
+  runtimeOnly 'org.flywaydb:flyway-gradle-plugin:11.0.0'
+  runtimeOnly 'org.flywaydb:flyway-database-postgresql'
   compileOnly 'org.projectlombok:lombok'
   runtimeOnly 'org.postgresql:postgresql'
   annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
   annotationProcessor 'org.projectlombok:lombok'
+  annotationProcessor 'org.springframework.boot:spring-boot-starter-validation'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
