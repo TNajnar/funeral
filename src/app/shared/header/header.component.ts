@@ -21,6 +21,7 @@ const headerItems: THeaderItem[] = [
   standalone: true,
   imports: [RouterModule],
   templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
   protected _headerItems: THeaderItem[] = headerItems;

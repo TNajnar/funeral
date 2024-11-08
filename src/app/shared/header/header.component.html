@@ -9,8 +9,8 @@
       @for (headerItem of _headerItems; track headerItem.id) {
         <a
           [routerLink]="['/' + headerItem.url]"
-          class="h-full p-3 border-b-[3px] border-transparent transition-all ease-in-out duration-300 hover:drop-shadow-lg"
-          [routerLinkActive]="'text-primary-blue border-primary-blue'"
+          class="nav-link h-full p-4 transition-colors duration-300 ease-in-out hover:drop-shadow-lg"
+          [routerLinkActive]="'active'"
         >
           {{ headerItem.routeName }}
         </a>
