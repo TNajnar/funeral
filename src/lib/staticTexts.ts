@@ -7,10 +7,11 @@ export const loginTexts = {
   passwordError: 'Heslo musí mít alespoň 6 znaků.',
 };
 
-export const tableHeaders = {
+export const warehouse = {
   date: 'Datum',
   coffinType: 'Typ Rakve',
   name: 'Jméno',
   profit: 'Příjem',
   outcome: 'Výdej',
+  addNewItem: 'Přidat novou položku +',
 };

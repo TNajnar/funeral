@@ -1,0 +1,10 @@
+<mat-dialog-content>
+  <ng-container *ngIf="data.contentTemplate">
+    <ng-container *ngTemplateOutlet="data.contentTemplate" />
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="_onClose()">No Thanks</button>
+  <button mat-button cdkFocusInitial (click)="_onConfirm()">Ok</button>
+</mat-dialog-actions>
