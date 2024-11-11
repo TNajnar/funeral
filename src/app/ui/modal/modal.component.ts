@@ -1,28 +1,25 @@
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, EventEmitter, Inject, Output, TemplateRef } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { AfterViewInit, Component, ElementRef, output, viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [MatButtonModule, MatDialogContent, MatDialogActions, NgIf, NgTemplateOutlet],
   templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.css']
 })
-export class ModalComponent {
-  @Output() onConfirm = new EventEmitter<void>();
+export class ModalComponent implements AfterViewInit {
+  onClose = output<void>();
 
-  constructor(
-    public dialogRef: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { contentTemplate: TemplateRef<any> }
-  ) {}
+  private _dialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
 
-  protected _onClose(): void {
-    this.dialogRef.close();
+  ngAfterViewInit(): void {
+    this._dialogEl().nativeElement.showModal();
+    this._dialogEl().nativeElement.focus();
   }
 
-  protected _onConfirm(): void {
-    this.onConfirm.emit();
-    this.dialogRef.close();
-  }
+  protected _onKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === 'Escape') {
+      this.onClose.emit();
+      this._dialogEl().nativeElement.close();
+    }
+  };
 }

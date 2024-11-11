@@ -1,4 +1,4 @@
-@if (_warehouseItems.length) {
+@if (_warehouseService.warehouseItems.length) {
   <table class="w-full border-collapse border border-white">
     <thead class="border">
       <tr>
@@ -11,7 +11,7 @@
     </thead>
   
     <tbody class="border">
-      @for (_wareItem of _warehouseItems; track _wareItem.id) {
+      @for (_wareItem of _warehouseService.warehouseItems; track _wareItem.id) {
         <tr (click)="onWarehouseItemClick(_wareItem.id)">
           <td>{{ _wareItem.date }}</td>
           <td>{{ _wareItem.coffinType }}</td>
@@ -23,11 +23,13 @@
     </tbody>
   </table>
 } @else {
-  <button mat-fab extended class="self-center" (click)="addNewWareItem()">{{ _texts.addNewItem }}</button>
+  <button mat-fab extended class="self-center" (click)="toggleModal()">{{ _texts.addNewItem }}</button>
 }
 
-<ng-template #modalContent>
-  <app-add-new-warehouse-item />
-</ng-template>
+@if (isModalOpen()) {
+  <app-modal (onClose)="toggleModal()">
+    <app-add-new-warehouse-item (onCancel)="toggleModal()" />
+  </app-modal>
+}
 
 <button mat-raised-button class="mt-10 w-max" (click)="_authService.logoutUser()">Logout</button>

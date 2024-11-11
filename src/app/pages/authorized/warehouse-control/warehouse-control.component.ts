@@ -1,18 +1,17 @@
-import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 
 import { AuthService } from 'services/auth.service';
+import { WarehouseService } from './warehouse.service';
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewWarehouseItemComponent } from './add-new-warehouse-item/add-new-warehouse-item.component';
-import type { TWarehouseItem } from './warehouse-control.model';
 import { warehouse } from '@lib/staticTexts';
 
 @Component({
   selector: 'app-warehouse-control',
   standalone: true,
-  imports: [MatButtonModule, AddNewWarehouseItemComponent],
+  imports: [MatButtonModule, AddNewWarehouseItemComponent, ModalComponent],
   templateUrl: './warehouse-control.component.html',
   styleUrls: ['./warehouse-control.component.css'],
   host: {
@@ -20,33 +19,18 @@ import { warehouse } from '@lib/staticTexts';
   },
 })
 export class WarehouseControlComponent {
-  @ViewChild('modalContent') modalContent!: TemplateRef<ModalComponent>;
-
   protected _texts = warehouse;
-  protected _warehouseItems: TWarehouseItem[] = []; // TODO data from API
+  isModalOpen = signal<boolean>(false);
 
-  protected _authService: AuthService = inject(AuthService);
   private _router: Router = inject(Router);
-  readonly dialog: MatDialog = inject(MatDialog);
+  protected _authService: AuthService = inject(AuthService);
+  protected _warehouseService: WarehouseService = inject(WarehouseService);
 
-  addNewWareItem(): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      data: {
-        contentTemplate: this.modalContent
-      }
-    });
-
-    dialogRef.componentInstance.onConfirm.subscribe(() => {
-      this.handleConfirm();
-    });
-  }
-
-  handleConfirm(): void {
-    console.log('Confirmed!');
+  toggleModal(): void {
+    this.isModalOpen.set(!this.isModalOpen());
   }
 
   onWarehouseItemClick(id: number): void {
-    console.log(id);
     this._router.navigate([`/item/${id}`]);
   }
 }

@@ -1,0 +1,93 @@
+<form #form="ngForm" (ngSubmit)="_onSubmit(form)">
+  <div class="grid grid-cols-2 gap-4">
+    <mat-form-field>
+      <mat-label for="date">Datum</mat-label>
+      <input
+        matInput
+        type="date"
+        name="date"
+        id="date"
+        ngModel
+        date
+        #date="ngModel"
+      />
+  
+      @if (date.touched && date.dirty && date.invalid) {
+        <mat-error>Datum err</mat-error>
+      }
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="wareItemType">Typ</mat-label>
+      <input
+        matInput
+        type="wareItemType"
+        name="wareItemType"
+        id="wareItemType"
+        ngModel
+        required
+        #wareItemType="ngModel"
+      />
+  
+      @if (wareItemType.touched && wareItemType.dirty && wareItemType.invalid) {
+        <mat-error>Typ err</mat-error>
+      }
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="name">Jméno</mat-label>
+      <input
+        matInput
+        type="text"
+        name="name"
+        id="name"
+        ngModel
+        required
+        #name="ngModel"
+      />
+  
+      @if (name.touched && name.dirty && name.invalid) {
+        <mat-error>Jméno</mat-error>
+      }
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="profit">Profit</mat-label>
+      <input
+        matInput
+        type="profit"
+        name="profit"
+        id="profit"
+        ngModel
+        required
+        #profit="ngModel"
+      />
+  
+      @if (profit.touched && profit.dirty && profit.invalid) {
+        <mat-error>Profit err</mat-error>
+      }
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="outcome">outcome</mat-label>
+      <input
+        matInput
+        type="outcome"
+        name="outcome"
+        id="outcome"
+        ngModel
+        required
+        #outcome="ngModel"
+      />
+  
+      @if (outcome.touched && outcome.dirty && outcome.invalid) {
+        <mat-error>outcome err</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="_onCancel()">Zavrit</button>
+    <button mat-button type="submit">Submit</button>
+  </mat-dialog-actions>
+</form>
