@@ -15,4 +15,8 @@ export class WarehouseService {
   addWarehouseItem(warehouseItem: TWarehouseItem): void {
     this._warehouseItems.push(warehouseItem);
   }
+
+  deleteWarehouseItem(id: number): void {
+    this._warehouseItems = this._warehouseItems.filter((item) => item.id !== id);
+  }
 }

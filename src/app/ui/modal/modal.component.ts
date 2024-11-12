@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, ElementRef, output, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, output, viewChild, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./modal.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ModalComponent implements AfterViewInit {
   onClose = output<void>();

@@ -1,4 +1,6 @@
 @if (_warehouseService.warehouseItems.length) {
+  <button mat-fab extended class="self-end mb-5" (click)="toggleModal()">{{ _texts.addNewItem }}</button>
+
   <table class="w-full border-collapse border border-white">
     <thead class="border">
       <tr>
@@ -7,17 +9,39 @@
         <th>{{ _texts.name }}</th>
         <th>{{ _texts.profit }}</th>
         <th>{{ _texts.outcome }}</th>
+        <th class="w-7"></th>   <!-- flag item -->
+        <th class="w-7"></th>   <!-- Add note to item -->
+        <th class="w-7"></th>   <!-- Delete item -->
       </tr>
     </thead>
   
     <tbody class="border">
       @for (_wareItem of _warehouseService.warehouseItems; track _wareItem.id) {
-        <tr (click)="onWarehouseItemClick(_wareItem.id)">
+        <tr>
           <td>{{ _wareItem.date }}</td>
           <td>{{ _wareItem.coffinType }}</td>
           <td>{{ _wareItem.name }}</td>
           <td>{{ _wareItem.profit }}</td>
           <td>{{ _wareItem.outcome }}</td>
+          <td>
+            <mat-icon
+              class="icon"
+              fontIcon="outlined_flag"
+            /> <!-- flag -->
+          </td>
+          <td>
+            <mat-icon
+              class="icon"
+              fontIcon="chat_bubble"
+            />
+          </td>
+          <td>
+            <mat-icon
+              class="icon"
+              fontIcon="delete"
+              (click)="deleteWarehouseItem(_wareItem.id)"
+            />
+          </td>
         </tr>
       }
     </tbody>

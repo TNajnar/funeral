@@ -6,12 +6,13 @@ import { AuthService } from 'services/auth.service';
 import { WarehouseService } from './warehouse.service';
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewWarehouseItemComponent } from './add-new-warehouse-item/add-new-warehouse-item.component';
-import { warehouse } from '@lib/staticTexts';
+import { warehouseControl } from '@lib/staticTexts';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-warehouse-control',
   standalone: true,
-  imports: [MatButtonModule, AddNewWarehouseItemComponent, ModalComponent],
+  imports: [AddNewWarehouseItemComponent, ModalComponent, MatIconModule, MatButtonModule],
   templateUrl: './warehouse-control.component.html',
   styleUrls: ['./warehouse-control.component.css'],
   host: {
@@ -19,7 +20,7 @@ import { warehouse } from '@lib/staticTexts';
   },
 })
 export class WarehouseControlComponent {
-  protected _texts = warehouse;
+  protected _texts = warehouseControl;
   isModalOpen = signal<boolean>(false);
 
   private _router: Router = inject(Router);
@@ -32,5 +33,9 @@ export class WarehouseControlComponent {
 
   onWarehouseItemClick(id: number): void {
     this._router.navigate([`/item/${id}`]);
+  }
+
+  deleteWarehouseItem(id: number): void {
+    this._warehouseService.deleteWarehouseItem(id);
   }
 }

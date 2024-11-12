@@ -1,24 +1,24 @@
 <form #form="ngForm" (ngSubmit)="_onSubmit(form)">
   <div class="grid grid-cols-2 gap-4">
     <mat-form-field>
-      <mat-label for="date">Datum</mat-label>
+      <mat-label for="date">{{ _texts.date }}</mat-label>
       <input
         matInput
         type="date"
         name="date"
         id="date"
+        [matDatepicker]="picker"
         ngModel
         date
         #date="ngModel"
       />
-  
-      @if (date.touched && date.dirty && date.invalid) {
-        <mat-error>Datum err</mat-error>
-      }
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
+      <mat-datepicker #picker panelClass="custom-datepicker-panel"></mat-datepicker>
     </mat-form-field>
-  
+
     <mat-form-field>
-      <mat-label for="wareItemType">Typ</mat-label>
+      <mat-label for="wareItemType">{{ _texts.wareItemType }}</mat-label>
       <input
         matInput
         type="wareItemType"
@@ -28,14 +28,14 @@
         required
         #wareItemType="ngModel"
       />
-  
+
       @if (wareItemType.touched && wareItemType.dirty && wareItemType.invalid) {
-        <mat-error>Typ err</mat-error>
+        <mat-error>{{ _texts.wareItemError }}</mat-error>
       }
     </mat-form-field>
-  
+
     <mat-form-field>
-      <mat-label for="name">Jméno</mat-label>
+      <mat-label for="name">{{ _texts.name }}</mat-label>
       <input
         matInput
         type="text"
@@ -45,14 +45,14 @@
         required
         #name="ngModel"
       />
-  
+
       @if (name.touched && name.dirty && name.invalid) {
-        <mat-error>Jméno</mat-error>
+        <mat-error>{{ _texts.nameError }}</mat-error>
       }
     </mat-form-field>
-  
+
     <mat-form-field>
-      <mat-label for="profit">Profit</mat-label>
+      <mat-label for="profit">{{ _texts.profit }}</mat-label>
       <input
         matInput
         type="profit"
@@ -62,14 +62,14 @@
         required
         #profit="ngModel"
       />
-  
+
       @if (profit.touched && profit.dirty && profit.invalid) {
-        <mat-error>Profit err</mat-error>
+        <mat-error>{{ _texts.profitError }}</mat-error>
       }
     </mat-form-field>
-  
+
     <mat-form-field>
-      <mat-label for="outcome">outcome</mat-label>
+      <mat-label for="outcome">{{ _texts.outcome }}</mat-label>
       <input
         matInput
         type="outcome"
@@ -79,15 +79,15 @@
         required
         #outcome="ngModel"
       />
-  
+
       @if (outcome.touched && outcome.dirty && outcome.invalid) {
-        <mat-error>outcome err</mat-error>
+        <mat-error>{{ _texts.outcomeError }}</mat-error>
       }
     </mat-form-field>
   </div>
 
-  <mat-dialog-actions>
-    <button mat-button (click)="_onCancel()">Zavrit</button>
-    <button mat-button type="submit">Submit</button>
-  </mat-dialog-actions>
+  <div class="justify-self-end">
+    <button mat-button (click)="_onCancel()">{{ _texts.cancel }}</button>
+    <button mat-button disabled="{{ form.invalid }}" type="submit">{{ _texts.submit }}</button>
+  </div>
 </form>

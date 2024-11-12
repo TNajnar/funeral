@@ -1,22 +1,27 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output, ViewEncapsulation } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogActions } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { WarehouseService } from '../warehouse.service';
+import { warehouseControl } from '@lib/staticTexts';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-new-warehouse-item',
   standalone: true,
-  imports: [FormsModule, MatDialogActions, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule],
   templateUrl: './add-new-warehouse-item.component.html',
-  providers: [DatePipe]
+  providers: [DatePipe],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AddNewWarehouseItemComponent {
   @Output() onCancel = new EventEmitter<void>();
+
+  protected _texts = warehouseControl.newItemComponent;
 
   warehouseService: WarehouseService = inject(WarehouseService);
   datePipe: DatePipe = inject(DatePipe);
@@ -26,7 +31,8 @@ export class AddNewWarehouseItemComponent {
       return;
     }
 
-    const currentDate = this.datePipe.transform(new Date(), 'dd.MM.yyyy');
+    const selectedDate = formData.value.date ? new Date(formData.value.date) : new Date();
+    const currentDate = this.datePipe.transform(selectedDate, 'dd.MM.yyyy') || '';
 
     this.warehouseService.addWarehouseItem({
       id: 2 * 2,
