@@ -1,0 +1,14 @@
+<button
+  *ngSwitch="variant"
+  [ngClass]="{
+    'mat-fab extended': variant === 'primary',
+    'mat-button': variant === 'secondary',
+    'mat-raised-button': variant === 'tertiary'
+  }"
+  class="mat-raised-button custom-button"
+  [disabled]="disabled"
+  [type]="type"
+  (click)="handleOnClick()"
+>
+  <ng-content />
+</button>

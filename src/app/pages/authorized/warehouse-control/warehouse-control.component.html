@@ -1,5 +1,7 @@
 @if (_warehouseService.warehouseItems.length) {
-  <button mat-fab extended class="self-end mb-5" (click)="toggleModal()">{{ _texts.addNewItem }}</button>
+  <app-button class="self-end mb-5" (click)="toggleModal()">
+    {{ _texts.addNewItem }}
+  </app-button>
 
   <table class="w-full border-collapse border border-white">
     <thead class="border">
@@ -47,7 +49,9 @@
     </tbody>
   </table>
 } @else {
-  <button mat-fab extended class="self-center" (click)="toggleModal()">{{ _texts.addNewItem }}</button>
+  <app-button class="self-center" (click)="toggleModal()">
+    {{ _texts.addNewItem }}
+  </app-button>
 }
 
 @if (isModalOpen()) {
@@ -56,4 +60,6 @@
   </app-modal>
 }
 
-<button mat-raised-button class="mt-10 w-max" (click)="_authService.logoutUser()">Logout</button>
+<app-button class="mt-10" [variant]="'tertiary'" (click)="_authService.logoutUser()">
+  Logout
+</app-button>

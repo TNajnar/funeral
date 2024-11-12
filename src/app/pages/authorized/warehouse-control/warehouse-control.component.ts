@@ -1,18 +1,19 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AuthService } from 'services/auth.service';
 import { WarehouseService } from './warehouse.service';
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewWarehouseItemComponent } from './add-new-warehouse-item/add-new-warehouse-item.component';
+import { ButtonComponent } from '@app/ui/button/button.component';
 import { warehouseControl } from '@lib/staticTexts';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-warehouse-control',
   standalone: true,
-  imports: [AddNewWarehouseItemComponent, ModalComponent, MatIconModule, MatButtonModule],
+  imports: [AddNewWarehouseItemComponent, ModalComponent, MatIconModule, MatButtonModule, ButtonComponent],
   templateUrl: './warehouse-control.component.html',
   styleUrls: ['./warehouse-control.component.css'],
   host: {

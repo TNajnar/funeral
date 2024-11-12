@@ -1,19 +1,19 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, inject, Output, ViewEncapsulation } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { WarehouseService } from '../warehouse.service';
+import { ButtonComponent } from '@app/ui/button/button.component';
 import { warehouseControl } from '@lib/staticTexts';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-new-warehouse-item',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, ButtonComponent],
   templateUrl: './add-new-warehouse-item.component.html',
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,

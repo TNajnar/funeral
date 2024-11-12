@@ -87,7 +87,12 @@
   </div>
 
   <div class="justify-self-end">
-    <button mat-button (click)="_onCancel()">{{ _texts.cancel }}</button>
-    <button mat-button disabled="{{ form.invalid }}" type="submit">{{ _texts.submit }}</button>
+    <app-button [variant]="'secondary'" (click)="_onCancel()">
+      {{ _texts.cancel }}
+    </app-button>
+
+    <app-button [variant]="'secondary'" [disabled]="form.invalid ?? false" type="submit">
+      {{ _texts.submit }}
+    </app-button>
   </div>
 </form>
