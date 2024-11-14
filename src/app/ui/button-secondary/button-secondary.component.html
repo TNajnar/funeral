@@ -1,0 +1,10 @@
+<button
+  mat-fab extended
+  class="mat-raised-button custom-secondary-button "
+  [class.is-full-width]="fullWidth"
+  [disabled]="disabled"
+  [type]="type"
+  (click)="handleOnClick()"
+>
+  <ng-content />
+</button>

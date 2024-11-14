@@ -7,13 +7,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { WarehouseService } from '../warehouse.service';
-import { ButtonComponent } from '@app/ui/button/button.component';
 import { warehouseControl } from '@lib/staticTexts';
+import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
+import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
 
 @Component({
   selector: 'app-add-new-warehouse-item',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, ButtonComponent],
+  // eslint-disable-next-line max-len
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, ButtonSecondaryComponent, ButtonPrimaryComponent],
   templateUrl: './add-new-warehouse-item.component.html',
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,

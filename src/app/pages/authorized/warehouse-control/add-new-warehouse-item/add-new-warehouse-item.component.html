@@ -86,13 +86,13 @@
     </mat-form-field>
   </div>
 
-  <div class="justify-self-end">
-    <app-button [variant]="'secondary'" (click)="_onCancel()">
-      {{ _texts.cancel }}
-    </app-button>
-
-    <app-button [variant]="'secondary'" [disabled]="form.invalid ?? false" type="submit">
+  <div class="flex gap-4 justify-self-end">
+    <app-button-secondary [disabled]="form.invalid ?? false" class="w-24" [fullWidth]="true" [type]="'submit'">
       {{ _texts.submit }}
-    </app-button>
+    </app-button-secondary>
+
+    <app-button-primary (click)="_onCancel()" class="w-24" [fullWidth]="true">
+      {{ _texts.cancel }}
+    </app-button-primary>
   </div>
 </form>

@@ -7,13 +7,13 @@ import { AuthService } from 'services/auth.service';
 import { WarehouseService } from './warehouse.service';
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewWarehouseItemComponent } from './add-new-warehouse-item/add-new-warehouse-item.component';
-import { ButtonComponent } from '@app/ui/button/button.component';
+import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
   selector: 'app-warehouse-control',
   standalone: true,
-  imports: [AddNewWarehouseItemComponent, ModalComponent, MatIconModule, MatButtonModule, ButtonComponent],
+  imports: [AddNewWarehouseItemComponent, ModalComponent, MatIconModule, MatButtonModule, ButtonPrimaryComponent],
   templateUrl: './warehouse-control.component.html',
   styleUrls: ['./warehouse-control.component.css'],
   host: {

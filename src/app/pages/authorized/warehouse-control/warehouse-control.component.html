@@ -1,7 +1,7 @@
 @if (_warehouseService.warehouseItems.length) {
-  <app-button class="self-end mb-5" (click)="toggleModal()">
+  <app-button-primary class="self-end mb-5" (click)="toggleModal()">
     {{ _texts.addNewItem }}
-  </app-button>
+  </app-button-primary>
 
   <table class="w-full border-collapse border border-white">
     <thead class="border">
@@ -49,9 +49,9 @@
     </tbody>
   </table>
 } @else {
-  <app-button class="self-center" (click)="toggleModal()">
+  <app-button-primary class="self-center" (click)="toggleModal()">
     {{ _texts.addNewItem }}
-  </app-button>
+  </app-button-primary>
 }
 
 @if (isModalOpen()) {
@@ -60,6 +60,6 @@
   </app-modal>
 }
 
-<app-button class="mt-10" [variant]="'tertiary'" (click)="_authService.logoutUser()">
+<app-button-primary class="mt-10" (click)="_authService.logoutUser()">
   Logout
-</app-button>
+</app-button-primary>

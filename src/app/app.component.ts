@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 import { HeaderComponent } from './shared/header/header.component';
-import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { AuthService } from 'services/auth.service';
 import { ROLE_KEY } from '@lib/consts';
 import { ERoles, ERoutes } from '@lib/enums';
@@ -10,7 +9,7 @@ import { ERoles, ERoutes } from '@lib/enums';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, UnauthorizedComponent, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent {

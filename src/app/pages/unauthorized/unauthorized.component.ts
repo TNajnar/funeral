@@ -6,14 +6,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 import { AuthService } from 'services/auth.service';
-import { ButtonComponent } from '@app/ui/button/button.component';
+import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
 import { ERoles, ERoutes } from '@lib/enums';
 import { loginTexts } from '@lib/staticTexts';
 
 @Component({
   selector: 'app-unauthorized',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, ButtonComponent],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, ButtonSecondaryComponent],
   templateUrl: './unauthorized.component.html',
   host: {
     class: 'flex flex-col justify-center items-center h-dvh',

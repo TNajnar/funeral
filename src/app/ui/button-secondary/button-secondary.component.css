@@ -1,0 +1,17 @@
+.mat-raised-button.custom-secondary-button {
+  background-color: #2554bc;
+  color: white;
+  border-radius: 6px;
+}
+
+.mat-raised-button.is-full-width {
+  width: 100%;
+}
+
+.mat-raised-button.custom-secondary-button:disabled {
+  background-color: #efefef;
+  color: #cccccc;
+  cursor: default;
+  box-shadow: none;
+}
+
