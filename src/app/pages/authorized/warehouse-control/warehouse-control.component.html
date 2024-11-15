@@ -25,18 +25,8 @@
           <td>{{ _wareItem.name }}</td>
           <td>{{ _wareItem.profit }}</td>
           <td>{{ _wareItem.outcome }}</td>
-          <td>
-            <mat-icon
-              class="icon"
-              fontIcon="outlined_flag"
-            /> <!-- flag -->
-          </td>
-          <td>
-            <mat-icon
-              class="icon"
-              fontIcon="chat_bubble"
-            />
-          </td>
+          <td><mat-icon class="icon" fontIcon="outlined_flag" /> <!-- flag --></td>
+          <td><mat-icon class="icon" fontIcon="chat_bubble" /></td>
           <td>
             <mat-icon
               class="icon"
@@ -55,11 +45,13 @@
 }
 
 @if (isModalOpen()) {
-  <app-modal (onClose)="toggleModal()">
+  <app-modal [title]="'Pridej polozku'" (onClose)="toggleModal()">
     <app-add-new-warehouse-item (onCancel)="toggleModal()" />
   </app-modal>
 }
 
-<app-button-primary class="mt-10" (click)="_authService.logoutUser()">
-  Logout
-</app-button-primary>
+<div class="mt-10">
+  <app-button-primary (click)="_authService.logoutUser()">
+    Logout
+  </app-button-primary>
+</div>

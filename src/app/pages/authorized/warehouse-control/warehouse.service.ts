@@ -13,7 +13,7 @@ export class WarehouseService {
   }
 
   addWarehouseItem(warehouseItem: TWarehouseItem): void {
-    this._warehouseItems.push(warehouseItem);
+    this._warehouseItems.unshift(warehouseItem);
   }
 
   deleteWarehouseItem(id: number): void {

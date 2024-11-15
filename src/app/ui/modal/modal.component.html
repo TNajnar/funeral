@@ -1,3 +1,11 @@
-<dialog (keydown)="_onKeyDown($event)" #dialog>
+<dialog class="flex flex-col gap-4" (keydown)="_onKeyDown($event)" #dialog>
+  <div class="flex justify-between items-center" *ngIf="title().length">
+    <h4 class="text-center text-lg font-bold">{{ title() }}</h4>
+
+    <button class="right-5 top-1" (click)="_onClose()">
+      <mat-icon fontIcon="close" />
+    </button>
+  </div>
+
   <ng-content />
 </dialog>

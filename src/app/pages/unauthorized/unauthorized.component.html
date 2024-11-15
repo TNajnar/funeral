@@ -1,46 +1,50 @@
 <h2 class="text-3xl font-bold pb-5 underline">{{ _texts.title }}</h2>
 
-<form
-  class="flex flex-col gap-2 p-8 w-[40rem] bg-white rounded-xl shadow-custom"
-  #form="ngForm"
-  (ngSubmit)="_onSubmit(form)"
->
-  <mat-form-field>
-    <mat-label for="email">{{ _texts.title }}</mat-label>
-    <input
-      matInput
-      type="text"
-      name="email"
-      id="email"
-      ngModel
-      email
-      #email="ngModel"
-    />
-
-    @if (email.touched && email.dirty && email.invalid) {
-      <mat-error>{{ _texts.emailError }}</mat-error>
-    }
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label for="password">{{ _texts.password }}</mat-label>
-    <input
-      matInput
-      type="password"
-      name="password"
-      id="password"
-      ngModel
-      required
-      minlength="6"
-      #password="ngModel"
-    />
-
-    @if (password.touched && password.dirty && password.invalid) {
-      <mat-error>{{ _texts.passwordError }}</mat-error>
-    }
-  </mat-form-field>
-
-  <app-button-secondary [disabled]="form.invalid ?? false" [fullWidth]="true" [type]="'submit'">
-    {{ _texts.login }}
-  </app-button-secondary>
-</form>
+<div class="flex flex-col gap-5 p-8 w-[40rem] bg-white rounded-xl shadow-custom">
+  <h1 class="text-3xl font-bold">Welcom to funeral app</h1>
+  
+  <form
+    class="flex flex-col gap-2"
+    #form="ngForm"
+    (ngSubmit)="_onSubmit(form)"
+  >
+    <mat-form-field>
+      <mat-label for="email">{{ _texts.title }}</mat-label>
+      <input
+        matInput
+        type="text"
+        name="email"
+        id="email"
+        ngModel
+        email
+        #email="ngModel"
+      />
+  
+      @if (email.touched && email.dirty && email.invalid) {
+        <mat-error>{{ _texts.emailError }}</mat-error>
+      }
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="password">{{ _texts.password }}</mat-label>
+      <input
+        matInput
+        type="password"
+        name="password"
+        id="password"
+        ngModel
+        required
+        minlength="6"
+        #password="ngModel"
+      />
+  
+      @if (password.touched && password.dirty && password.invalid) {
+        <mat-error>{{ _texts.passwordError }}</mat-error>
+      }
+    </mat-form-field>
+  
+    <app-button-secondary [fullWidth]="true" [type]="'submit'">
+      {{ _texts.login }}
+    </app-button-secondary>
+  </form>
+</div>
