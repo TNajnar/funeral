@@ -20,11 +20,46 @@
     <tbody class="border">
       @for (_wareItem of _warehouseService.warehouseItems; track _wareItem.id) {
         <tr>
-          <td>{{ _wareItem.date }}</td>
-          <td>{{ _wareItem.coffinType }}</td>
-          <td>{{ _wareItem.name }}</td>
-          <td>{{ _wareItem.profit }}</td>
-          <td>{{ _wareItem.outcome }}</td>
+          <td>
+            <input
+              type="date"
+              name="date"
+              id="date"
+              [value]="_wareItem.date"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="coffinType"
+              id="coffinType"
+              value="{{ _wareItem.coffinType }}"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              value="{{ _wareItem.name }}"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="profit"
+              id="profit"
+              value="{{ _wareItem.profit }}"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="outcome"
+              id="outcome"
+              value="{{ _wareItem.outcome }}"
+            />
+          </td>
           <td><mat-icon class="icon" fontIcon="outlined_flag" /> <!-- flag --></td>
           <td><mat-icon class="icon" fontIcon="chat_bubble" /></td>
           <td>

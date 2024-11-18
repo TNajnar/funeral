@@ -17,8 +17,8 @@ import { warehouseControl } from '@lib/staticTexts';
   // eslint-disable-next-line max-len
   imports: [FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, ButtonSecondaryComponent, ButtonPrimaryComponent],
   templateUrl: './add-new-warehouse-item.component.html',
-  providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
+  providers: [DatePipe],
 })
 export class AddNewWarehouseItemComponent {
   @Output() onCancel = new EventEmitter<void>();
@@ -33,12 +33,11 @@ export class AddNewWarehouseItemComponent {
       return;
     }
 
-    const selectedDate = formData.value.date ? new Date(formData.value.date) : new Date();
-    const currentDate = this.datePipe.transform(selectedDate, 'dd.MM.yyyy') || '';
+    const formattedDate = this.datePipe.transform(formData.value.date, 'yyyy-MM-dd') || '';
 
     this.warehouseService.addWarehouseItem({
       id: 2 * 2,
-      date: formData.value.date ? formData.value.date : currentDate,
+      date: formattedDate,
       coffinType: formData.value.wareItemType,
       name: formData.value.name,
       profit: formData.value.profit,

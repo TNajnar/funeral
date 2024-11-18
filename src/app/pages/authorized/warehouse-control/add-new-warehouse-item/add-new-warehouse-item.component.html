@@ -1,20 +1,27 @@
-<form #form="ngForm" (ngSubmit)="_onSubmit(form)">
+<form class="" #form="ngForm" (ngSubmit)="_onSubmit(form)">
   <div class="grid grid-cols-2 gap-4">
     <mat-form-field>
       <mat-label for="date">{{ _texts.date }}</mat-label>
       <input
         matInput
-        type="date"
+        datepicker-append-to-body="true"
+        [matDatepicker]="picker"
         name="date"
         id="date"
-        [matDatepicker]="picker"
         ngModel
-        date
         #date="ngModel"
       />
       <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
-      <mat-datepicker #picker panelClass="custom-datepicker-panel"></mat-datepicker>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <ng-template>
+        <style>
+            .cdk-overlay-pane {
+              top: 132px !important;
+              left: 21.1px !important;
+            }
+        </style>
+      </ng-template>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>

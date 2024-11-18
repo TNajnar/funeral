@@ -21,7 +21,22 @@ th {
   border-bottom: 1px solid #b1b4ba;
 }
 
+input {
+  background-color: white;
+  border: 2px solid transparent;
+  border-radius: 3.5px;
+}
+
 tr:hover {
+  background-color: #f6f9ff;
+}
+
+input:hover {
+  border: 2px solid black;
+  border-radius: 3.5px;
+}
+
+tr:hover :where(input) {
   background-color: #f6f9ff;
 }
 
