@@ -33,7 +33,7 @@
               type="text"
               name="coffinType"
               id="coffinType"
-              value="{{ _wareItem.coffinType }}"
+              [value]="_wareItem.coffinType"
             />
           </td>
           <td>
@@ -41,7 +41,7 @@
               type="text"
               name="name"
               id="name"
-              value="{{ _wareItem.name }}"
+              [value]="_wareItem.name"
             />
           </td>
           <td>
@@ -49,7 +49,7 @@
               type="text"
               name="profit"
               id="profit"
-              value="{{ _wareItem.profit }}"
+              [value]="_wareItem.profit"
             />
           </td>
           <td>
@@ -57,7 +57,7 @@
               type="text"
               name="outcome"
               id="outcome"
-              value="{{ _wareItem.outcome }}"
+              [value]="_wareItem.outcome"
             />
           </td>
           <td><mat-icon class="icon" fontIcon="outlined_flag" /> <!-- flag --></td>
@@ -80,13 +80,7 @@
 }
 
 @if (isModalOpen()) {
-  <app-modal [title]="'Pridej polozku'" (onClose)="toggleModal()">
+  <app-modal [title]="_texts.addNewItem" (onClose)="toggleModal()">
     <app-add-new-warehouse-item (onCancel)="toggleModal()" />
   </app-modal>
 }
-
-<div class="mt-10">
-  <app-button-primary (click)="_authService.logoutUser()">
-    Logout
-  </app-button-primary>
-</div>

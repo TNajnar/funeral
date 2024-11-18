@@ -1,4 +1,4 @@
-<header class="page-layout mb-6 shadow-sm">
+<header class="page-layout relative mb-6 shadow-sm">
   <div class="flex gap-9 text-primary-gray font-medium">
     <div class="flex items-center gap-2 cursor-pointer">
       <img class="w-10 h-10" src="favicon.ico" />
@@ -17,4 +17,9 @@
       }
     </div>
   </div>
+
+  <!-- TODO -->
+  <app-button-primary class="absolute right-8" (click)="_authService.logoutUser()">
+    Logout
+  </app-button-primary>
 </header>

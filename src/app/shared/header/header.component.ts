@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { AuthService } from 'services/auth.service';
+import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
 import { ERoutes } from '@lib/enums';
 
 type THeaderItem = {
@@ -10,6 +12,7 @@ type THeaderItem = {
 }
 
 const headerItems: THeaderItem[] = [
+  { id: 1, routeName: 'Nástěnka', url: ERoutes.Dashboard },
   { id: 1, routeName: 'Sklad', url: ERoutes.Warehouse },
   { id: 2, routeName: 'Sjednávání', url: ERoutes.Negotiation },
   { id: 3, routeName: 'Kytice a hudba', url: ERoutes.BouquetAndMusic },
@@ -19,10 +22,12 @@ const headerItems: THeaderItem[] = [
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, ButtonPrimaryComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
   protected _headerItems: THeaderItem[] = headerItems;
+
+  protected _authService: AuthService = inject(AuthService);
 }

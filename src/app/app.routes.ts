@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { DashboardComponent } from './pages/authorized/dashboard/dashboard.component';
 import { BouquetMusicComponent } from './pages/authorized/bouquet-music/bouquet-music.component';
 import { GardenerServicesComponent } from './pages/authorized/gardener-services/gardener-services.component';
 import { NegotiationComponent } from './pages/authorized/negotiation/negotiation.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { WarehouseControlComponent } from './pages/authorized/warehouse-control/warehouse-control.component';
-import {
-  WarehouseItemDetailComponent,
-} from '@pages/authorized/warehouse-control/warehouse-item-detail/warehouse-item-detail.component';
 import { hasRoleGuard } from '@lib/has-role.guard';
 import { ERoles, ERoutes } from '@lib/enums';
 
@@ -16,16 +14,20 @@ export const routes: Routes = [
   { path: ERoutes.Auth, component: UnauthorizedComponent },
   { path: '', redirectTo: ERoutes.Warehouse, pathMatch: 'full' },
   {
-    path: ERoutes.Warehouse,
-    component: WarehouseControlComponent,
+    path: ERoutes.Dashboard,
+    component: DashboardComponent,
     canActivate: [hasRoleGuard],
     data: {
       roles: [ ERoles.Authorized ],
     },
   },
   {
-    path: 'item/:id',
-    component: WarehouseItemDetailComponent,
+    path: ERoutes.Warehouse,
+    component: WarehouseControlComponent,
+    canActivate: [hasRoleGuard],
+    data: {
+      roles: [ ERoles.Authorized ],
+    },
   },
   {
     path: ERoutes.BouquetAndMusic,
