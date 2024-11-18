@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -8,12 +7,14 @@ import { WarehouseService } from './warehouse.service';
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewWarehouseItemComponent } from './add-new-warehouse-item/add-new-warehouse-item.component';
 import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
+import { FlagComponent } from '@app/ui/flag/flag.component';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
   selector: 'app-warehouse-control',
   standalone: true,
-  imports: [AddNewWarehouseItemComponent, ModalComponent, MatIconModule, MatButtonModule, ButtonPrimaryComponent],
+  // eslint-disable-next-line max-len
+  imports: [AddNewWarehouseItemComponent, ModalComponent, MatIconModule, MatButtonModule, ButtonPrimaryComponent, FlagComponent],
   templateUrl: './warehouse-control.component.html',
   styleUrls: ['./warehouse-control.component.css'],
   host: {
@@ -23,8 +24,8 @@ import { warehouseControl } from '@lib/staticTexts';
 export class WarehouseControlComponent {
   protected _texts = warehouseControl;
   isModalOpen = signal<boolean>(false);
+  isFlagged = signal<boolean>(false);
 
-  private _router: Router = inject(Router);
   protected _authService: AuthService = inject(AuthService);
   protected _warehouseService: WarehouseService = inject(WarehouseService);
 
@@ -32,8 +33,12 @@ export class WarehouseControlComponent {
     this.isModalOpen.set(!this.isModalOpen());
   }
 
-  onWarehouseItemClick(id: number): void {
-    this._router.navigate([`/item/${id}`]);
+  onFlagClick(itemId: number): void {
+    const item = this._warehouseService.warehouseItems.find((item) => item.id === itemId);
+
+    if (item) {
+      item.isFlagged = !item.isFlagged;
+    }
   }
 
   deleteWarehouseItem(id: number): void {

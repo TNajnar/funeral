@@ -1,10 +1,12 @@
 export type TWarehouseItem = {
-  id: number;
-  date: string;
   coffinType: string;
+  comment?: string;
+  date: string;
+  id: number;
+  isFlagged: boolean;
   name: string;
-  profit: number;
   outcome: number;
+  profit: number;
 }
 
 export interface IDialogData {

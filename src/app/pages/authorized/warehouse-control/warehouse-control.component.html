@@ -60,7 +60,13 @@
               [value]="_wareItem.outcome"
             />
           </td>
-          <td><mat-icon class="icon" fontIcon="outlined_flag" /> <!-- flag --></td>
+          <td>
+            <mat-icon
+              class="{{ _wareItem.isFlagged ? 'text-gray' : 'icon text-transparent' }}"
+              [fontIcon]="_wareItem.isFlagged ? 'flag' : 'outlined_flag'"
+              (click)="onFlagClick(_wareItem.id)"
+            />
+          </td>
           <td><mat-icon class="icon" fontIcon="chat_bubble" /></td>
           <td>
             <mat-icon

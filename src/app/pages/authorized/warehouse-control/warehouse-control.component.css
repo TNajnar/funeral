@@ -1,6 +1,6 @@
 table {
   overflow: hidden;
-  border: 1px solid #b1b4ba;
+  border: 1px solid theme('colors.secondary-gray2');
   border-radius: 6px;
   border-collapse: separate;
   border-spacing: 0;
@@ -17,7 +17,7 @@ td {
 
 th {
   padding: 8px;
-  background-color: #f2f2f2;
+  background-color: theme('colors.tertiary-gray');
   border-bottom: 1px solid #b1b4ba;
 }
 
@@ -28,7 +28,7 @@ input {
 }
 
 tr:hover {
-  background-color: #f6f9ff;
+  background-color: theme('colors.primary-blue-light');
 }
 
 input:hover {
@@ -37,7 +37,7 @@ input:hover {
 }
 
 tr:hover :where(input) {
-  background-color: #f6f9ff;
+  background-color: theme('colors.primary-blue-light');
 }
 
 .icon {
@@ -46,7 +46,7 @@ tr:hover :where(input) {
   color: transparent;
 }
 
-tr:hover .icon {
-  color: #bbbbbb;
+tr:hover :where(.icon) {
+  color: theme('colors.gray');
   cursor: pointer;
 }
