@@ -1,6 +1,6 @@
 .mat-raised-button.custom-primary-button {
-  background-color: #E5E5E5;
-  color: #33363f;
+  background-color: theme('colors.button-primary.background');
+  color: theme('colors.button-primary.text');
   font-weight: bold;
   border-radius: 6px;
 }
@@ -18,8 +18,8 @@
 }
 
 .mat-raised-button.custom-primary-button:disabled {
-  background-color: #efefef;
-  color: #cccccc;
+  background-color: theme('colors.button-primary.disabled-background');
+  color: theme('colors.button-primary.disabled-text');
   cursor: default;
   box-shadow: none;
 }

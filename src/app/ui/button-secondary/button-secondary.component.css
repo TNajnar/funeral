@@ -1,5 +1,5 @@
 .mat-raised-button.custom-secondary-button {
-  background-color: #2554bc;
+  background-color: theme('colors.button-secondary.background');
   color: white;
   border-radius: 6px;
 }
@@ -9,8 +9,8 @@
 }
 
 .mat-raised-button.custom-secondary-button:disabled {
-  background-color: #efefef;
-  color: #cccccc;
+  background-color: theme('colors.button-secondary.disabled-background');
+  color: theme('colors.button-secondary.disabled-text');
   cursor: default;
   box-shadow: none;
 }

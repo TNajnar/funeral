@@ -4,6 +4,6 @@
 }
 
 .nav-link.active {
-  border-color: #646cd6;
-  color: #646cd6;
+  border-color: theme('colors.blue-primary');
+  color: theme('colors.blue-primary');
 }
