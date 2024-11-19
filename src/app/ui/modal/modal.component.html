@@ -1,5 +1,5 @@
 <dialog class="flex flex-col gap-4" (keydown)="_onKeyDown($event)" #dialog>
-  <div class="header flex justify-between items-center px-6 py-3 bg-[#f5f9ff] text-[#0343ab]" *ngIf="title().length">
+  <div class="header flex justify-between items-center px-6 py-3 bg-[#f5f9ff] text-[#0343ab]" *ngIf="title()">
     <h4 class="text-center font-semibold">{{ title() }}</h4>
 
     <button class="right-5 top-1" (click)="_onClose()">
@@ -7,7 +7,7 @@
     </button>
   </div>
 
-  <div>
+  <div class="w-full h-full">
     <ng-content />
   </div>
 </dialog>

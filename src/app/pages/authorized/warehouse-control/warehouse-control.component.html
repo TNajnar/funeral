@@ -61,18 +61,13 @@
             />
           </td>
           <td>
-            <app-flag
-              [isFlagged]="_wareItem.isFlagged"
-              (onClick)="onFlagClick(_wareItem.id)"
-            />
+            <app-flag [isFlagged]="_wareItem.isFlagged" (onClick)="onFlagClick(_wareItem.id)" />
           </td>
-          <td><mat-icon class="icon" fontIcon="chat_bubble" /></td>
           <td>
-            <mat-icon
-              class="icon"
-              fontIcon="delete"
-              (click)="deleteWarehouseItem(_wareItem.id)"
-            />
+            <app-comment [comment]="_wareItem.comment" />
+          </td>
+          <td>
+            <mat-icon class="icon" fontIcon="delete" (click)="deleteWarehouseItem(_wareItem.id)" />
           </td>
         </tr>
       }

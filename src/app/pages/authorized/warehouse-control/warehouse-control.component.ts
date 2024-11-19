@@ -8,13 +8,14 @@ import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewWarehouseItemComponent } from './add-new-warehouse-item/add-new-warehouse-item.component';
 import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
 import { FlagComponent } from '@app/ui/flag/flag.component';
+import { CommentComponent } from '@app/ui/comment/comment.component';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
   selector: 'app-warehouse-control',
   standalone: true,
   // eslint-disable-next-line max-len
-  imports: [AddNewWarehouseItemComponent, ModalComponent, MatIconModule, MatButtonModule, ButtonPrimaryComponent, FlagComponent],
+  imports: [AddNewWarehouseItemComponent, ModalComponent, MatIconModule, MatButtonModule, ButtonPrimaryComponent, FlagComponent, CommentComponent],
   templateUrl: './warehouse-control.component.html',
   styleUrls: ['./warehouse-control.component.css'],
   host: {

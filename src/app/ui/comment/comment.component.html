@@ -1,0 +1,42 @@
+<mat-icon
+  class="comment w-6 h-6"
+  [ngClass]="{ 'text-gray': hasComment, 'text-transparent': !hasComment }"
+  [fontIcon]="hasComment ? 'chat_bubble' : 'chat_bubble_outline'"
+  (click)="_toggleModal()"
+/>
+
+@if (_isModalOpen()) {
+  <app-modal
+    [title]="_texts.modalTitle"
+    (onClose)="_toggleModal()"
+  >
+    <form class="flex flex-col gap-2" #form="ngForm" (ngSubmit)="_onSubmitComment(form)">
+      <mat-form-field class="w-full">
+        <mat-label for="comment">{{ _texts.label }}</mat-label>
+        <textarea
+          matInput
+          name="comment"
+          id="comment"
+          type="text"
+          required
+          [(ngModel)]="_localComment"
+          #comment="ngModel"
+        ></textarea>
+
+        @if (comment.dirty && comment.invalid) {
+          <mat-error>{{ _texts.error }}</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="flex self-end gap-4">
+        <app-button-secondary [disabled]="form.invalid ?? false" class="w-24" [fullWidth]="true" [type]="'submit'">
+          {{ _texts.submit }}
+        </app-button-secondary>
+      
+        <app-button-primary (click)="_toggleModal()" class="w-24" [fullWidth]="true">
+          {{ _texts.cancel }}
+        </app-button-primary>
+      </div>
+    </form>
+  </app-modal>
+}

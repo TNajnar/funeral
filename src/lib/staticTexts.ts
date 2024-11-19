@@ -1,3 +1,5 @@
+/* region Pages */
+
 export const loginTexts = {
   title: 'Příhlášení',
   email: 'Email',
@@ -30,3 +32,17 @@ export const warehouseControl = {
     cancel: 'Zrušit',
   }
 };
+
+/* #endregion */
+
+/* region UI */
+
+export const commentComponent = {
+  modalTitle: 'Přidej komentář',
+  label: 'Komentář',
+  error: 'Tohle pole je povinné.',
+  submit: 'Potvrdit',
+  cancel: 'Zrušit',
+};
+
+/* #endregion */

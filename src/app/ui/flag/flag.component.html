@@ -1,5 +1,6 @@
 <mat-icon
-  class="flag w-6 h-6 text-gray {{ isFlagged ? 'text-gray' : 'text-transparent' }}"
+  class="flag w-6 h-6"
+  [ngClass]="{ 'text-gray': isFlagged, 'text-transparent': !isFlagged }"
   [fontIcon]="isFlagged ? 'flag' : 'outlined_flag'"
   (click)="_handleClickFlag()"
 />
