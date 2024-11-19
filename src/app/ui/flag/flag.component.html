@@ -1,0 +1,5 @@
+<mat-icon
+  class="flag w-6 h-6 text-gray {{ isFlagged ? 'text-gray' : 'text-transparent' }}"
+  [fontIcon]="isFlagged ? 'flag' : 'outlined_flag'"
+  (click)="_handleClickFlag()"
+/>

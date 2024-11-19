@@ -44,9 +44,11 @@ tr:hover :where(input) {
   width: 24px;
   height: 24px;
   color: transparent;
+  cursor: pointer;
 }
 
 tr:hover :where(.icon) {
   color: theme('colors.gray');
   cursor: pointer;
+  transition: color 0.1s ease-in-out;
 }

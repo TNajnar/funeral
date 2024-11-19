@@ -61,10 +61,9 @@
             />
           </td>
           <td>
-            <mat-icon
-              class="{{ _wareItem.isFlagged ? 'text-gray' : 'icon text-transparent' }}"
-              [fontIcon]="_wareItem.isFlagged ? 'flag' : 'outlined_flag'"
-              (click)="onFlagClick(_wareItem.id)"
+            <app-flag
+              [isFlagged]="_wareItem.isFlagged"
+              (onClick)="onFlagClick(_wareItem.id)"
             />
           </td>
           <td><mat-icon class="icon" fontIcon="chat_bubble" /></td>
