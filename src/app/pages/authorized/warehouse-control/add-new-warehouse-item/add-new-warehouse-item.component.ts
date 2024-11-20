@@ -36,14 +36,12 @@ export class AddNewWarehouseItemComponent {
     const formattedDate = this.datePipe.transform(formData.value.date, 'yyyy-MM-dd') || '';
 
     this.warehouseService.addWarehouseItem({
-      coffinType: formData.value.wareItemType,
       comment: undefined,
       date: formattedDate,
       id: Math.floor(Math.random() * 1000),
       isFlagged: formData.value.isFlagged,
       name: formData.value.name,
-      outcome: formData.value.outcome,
-      profit: formData.value.profit,
+      availableCount: formData.value.availableCount,
     });
 
     this.onCancel.emit();

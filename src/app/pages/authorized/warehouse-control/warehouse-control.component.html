@@ -1,78 +1,85 @@
-@if (_warehouseService.warehouseItems.length) {
+@if (_warehouseService.warehouseItems$ | async) {
   <app-button-primary class="self-end mb-5" (click)="toggleModal()">
     {{ _texts.addNewItem }}
   </app-button-primary>
 
-  <table class="w-full border-collapse border border-white">
-    <thead class="border">
-      <tr>
-        <th>{{ _texts.date }}</th>
-        <th>{{ _texts.coffinType }}</th>
-        <th>{{ _texts.name }}</th>
-        <th>{{ _texts.profit }}</th>
-        <th>{{ _texts.outcome }}</th>
-        <th class="w-7"></th>   <!-- flag item -->
-        <th class="w-7"></th>   <!-- Add note to item -->
-        <th class="w-7"></th>   <!-- Delete item -->
-      </tr>
-    </thead>
+  <div class="overflow-hidden mb-14 border border-gray-muted rounded-md">
+    <table mat-table [dataSource]="_dataSource" class="table">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>{{ _texts.idHeader }}</th>
+        <td mat-cell *matCellDef="let element" class="row">{{ element.id }}</td>
+      </ng-container>
   
-    <tbody class="border">
-      @for (_wareItem of _warehouseService.warehouseItems; track _wareItem.id) {
-        <tr>
-          <td>
-            <input
-              type="date"
-              name="date"
-              id="date"
-              [value]="_wareItem.date"
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              name="coffinType"
-              id="coffinType"
-              [value]="_wareItem.coffinType"
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              [value]="_wareItem.name"
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              name="profit"
-              id="profit"
-              [value]="_wareItem.profit"
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              name="outcome"
-              id="outcome"
-              [value]="_wareItem.outcome"
-            />
-          </td>
-          <td>
-            <app-flag [isFlagged]="_wareItem.isFlagged" (onClick)="onFlagClick(_wareItem.id)" />
-          </td>
-          <td>
-            <app-comment [comment]="_wareItem.comment" />
-          </td>
-          <td>
-            <mat-icon class="icon" fontIcon="delete" (click)="deleteWarehouseItem(_wareItem.id)" />
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>{{ _texts.dateHeader }}</th>
+        <td mat-cell *matCellDef="let element" class="row">
+          <input
+            type="date"
+            name="date"
+            id="date"
+            [value]="element.date"
+          />
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>{{ _texts.nameHeader }}</th>
+        <td mat-cell *matCellDef="let element" class="row">
+          <input
+            type="text"
+            name="name"
+            id="name"
+            [value]="element.name"
+          />
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="availableCount">
+        <th mat-header-cell *matHeaderCellDef>{{ _texts.availableCountHeader }}</th>
+        <td mat-cell *matCellDef="let element" class="row w-32">
+          <input
+            class="w-full"
+            type="text"
+            name="availableCount"
+            id="availableCount"
+            [value]="element.availableCount"
+          />
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="flag">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="row w-6">
+          <app-flag [isFlagged]="element.isFlagged" (onClick)="onFlagClick(element.id)" />
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="comment">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="row w-6">
+          <app-comment [comment]="element.comment" />
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="row w-6">
+          <mat-icon class="delete-icon" fontIcon="delete" (click)="deleteWarehouseItem(element.id)" />
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedTableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedTableColumns"></tr>
+    </table>
+
+    <mat-paginator
+      class="custom-pagination"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    />
+  </div>
+
 } @else {
   <app-button-primary class="self-center" (click)="toggleModal()">
     {{ _texts.addNewItem }}

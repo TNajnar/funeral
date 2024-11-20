@@ -25,23 +25,6 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label for="wareItemType">{{ _texts.wareItemType }}</mat-label>
-      <input
-        matInput
-        type="wareItemType"
-        name="wareItemType"
-        id="wareItemType"
-        ngModel
-        required
-        #wareItemType="ngModel"
-      />
-
-      @if (wareItemType.touched && wareItemType.dirty && wareItemType.invalid) {
-        <mat-error>{{ _texts.wareItemError }}</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
       <mat-label for="name">{{ _texts.name }}</mat-label>
       <input
         matInput
@@ -59,36 +42,19 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label for="profit">{{ _texts.profit }}</mat-label>
+      <mat-label for="availableCount">{{ _texts.availableCount }}</mat-label>
       <input
         matInput
-        type="profit"
-        name="profit"
-        id="profit"
+        type="availableCount"
+        name="availableCount"
+        id="availableCount"
         ngModel
         required
-        #profit="ngModel"
+        #availableCount="ngModel"
       />
 
-      @if (profit.touched && profit.dirty && profit.invalid) {
-        <mat-error>{{ _texts.profitError }}</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label for="outcome">{{ _texts.outcome }}</mat-label>
-      <input
-        matInput
-        type="outcome"
-        name="outcome"
-        id="outcome"
-        ngModel
-        required
-        #outcome="ngModel"
-      />
-
-      @if (outcome.touched && outcome.dirty && outcome.invalid) {
-        <mat-error>{{ _texts.outcomeError }}</mat-error>
+      @if (availableCount.touched && availableCount.dirty && availableCount.invalid) {
+        <mat-error>{{ _texts.availableCountError }}</mat-error>
       }
     </mat-form-field>
   </div>

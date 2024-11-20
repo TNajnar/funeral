@@ -10,6 +10,7 @@ module.exports = {
         'blue-secondary': '#646cd6',
         'blue-light': '#f6f9ff',
         'blue-dark': '#4a52b2',
+        //  nejsvetlejsi = dee9fc tmasi = ccdefa  text 03439f
 
         'gray': '#bbbbbb',
         'gray-light': '#f5f5f5',
@@ -32,6 +33,11 @@ module.exports = {
       },
       boxShadow: {
         'custom': '0 12px 40px rgba(0,0,0,0.12)',
+      },
+      screens: {
+        sm: '576px',
+        md: '768px',
+        desktop: '1224px',
       },
     },
   },

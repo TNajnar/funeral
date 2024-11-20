@@ -1,34 +1,24 @@
-table {
-  overflow: hidden;
-  border: 1px solid theme('colors.gray-muted');
-  border-radius: 6px;
-  border-collapse: separate;
-  border-spacing: 0;
+.mat-mdc-table.table {
+  background-color: inherit;
 }
 
-th, td {
-  padding: 8px;
-  text-align: left;
+.mat-mdc-cell.row {
+  border-bottom: none;
 }
 
-td {
-  padding: 15px;
+.mat-mdc-row:hover {
+  background-color: theme('colors.blue-light');
+  cursor: pointer;
 }
 
-th {
-  padding: 8px;
-  background-color: theme('colors.gray-lighter');
-  border-bottom: 1px solid theme('colors.gray-muted');
+.mat-mdc-paginator.custom-pagination {
+  background-color: inherit;
 }
 
 input {
   background-color: white;
   border: 2px solid transparent;
   border-radius: 3.5px;
-}
-
-tr:hover {
-  background-color: theme('colors.blue-light');
 }
 
 input:hover {
@@ -40,15 +30,14 @@ tr:hover :where(input) {
   background-color: theme('colors.blue-light');
 }
 
-.icon {
+.delete-icon {
   width: 24px;
   height: 24px;
   color: transparent;
   cursor: pointer;
 }
 
-tr:hover :where(.icon) {
-  color: theme('colors.gray');
+tr:hover :where(.delete-icon) {
+  color: theme('colors.blue-primary');
   cursor: pointer;
-  transition: color 0.1s ease-in-out;
 }

@@ -10,24 +10,19 @@ export const loginTexts = {
 };
 
 export const warehouseControl = {
-  date: 'Datum',
-  coffinType: 'Typ Rakve',
-  name: 'Jméno',
-  profit: 'Příjem',
-  outcome: 'Výdej',
+  idHeader: 'ID',
+  dateHeader: 'Datum',
+  nameHeader: 'Název',
+  availableCountHeader: 'Na skladě',
   addNewItem: 'Přidat novou položku +',
 
   newItemComponent: {
     title: 'Přidat novou položku',
     date: 'Datum',
-    wareItemType: 'Typ',
-    wareItemError: 'Prosím vyberte typ položky.',
-    name: 'Jméno',
+    name: 'Název',
     nameError: 'Prosím vložte jméno položky.',
-    profit: 'Příjem',
-    profitError: 'Prosím vložte částku.',
-    outcome: 'Výdej',
-    outcomeError: 'Prosím vložte částku.',
+    availableCount: 'Na skladě',
+    availableCountError: 'Prosím vložte počet.',
     submit: 'Potvrdit',
     cancel: 'Zrušit',
   }

@@ -1,35 +1,39 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import type { TWarehouseItem } from './warehouse-control.model';
-
-const mockItems = [
-  {
-    coffinType: 'Coffin type 1',
-    comment: undefined,
-    date: '2021-01-01',
-    id: 2,
-    isFlagged: false,
-    name: 'Name 1',
-    outcome: 1,
-    profit: 1000,
-  }
-];
+import { MOCK_WAREHOUSE_ITEMS, type TWarehouseItem } from './warehouse-control.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WarehouseService {
-  private _warehouseItems: TWarehouseItem[] = mockItems; // TODO data from API
+  private _warehouseItems$ = new BehaviorSubject<TWarehouseItem[]>(MOCK_WAREHOUSE_ITEMS); // TODO data from API
 
-  get warehouseItems(): TWarehouseItem[] {
-    return this._warehouseItems;
+  get warehouseItems$(): Observable<TWarehouseItem[]> {
+    return this._warehouseItems$.asObservable();
+  }
+
+  notifyUpdateWarehouseItems(items: TWarehouseItem[]): void {
+    this._warehouseItems$.next(items);
+  }
+
+  toggleItemFlag(itemId: number): void {
+    const currentItems = this._warehouseItems$.getValue();
+
+    const updatedItems = currentItems.map((item) =>
+      item.id === itemId ? { ...item, isFlagged: !item.isFlagged } : item
+    );
+
+    this.notifyUpdateWarehouseItems(updatedItems);
   }
 
   addWarehouseItem(warehouseItem: TWarehouseItem): void {
-    this._warehouseItems.unshift(warehouseItem);
+    const currentItems = this._warehouseItems$.getValue();
+    this.notifyUpdateWarehouseItems([warehouseItem, ...currentItems]);
   }
 
   deleteWarehouseItem(id: number): void {
-    this._warehouseItems = this._warehouseItems.filter((item) => item.id !== id);
+    const updatedItems = this._warehouseItems$.getValue().filter((item) => item.id !== id);
+    this.notifyUpdateWarehouseItems(updatedItems);
   }
 }

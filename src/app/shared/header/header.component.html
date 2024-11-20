@@ -1,25 +1,27 @@
-<header class="page-layout relative mb-6 shadow-sm">
-  <div class="flex gap-9 text-gray-dark font-medium">
-    <div class="flex items-center gap-2 cursor-pointer">
-      <img class="w-10 h-10" src="favicon.ico" />
-      <span>Logo</span>
+<header class="shadow-sm">
+  <div class="page-layout relative mb-6">
+    <div class="flex gap-9 text-gray-dark font-medium">
+      <div class="flex items-center gap-2 cursor-pointer">
+        <img class="w-10 h-10" src="favicon.ico" />
+        <span>Logo</span>
+      </div>
+  
+      <div class="flex items-center gap-5">
+        @for (headerItem of _headerItems; track headerItem.id) {
+          <a
+            [routerLink]="['/' + headerItem.url]"
+            class="nav-link h-full p-4 transition-colors duration-300 ease-in-out hover:drop-shadow-lg"
+            [routerLinkActive]="'active'"
+          >
+            {{ headerItem.routeName }}
+          </a>
+        }
+      </div>
     </div>
-
-    <div class="flex items-center gap-5">
-      @for (headerItem of _headerItems; track headerItem.id) {
-        <a
-          [routerLink]="['/' + headerItem.url]"
-          class="nav-link h-full p-4 transition-colors duration-300 ease-in-out hover:drop-shadow-lg"
-          [routerLinkActive]="'active'"
-        >
-          {{ headerItem.routeName }}
-        </a>
-      }
-    </div>
+  
+    <!-- TODO -->
+    <app-button-primary class="absolute right-8" (click)="_authService.logoutUser()">
+      Logout
+    </app-button-primary>
   </div>
-
-  <!-- TODO -->
-  <app-button-primary class="absolute right-8" (click)="_authService.logoutUser()">
-    Logout
-  </app-button-primary>
 </header>

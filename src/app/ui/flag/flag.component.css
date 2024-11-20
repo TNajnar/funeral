@@ -1,5 +1,4 @@
 :host-context(tr:hover) .flag {
-  color: theme('colors.gray');
+  color: theme('colors.blue-primary');
   cursor: pointer;
-  transition: color 0.1s ease-in-out;
 }

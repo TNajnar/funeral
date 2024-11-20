@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, ElementRef, input, output, viewChild, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit, Component, ElementRef, input, OnDestroy, output, viewChild, ViewEncapsulation
+} from '@angular/core';
 import { NgIf } from '@angular/common';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,8 +13,11 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./modal.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ModalComponent implements AfterViewInit {
+export class ModalComponent implements AfterViewInit, OnDestroy {
   title = input<string>('');
+  isOpen = input<boolean>(false);
+
+  private _overlayContainerElement!: HTMLElement;
 
   onClose = output<void>();
 
@@ -21,11 +26,12 @@ export class ModalComponent implements AfterViewInit {
   constructor(private overlayContainer: OverlayContainer) {}
 
   ngAfterViewInit(): void {
-    const containerElement = this.overlayContainer.getContainerElement();
+    this._overlayContainerElement = this.overlayContainer.getContainerElement();
 
     const dialogElement = this._dialogEl()?.nativeElement;
-    if (dialogElement && containerElement) {
-      dialogElement.appendChild(containerElement);
+
+    if (dialogElement && this._overlayContainerElement) {
+      dialogElement.appendChild(this._overlayContainerElement);
     }
 
     this._dialogEl().nativeElement.showModal();
@@ -42,4 +48,10 @@ export class ModalComponent implements AfterViewInit {
       this._onClose();
     }
   };
+
+  ngOnDestroy(): void {
+    if (this._overlayContainerElement) {
+      document.body.appendChild(this._overlayContainerElement);
+    }
+  }
 }

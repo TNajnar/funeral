@@ -35,9 +35,8 @@
     margin-left: auto;
     margin-right: auto;
 
-    /* TODO, maybe responsive */
-    /* @media (min-width: 1224px) {
+    @media (min-width: 1224px) {
       max-width: 1224px;
-    } */
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,15 +26,15 @@ import { commentComponent } from '@lib/staticTexts';
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css'
 })
-export class CommentComponent {
-  @Input({ required: true }) comment?: string;
+export class CommentComponent implements OnInit {
+  @Input() comment?: string;
 
   protected _texts = commentComponent;
   protected _isModalOpen = signal<boolean>(false);
   protected _localComment?: string;
 
-  constructor() {
-    if (!!this.comment) {
+  ngOnInit(): void {
+    if (this.comment) {
       this._localComment = this.comment;
     }
   }
