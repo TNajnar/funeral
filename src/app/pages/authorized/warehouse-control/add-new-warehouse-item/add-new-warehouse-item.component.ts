@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,7 +17,6 @@ import { warehouseControl } from '@lib/staticTexts';
   // eslint-disable-next-line max-len
   imports: [FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, ButtonSecondaryComponent, ButtonPrimaryComponent],
   templateUrl: './add-new-warehouse-item.component.html',
-  encapsulation: ViewEncapsulation.None,
   providers: [DatePipe],
 })
 export class AddNewWarehouseItemComponent {

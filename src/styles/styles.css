@@ -40,3 +40,24 @@
     }
   }
 }
+
+@layer components {
+  .mat-mdc-slide-toggle.toggle-slide-label label {
+    font-weight: 500;
+    font-size: 16px;
+    color: theme('colors.blue-primary');
+  }
+
+  .mat-mdc-slide-toggle.toggle-slide-label.toggle-slide-enabled .mdc-switch .mdc-switch__track::after {
+    background-color: theme('colors.blue-secondary');
+  }
+
+  .mat-mdc-slide-toggle.toggle-slide-label.toggle-slide-enabled .mdc-switch:enabled:focus:not(:active) .mdc-switch__track::after {
+    background-color: theme('colors.blue-secondary');
+  }
+
+  dialog.cdk-custom-pane .cdk-overlay-container .cdk-overlay-pane {
+    top: 132px !important;
+    left: 21.1px !important;
+  }
+}

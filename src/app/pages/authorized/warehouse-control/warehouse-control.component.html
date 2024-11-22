@@ -1,93 +1,43 @@
-@if (_warehouseService.warehouseItems$ | async) {
-  <app-button-primary class="self-end mb-5" (click)="toggleModal()">
-    {{ _texts.addNewItem }}
-  </app-button-primary>
-
-  <div class="overflow-hidden mb-14 border border-gray-muted rounded-md">
-    <table mat-table [dataSource]="_dataSource" class="table">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>{{ _texts.idHeader }}</th>
-        <td mat-cell *matCellDef="let element" class="row">{{ element.id }}</td>
-      </ng-container>
-  
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>{{ _texts.dateHeader }}</th>
-        <td mat-cell *matCellDef="let element" class="row">
-          <input
-            type="date"
-            name="date"
-            id="date"
-            [value]="element.date"
-          />
-        </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>{{ _texts.nameHeader }}</th>
-        <td mat-cell *matCellDef="let element" class="row">
-          <input
-            type="text"
-            name="name"
-            id="name"
-            [value]="element.name"
-          />
-        </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="availableCount">
-        <th mat-header-cell *matHeaderCellDef>{{ _texts.availableCountHeader }}</th>
-        <td mat-cell *matCellDef="let element" class="row w-32">
-          <input
-            class="w-full"
-            type="text"
-            name="availableCount"
-            id="availableCount"
-            [value]="element.availableCount"
-          />
-        </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="flag">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="row w-6">
-          <app-flag [isFlagged]="element.isFlagged" (onClick)="onFlagClick(element.id)" />
-        </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="comment">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="row w-6">
-          <app-comment [comment]="element.comment" />
-        </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="row w-6">
-          <mat-icon class="delete-icon" fontIcon="delete" (click)="deleteWarehouseItem(element.id)" />
-        </td>
-      </ng-container>
-    
-      <tr mat-header-row *matHeaderRowDef="displayedTableColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedTableColumns"></tr>
-    </table>
-
-    <mat-paginator
-      class="custom-pagination"
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons
-      aria-label="Select page of periodic elements"
-    />
-  </div>
-
-} @else {
-  <app-button-primary class="self-center" (click)="toggleModal()">
-    {{ _texts.addNewItem }}
-  </app-button-primary>
-}
-
 @if (isModalOpen()) {
   <app-modal [title]="_texts.addNewItem" (onClose)="toggleModal()">
     <app-add-new-warehouse-item (onCancel)="toggleModal()" />
   </app-modal>
+}
+
+
+@if (_warehouseService.warehouseItems$ | async) {
+  <div class="flex items-center gap-14 mb-5">
+    <div class="flex gap-4">
+      <button class="bg-[#dee9fc] text-blue-dark">Rakve</button>
+      <button class="bg-[#dee9fc] text-blue-dark">Urny</button>
+      <button class="bg-[#dee9fc] text-blue-dark">Kytky</button>
+      <button class="bg-[#dee9fc] text-blue-dark">Ostatni</button>
+    </div>
+
+
+    <mat-form-field class="-mb-5">
+      <mat-label for="name">Hledat polozku</mat-label>
+      <mat-icon matSuffix>search</mat-icon>
+      <input
+        matInput
+        type="text"
+        name="searchItem"
+        id="searchItem"
+      />
+    </mat-form-field>
+  
+    <app-button-primary class="ml-auto" (click)="toggleModal()">
+      {{ _texts.addNewItem }}
+    </app-button-primary>
+  </div>
+
+  <app-warehouse-table />
+
+  <div>
+    Here will be graph
+  </div>
+} @else {
+  <app-button-primary class="self-center" (click)="toggleModal()">
+    {{ _texts.addNewItem }}
+  </app-button-primary>
 }

@@ -10,11 +10,15 @@ export const loginTexts = {
 };
 
 export const warehouseControl = {
-  idHeader: 'ID',
-  dateHeader: 'Datum',
-  nameHeader: 'Název',
-  availableCountHeader: 'Na skladě',
   addNewItem: 'Přidat novou položku +',
+
+  table: {
+    idHeader: 'ID',
+    dateHeader: 'Datum',
+    nameHeader: 'Název',
+    availableCountHeader: 'Na skladě',
+    addNewItem: 'Přidat novou položku +',
+  },
 
   newItemComponent: {
     title: 'Přidat novou položku',

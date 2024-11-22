@@ -1,3 +1,7 @@
+/* #custom-container .mat-slide-toggle .mdc-label {
+  color: blue !important;
+} */
+
 .mat-mdc-table.table {
   background-color: inherit;
 }
@@ -22,7 +26,7 @@ input {
 }
 
 input:hover {
-  border: 2px solid black;
+  border: 1px solid theme('colors.gray');
   border-radius: 3.5px;
 }
 

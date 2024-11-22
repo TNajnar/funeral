@@ -1,6 +1,4 @@
-import {
-  AfterViewInit, Component, ElementRef, input, OnDestroy, output, viewChild, ViewEncapsulation
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, input, OnDestroy, output, viewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [NgIf, MatIconModule],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class ModalComponent implements AfterViewInit, OnDestroy {
   title = input<string>('');
