@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { MOCK_WAREHOUSE_ITEMS, type TWarehouseItem } from './warehouse-control.model';
 
@@ -8,6 +9,7 @@ import { MOCK_WAREHOUSE_ITEMS, type TWarehouseItem } from './warehouse-control.m
 })
 export class WarehouseService {
   private _warehouseItems$ = new BehaviorSubject<TWarehouseItem[]>(MOCK_WAREHOUSE_ITEMS); // TODO data from API
+  tableDataSource = new MatTableDataSource<TWarehouseItem>();
 
   get warehouseItems$(): Observable<TWarehouseItem[]> {
     return this._warehouseItems$.asObservable();

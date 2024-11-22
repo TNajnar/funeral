@@ -23,6 +23,8 @@
         type="text"
         name="searchItem"
         id="searchItem"
+        ngModel
+        (ngModelChange)="onSearchQueryChange($event)"
       />
     </mat-form-field>
   

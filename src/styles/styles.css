@@ -44,7 +44,7 @@
 @layer components {
   .mat-mdc-slide-toggle.toggle-slide-label label {
     font-weight: 500;
-    font-size: 16px;
+    font-size: 15px;
     color: theme('colors.blue-primary');
   }
 

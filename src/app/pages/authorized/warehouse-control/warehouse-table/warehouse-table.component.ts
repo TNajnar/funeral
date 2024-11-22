@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -26,26 +26,27 @@ const _DISPLAYED_COLUMNS = ['id', 'date', 'name', 'availableCount', 'flag', 'com
     class: 'overflow-hidden mb-14 border border-gray-muted rounded-md',
   }
 })
-export class WarehouseTableComponent {
+export class WarehouseTableComponent implements AfterViewInit {
   protected _texts = warehouseControl.table;
-
-  protected _dataSource = new MatTableDataSource<TWarehouseItem>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  protected _warehouseService: WarehouseService = inject(WarehouseService);
+  private _warehouseService: WarehouseService = inject(WarehouseService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
 
   ngAfterViewInit(): void {
-    this._dataSource.paginator = this.paginator;
-    const subscription = this._warehouseService.warehouseItems$.subscribe((warehouseItems) =>{
-      this._dataSource.data = warehouseItems;
-
+    this.tableDataSource.paginator = this.paginator;
+    const subscription = this._warehouseService.warehouseItems$.subscribe((warehouseItems) => {
+      this.tableDataSource.data = warehouseItems;
     });
 
     this._destroyRef.onDestroy(() =>
       subscription.unsubscribe()
     );
+  }
+
+  get tableDataSource(): MatTableDataSource<TWarehouseItem, MatPaginator> {
+    return this._warehouseService.tableDataSource;
   }
 
   get displayedTableColumns(): string[] {

@@ -1,22 +1,19 @@
-/* #custom-container .mat-slide-toggle .mdc-label {
-  color: blue !important;
-} */
-
 .mat-mdc-table.table {
   background-color: inherit;
 }
 
-.mat-mdc-cell.row {
+.mat-mdc-cell.cell {
+  height: 32px;
   border-bottom: none;
+}
+
+.mat-mdc-row.row {
+  height: 45px;
 }
 
 .mat-mdc-row:hover {
   background-color: theme('colors.blue-light');
   cursor: pointer;
-}
-
-.mat-mdc-paginator.custom-pagination {
-  background-color: inherit;
 }
 
 input {
@@ -44,4 +41,8 @@ tr:hover :where(input) {
 tr:hover :where(.delete-icon) {
   color: theme('colors.blue-primary');
   cursor: pointer;
+}
+
+.mat-mdc-paginator.custom-pagination {
+  background-color: inherit;
 }
