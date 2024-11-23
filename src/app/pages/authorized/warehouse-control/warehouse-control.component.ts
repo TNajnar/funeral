@@ -5,11 +5,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 
-import { WarehouseService } from './warehouse.service';
+import { WarehouseTableService } from './services/warehouse-table.service';
 import { WarehouseTableComponent } from './warehouse-table/warehouse-table.component';
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewWarehouseItemComponent } from './add-new-warehouse-item/add-new-warehouse-item.component';
 import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
+import { ETabVariants, TABLE_TABS, type TTableTab } from './warehouse-control.model';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
@@ -26,15 +27,22 @@ import { warehouseControl } from '@lib/staticTexts';
 })
 export class WarehouseControlComponent {
   protected _texts = warehouseControl;
+  protected _tableTabs: TTableTab[] = TABLE_TABS;
   isModalOpen = signal<boolean>(false);
 
-  protected _warehouseService: WarehouseService = inject(WarehouseService);
+  protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
 
   toggleModal(): void {
     this.isModalOpen.set(!this.isModalOpen());
   }
 
+  onTabClick(tabType: ETabVariants): void {
+    this._warehouseServiceTable.filterOptions.tabType = tabType;
+    this._warehouseServiceTable.updateTableFilters();
+  }
+
   onSearchQueryChange(value: string): void {
-    this._warehouseService.tableDataSource.filter = value.trim().toLowerCase();
+    this._warehouseServiceTable.filterOptions.searchText = value.trim().toLowerCase();
+    this._warehouseServiceTable.updateTableFilters();
   }
 }

@@ -1,4 +1,5 @@
 .mat-mdc-table.table {
+  height: 100%;
   background-color: inherit;
 }
 
@@ -44,5 +45,6 @@ tr:hover :where(.delete-icon) {
 }
 
 .mat-mdc-paginator.custom-pagination {
+  margin-top: auto;
   background-color: inherit;
 }

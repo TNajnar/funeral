@@ -1,19 +1,47 @@
 export type TWarehouseItem = {
+  availableCount: number;
   comment?: string;
   date: string;
   id: number;
   isFlagged: boolean;
   name: string;
-  availableCount: number;
+  tabType: ETabVariants;
 }
 
 export interface IDialogData {
-  date: string;
   coffinType: string;
+  date: string;
   name: string;
-  profit: number;
   outcome: number;
+  profit: number;
 }
+
+export type TFilterOptions = {
+  hasComment: boolean;
+  isFlagged: boolean;
+  searchText: string,
+  tabType: ETabVariants;
+}
+
+export enum ETabVariants {
+  All = 'all',
+  Coffin = 'coffin',
+  Urns = 'urns',
+  Flowers = 'flowers',
+}
+
+export type TTableTab = {
+  id: number;
+  text: string;
+  variant: ETabVariants;
+}
+
+export const TABLE_TABS: TTableTab[] = [
+  { id: 33, text: 'Vše', variant: ETabVariants.All },
+  { id: 44, text: 'Rakve', variant: ETabVariants.Coffin },
+  { id: 55, text: 'Urny', variant: ETabVariants.Flowers },
+  { id: 66, text: 'Kytky', variant: ETabVariants.Urns },
+];
 
 export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
   {
@@ -23,6 +51,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: false,
     name: 'Dubová rakev',
     availableCount: 5,
+    tabType: ETabVariants.Coffin,
   },
   {
     comment: 'Používáno pro přepravu.',
@@ -31,6 +60,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: true,
     name: 'Transportní vak',
     availableCount: 2,
+    tabType: ETabVariants.Coffin,
   },
   {
     comment: 'Luxusní hedvábné polstrování.',
@@ -39,6 +69,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: false,
     name: 'Sametový rubáš',
     availableCount: 10,
+    tabType: ETabVariants.Coffin,
   },
   {
     date: '2024-11-10',
@@ -46,6 +77,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: true,
     name: 'Krematorium urny',
     availableCount: 7,
+    tabType: ETabVariants.Urns,
   },
   {
     comment: 'Dřevěná varianta, ručně vyřezávaná.',
@@ -54,6 +86,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: false,
     name: 'Pamětní deska',
     availableCount: 15,
+    tabType: ETabVariants.Flowers,
   },
   {
     date: '2024-11-05',
@@ -61,6 +94,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: false,
     name: 'Stojan na věnce',
     availableCount: 25,
+    tabType: ETabVariants.Flowers,
   },
   {
     comment: 'Značené jako křehké.',
@@ -69,6 +103,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: true,
     name: 'Skleněné urny',
     availableCount: 4,
+    tabType: ETabVariants.Urns,
   },
   {
     date: '2024-11-07',
@@ -76,6 +111,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: false,
     name: 'Kondolenční knihy',
     availableCount: 50,
+    tabType: ETabVariants.Flowers,
   },
   {
     comment: 'Používá se pro katolické obřady.',
@@ -84,6 +120,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: false,
     name: 'Kříže na rakev',
     availableCount: 12,
+    tabType: ETabVariants.Coffin,
   },
   {
     date: '2024-11-01',
@@ -91,6 +128,7 @@ export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
     isFlagged: true,
     name: 'Speciální balzamovací sady',
     availableCount: 3,
+    tabType: ETabVariants.Coffin,
   },
 ];
 

@@ -5,18 +5,19 @@
 }
 
 
-@if (_warehouseService.warehouseItems$ | async) {
+@if (_warehouseServiceTable.warehouseItems$ | async) {
   <div class="flex items-center gap-14 mb-5">
-    <div class="flex gap-4">
-      <button class="bg-[#dee9fc] text-blue-dark">Rakve</button>
-      <button class="bg-[#dee9fc] text-blue-dark">Urny</button>
-      <button class="bg-[#dee9fc] text-blue-dark">Kytky</button>
-      <button class="bg-[#dee9fc] text-blue-dark">Ostatni</button>
+    <div class="flex">
+      @for (tab of _tableTabs; track tab.id) {
+        <button class="px-6 py-3 text-blue-primary" (click)="onTabClick(tab.variant)">
+          {{ tab.text }}
+        </button>
+      }
     </div>
 
 
     <mat-form-field class="-mb-5">
-      <mat-label for="name">Hledat polozku</mat-label>
+      <mat-label for="name">{{ _texts.searchItem }}</mat-label>
       <mat-icon matSuffix>search</mat-icon>
       <input
         matInput

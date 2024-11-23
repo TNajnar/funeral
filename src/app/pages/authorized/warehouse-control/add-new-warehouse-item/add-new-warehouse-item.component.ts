@@ -6,9 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { WarehouseService } from '../warehouse.service';
+import { WarehouseTableService } from '../services/warehouse-table.service';
 import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
 import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
+import { ETabVariants } from '../warehouse-control.model';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
@@ -24,7 +25,7 @@ export class AddNewWarehouseItemComponent {
 
   protected _texts = warehouseControl.newItemComponent;
 
-  warehouseService: WarehouseService = inject(WarehouseService);
+  _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
   datePipe: DatePipe = inject(DatePipe);
 
   protected _onSubmit(formData: NgForm): void {
@@ -34,13 +35,14 @@ export class AddNewWarehouseItemComponent {
 
     const formattedDate = this.datePipe.transform(formData.value.date, 'yyyy-MM-dd') || '';
 
-    this.warehouseService.addWarehouseItem({
+    this._warehouseServiceTable.addWarehouseItem({
+      availableCount: formData.value.availableCount,
       comment: undefined,
       date: formattedDate,
       id: Math.floor(Math.random() * 1000),
       isFlagged: formData.value.isFlagged,
       name: formData.value.name,
-      availableCount: formData.value.availableCount,
+      tabType: ETabVariants.All
     });
 
     this.onCancel.emit();

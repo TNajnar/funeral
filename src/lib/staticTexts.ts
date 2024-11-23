@@ -11,6 +11,7 @@ export const loginTexts = {
 
 export const warehouseControl = {
   addNewItem: 'Přidat novou položku +',
+  searchItem: 'Hledat položku',
 
   table: {
     idHeader: 'ID',
@@ -18,6 +19,9 @@ export const warehouseControl = {
     nameHeader: 'Název',
     availableCountHeader: 'Na skladě',
     addNewItem: 'Přidat novou položku +',
+
+    filterWithFlag: 'S vlaječkou',
+    filterWithComment: 'S komentářem'
   },
 
   newItemComponent: {
