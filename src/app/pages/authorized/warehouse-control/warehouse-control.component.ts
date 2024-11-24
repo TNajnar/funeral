@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,11 +16,12 @@ import { warehouseControl } from '@lib/staticTexts';
 @Component({
   selector: 'app-warehouse-control',
   standalone: true,
-  imports: [AsyncPipe, FormsModule,
+  imports: [AsyncPipe, FormsModule, NgClass,
     AddNewWarehouseItemComponent, ModalComponent, ButtonPrimaryComponent, WarehouseTableComponent,
     MatIconModule, MatFormFieldModule, MatInputModule,
   ],
   templateUrl: './warehouse-control.component.html',
+  styleUrl: 'warehouse-control.component.css',
   host: {
     class: 'flex flex-col',
   },
@@ -29,6 +30,7 @@ export class WarehouseControlComponent {
   protected _texts = warehouseControl;
   protected _tableTabs: TTableTab[] = TABLE_TABS;
   isModalOpen = signal<boolean>(false);
+  activeTab = signal<ETabVariants>(ETabVariants.All);
 
   protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
 
@@ -37,6 +39,7 @@ export class WarehouseControlComponent {
   }
 
   onTabClick(tabType: ETabVariants): void {
+    this.activeTab.set(tabType);
     this._warehouseServiceTable.filterOptions.tabType = tabType;
     this._warehouseServiceTable.updateTableFilters();
   }

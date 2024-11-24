@@ -17,6 +17,8 @@ module.exports = {
         'gray-lighter': '#f2f2f2',
         'gray-dark': '#7d7e83', // Tmavší šedá
         'gray-muted': '#b1b4ba', // Tlumená šedá
+        'gray-material': '#f1f0f4',
+        'gray-material2': '#e0e2ec',
         
 
         'button-primary': {
@@ -30,6 +32,13 @@ module.exports = {
           'disabled-background': '#efefef',
           'disabled-text': '#cccccc',
         }
+      },
+      width: {
+        340: '340px',
+        400: '400px'
+      },
+      borderWidth: {
+        3: '3px',
       },
       boxShadow: {
         'custom': '0 12px 40px rgba(0,0,0,0.12)',

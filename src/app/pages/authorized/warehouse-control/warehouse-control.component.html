@@ -7,9 +7,13 @@
 
 @if (_warehouseServiceTable.warehouseItems$ | async) {
   <div class="flex items-center gap-14 mb-5">
-    <div class="flex">
+    <div class="flex mt-auto w-340 border-b-[1px] border-gray-material2">
       @for (tab of _tableTabs; track tab.id) {
-        <button class="px-6 py-3 text-blue-primary" (click)="onTabClick(tab.variant)">
+        <button
+          class="tab px-6 py-3 text-blue-primary hover:bg-gray-material"
+          (click)="onTabClick(tab.variant)"
+          [ngClass]="{ 'active': activeTab() === tab.variant }"
+        >
           {{ tab.text }}
         </button>
       }

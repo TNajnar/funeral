@@ -1,0 +1,10 @@
+.tab {
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.1s ease-in-out;
+}
+
+.tab.active {
+  border-color: theme('colors.blue-primary');
+  color: theme('colors.blue-primary');
+  font-weight: 500;
+}
