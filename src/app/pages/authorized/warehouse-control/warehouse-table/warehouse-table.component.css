@@ -1,10 +1,21 @@
+:host(.pagination-5) {
+  height: 395px;
+}
+
+:host(.pagination-10) {
+  height: 619px;
+}
+
+:host(.pagination-20) {
+  height: 1070px;
+}
+
 .mat-mdc-table.table {
-  height: 100%;
+  max-height: 100%;
   background-color: inherit;
 }
 
 .mat-mdc-cell.cell {
-  height: 32px;
   border-bottom: none;
 }
 

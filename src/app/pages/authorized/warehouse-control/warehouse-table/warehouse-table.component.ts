@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, HostBinding, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
@@ -26,13 +26,23 @@ const _DISPLAYED_COLUMNS = ['id', 'date', 'name', 'availableCount', 'flag', 'com
     { provide: MatPaginatorIntl, useClass: CustomPaginatorService }
   ],
   host: {
-    class: 'flex flex-col overflow-hidden mb-14 min-h-[395px] border border-gray-muted rounded-md',
+    class: 'flex flex-col overflow-hidden mb-14 border border-gray-muted rounded-md',
   }
 })
 export class WarehouseTableComponent implements AfterViewInit {
   protected _texts = warehouseControl.table;
+  selectedPagination: number = 5;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @HostBinding('class.pagination-5') get hostPaginationHeight5(): boolean {
+    return this.selectedPagination === 5;
+  }
+  @HostBinding('class.pagination-10') get hostPaginationHeight10(): boolean {
+    return this.selectedPagination === 10;
+  }
+  @HostBinding('class.pagination-20') get hostPaginationHeight20(): boolean {
+    return this.selectedPagination === 20;
+  }
 
   protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
   private _destroyRef: DestroyRef = inject(DestroyRef);

@@ -1,4 +1,4 @@
-<div id="custom-container" class="flex gap-10 py-3 px-4 bg-blue-light">
+<div class="flex gap-10 py-3 px-4 bg-blue-light">
   <mat-slide-toggle
     labelPosition="before"
     class="toggle-slide-label toggle-slide-enabled"
@@ -90,5 +90,6 @@
   class="custom-pagination"
   [pageSizeOptions]="[5, 10, 20]"
   showFirstLastButtons
+  (page)="this.selectedPagination = $event.pageSize"
   aria-label="Select page of periodic elements"
 />
