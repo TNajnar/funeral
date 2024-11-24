@@ -12,8 +12,6 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ModalComponent implements AfterViewInit, OnDestroy {
   title = input<string>('');
-  isOpen = input<boolean>(false);
-
   private _overlayContainerElement!: HTMLElement;
 
   onClose = output<void>();
@@ -31,6 +29,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
       dialogElement.appendChild(this._overlayContainerElement);
     }
 
+    document.body.classList['add']('modal-open');
     this._dialogEl().nativeElement.showModal();
     this._dialogEl().nativeElement.focus();
   }
@@ -47,6 +46,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   };
 
   ngOnDestroy(): void {
+    document.body.classList['remove']('modal-open');
     if (this._overlayContainerElement) {
       document.body.appendChild(this._overlayContainerElement);
     }

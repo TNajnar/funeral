@@ -23,6 +23,11 @@
     font-size: 16px; /* Adjust this size as needed */
     font-family: Arial, sans-serif;
   }
+
+  
+  body.modal-open {
+    overflow: hidden;
+  }
 }
 
 @layer utilities {
