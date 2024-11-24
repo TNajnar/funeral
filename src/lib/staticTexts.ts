@@ -27,6 +27,7 @@ export const warehouseControl = {
   newItemComponent: {
     title: 'Přidat novou položku',
     date: 'Datum',
+    itemType: 'Typ',
     name: 'Název',
     nameError: 'Prosím vložte jméno položky.',
     availableCount: 'Na skladě',

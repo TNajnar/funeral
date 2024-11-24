@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
 
 import { WarehouseTableService } from '../services/warehouse-table.service';
 import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
@@ -12,18 +13,36 @@ import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-second
 import { ETabVariants } from '../warehouse-control.model';
 import { warehouseControl } from '@lib/staticTexts';
 
+interface IItemType {
+  value: string;
+  viewValue: string;
+}
+
+const enumToCs: Record<ETabVariants, string> = {
+  [ETabVariants.All]: 'Vše',
+  [ETabVariants.Coffin]: 'Rakve',
+  [ETabVariants.Urns]: 'Urna',
+  [ETabVariants.Flowers]: 'Kytky',
+};
+
+const itemTypes: IItemType[] = Object.values(ETabVariants).map((value) => ({
+  value: value,
+  viewValue: enumToCs[value],
+}));
+
 @Component({
   selector: 'app-add-new-warehouse-item',
   standalone: true,
   // eslint-disable-next-line max-len
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, ButtonSecondaryComponent, ButtonPrimaryComponent],
+  imports: [FormsModule, ButtonSecondaryComponent, ButtonPrimaryComponent, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule],
   templateUrl: './add-new-warehouse-item.component.html',
   providers: [DatePipe],
 })
 export class AddNewWarehouseItemComponent {
-  @Output() onCancel = new EventEmitter<void>();
-
   protected _texts = warehouseControl.newItemComponent;
+  itemTypes: IItemType[] = itemTypes;
+
+  @Output() onCancel = new EventEmitter<void>();
 
   _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
   datePipe: DatePipe = inject(DatePipe);
@@ -42,7 +61,7 @@ export class AddNewWarehouseItemComponent {
       id: Math.floor(Math.random() * 1000),
       isFlagged: formData.value.isFlagged,
       name: formData.value.name,
-      tabType: ETabVariants.All
+      tabType: formData.value.itemType,
     });
 
     this.onCancel.emit();

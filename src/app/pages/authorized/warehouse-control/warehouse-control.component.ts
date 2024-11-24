@@ -19,7 +19,8 @@ import { warehouseControl } from '@lib/staticTexts';
   standalone: true,
   imports: [AsyncPipe, FormsModule, NgClass,
     AddNewWarehouseItemComponent, ModalComponent, ButtonSecondaryComponent, WarehouseTableComponent, GraphComponent,
-    MatIconModule, MatFormFieldModule, MatInputModule],
+    MatIconModule, MatFormFieldModule, MatInputModule
+  ],
   templateUrl: './warehouse-control.component.html',
   styleUrl: 'warehouse-control.component.css',
   host: {

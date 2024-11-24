@@ -1,4 +1,4 @@
-<form #form="ngForm" (ngSubmit)="_onSubmit(form)">
+<form class="flex flex-col gap-4" #form="ngForm" (ngSubmit)="_onSubmit(form)">
   <div class="grid grid-cols-2 gap-4">
     <mat-form-field>
       <mat-label for="date">{{ _texts.date }}</mat-label>
@@ -14,6 +14,20 @@
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label for="itemType">{{ _texts.itemType }}</mat-label>
+      <mat-select
+        name="itemType"
+        panelClass="custom-select-panel"
+        ngModel
+        #itemType="ngModel"
+      >
+        @for (itemType of itemTypes; track itemType) {
+          <mat-option [value]="itemType.value">{{ itemType.viewValue }}</mat-option>
+        }
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field>
@@ -51,7 +65,7 @@
     </mat-form-field>
   </div>
 
-  <div class="flex gap-4 justify-self-end">
+  <div class="flex gap-4 justify-end">
     <app-button-secondary [disabled]="form.invalid ?? false" class="w-24" [fullWidth]="true" [type]="'submit'">
       {{ _texts.submit }}
     </app-button-secondary>

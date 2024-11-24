@@ -58,6 +58,11 @@
 
   dialog.cdk-custom-pane .cdk-overlay-container .cdk-overlay-pane {
     top: 132px !important;
-    left: 21.1px !important;
+    left: 21.1px  !important;
+  }
+
+  .custom-select-panel.mat-mdc-select-panel {
+    position: absolute;
+    left: 260px;
   }
 }
