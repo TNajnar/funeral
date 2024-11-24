@@ -9,7 +9,8 @@ import { WarehouseTableService } from './services/warehouse-table.service';
 import { WarehouseTableComponent } from './warehouse-table/warehouse-table.component';
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewWarehouseItemComponent } from './add-new-warehouse-item/add-new-warehouse-item.component';
-import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
+import { GraphComponent } from '@app/ui/graph/graph.component';
+import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
 import { ETabVariants, TABLE_TABS, type TTableTab } from './warehouse-control.model';
 import { warehouseControl } from '@lib/staticTexts';
 
@@ -17,13 +18,12 @@ import { warehouseControl } from '@lib/staticTexts';
   selector: 'app-warehouse-control',
   standalone: true,
   imports: [AsyncPipe, FormsModule, NgClass,
-    AddNewWarehouseItemComponent, ModalComponent, ButtonPrimaryComponent, WarehouseTableComponent,
-    MatIconModule, MatFormFieldModule, MatInputModule,
-  ],
+    AddNewWarehouseItemComponent, ModalComponent, ButtonSecondaryComponent, WarehouseTableComponent, GraphComponent,
+    MatIconModule, MatFormFieldModule, MatInputModule],
   templateUrl: './warehouse-control.component.html',
   styleUrl: 'warehouse-control.component.css',
   host: {
-    class: 'flex flex-col',
+    class: 'flex flex-col pb-8',
   },
 })
 export class WarehouseControlComponent {

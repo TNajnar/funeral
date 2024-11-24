@@ -33,18 +33,23 @@
       />
     </mat-form-field>
   
-    <app-button-primary class="ml-auto" (click)="toggleModal()">
+    <app-button-secondary class="ml-auto" (click)="toggleModal()">
       {{ _texts.addNewItem }}
-    </app-button-primary>
+    </app-button-secondary>
   </div>
 
   <app-warehouse-table />
 
-  <div>
-    Here will be graph
-  </div>
+  <!-- TODO  -->
+  <app-graph
+    [data]="[11, 5, 10]"
+    [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']"
+    label="# počet rakví"
+    chartType="bar"
+    [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+  />
 } @else {
-  <app-button-primary class="self-center" (click)="toggleModal()">
+  <app-button-secondary class="self-center" (click)="toggleModal()">
     {{ _texts.addNewItem }}
-  </app-button-primary>
+  </app-button-secondary>
 }
