@@ -15,8 +15,7 @@ const headerItems: THeaderItem[] = [
   { id: 1, routeName: 'Nástěnka', url: ERoutes.Dashboard },
   { id: 2, routeName: 'Sklad', url: ERoutes.Warehouse },
   { id: 3, routeName: 'Sjednávání', url: ERoutes.Negotiation },
-  { id: 4, routeName: 'Kytice a hudba', url: ERoutes.BouquetAndMusic },
-  { id: 5, routeName: 'Objednávka zahradníka', url: ERoutes.GardenerServices },
+  { id: 4, routeName: 'Plánování', url: ERoutes.Planning },
 ];
 
 @Component({

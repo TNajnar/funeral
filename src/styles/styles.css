@@ -51,6 +51,13 @@
 }
 
 @layer components {
+  dialog.cdk-custom-pane .cdk-overlay-container .cdk-overlay-pane {
+    top: 132px !important;
+    left: 21.1px  !important;
+  }
+
+  /* #region Slide Toggle */
+
   .mat-mdc-slide-toggle.toggle-slide-label label {
     font-weight: 500;
     font-size: 15px;
@@ -65,13 +72,79 @@
     background-color: theme('colors.blue-secondary');
   }
 
-  dialog.cdk-custom-pane .cdk-overlay-container .cdk-overlay-pane {
-    top: 132px !important;
-    left: 21.1px  !important;
-  }
+  /* #endregion */
+
+  /* #region Table */
 
   .custom-select-panel.mat-mdc-select-panel {
     position: absolute;
     left: 260px;
   }
+
+  .mat-mdc-table.table {
+    max-height: 100%;
+    background-color: inherit;
+  }
+  
+  .mat-mdc-table .mat-mdc-header-cell.header {
+    border-bottom-color: theme('colors.gray');
+  }
+  
+  .mat-mdc-cell.cell {
+    border-bottom: none;
+  }
+  
+  .mat-mdc-row.row {
+    height: 45px;
+  }
+  
+  .mat-mdc-row.row:hover {
+    background-color: theme('colors.blue-light');
+    cursor: pointer;
+  }
+
+  .input-table {
+    padding: 2px;
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 3.5px;
+  }
+  
+  .input-table:hover {
+    border: 1px solid theme('colors.gray');
+  }
+  
+  .input-table:focus {
+    border-color: theme('colors.blue-primary');
+    box-shadow: 0 0 6px theme('colors.blue-primary');
+    outline: none;
+  }
+
+  tr:hover :where(.input-table) {
+    background-color: theme('colors.blue-light');
+  }
+
+  .table-delete-icon {
+    width: 24px;
+    height: 24px;
+    color: transparent;
+    cursor: pointer;
+  }
+  
+  .table-delete-icon:hover {
+    background-color: theme('colors.blue-bgm');
+    border-radius: 2px;
+  }
+  
+  tr:hover :where(.table-delete-icon) {
+    color: theme('colors.blue-primary');
+    cursor: pointer;
+  }
+  
+  .mat-mdc-paginator.custom-pagination {
+    margin-top: auto;
+    background-color: inherit;
+  }
+
+  /* #endregion */
 }

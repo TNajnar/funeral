@@ -11,7 +11,8 @@ module.exports = {
         'blue-light': '#f6f9ff',
         'blue-dark': '#4a52b2',
         'blue-bgm': '#ccdefa',
-        'blue-bgm-light': 'dee9fc',
+        'blue-bgm-light': '#dee9fc',
+        'blue-fresh': '#3498DB',
 
         'gray': '#bbbbbb',
         'gray-light': '#f5f5f5',
@@ -21,6 +22,7 @@ module.exports = {
         'gray-material': '#f1f0f4',
         'gray-material2': '#e0e2ec',
         
+        'purple': '#9B59B6',
 
         'button-primary': {
           'background': '#E5E5E5',
@@ -35,11 +37,16 @@ module.exports = {
         }
       },
       width: {
+        'percent-55': '55%',
+        'percent-45': '45%',
         340: '340px',
         400: '400px'
       },
       height: {
         320: '320px',
+        'table-5': '395px',
+        'table-10': '619px',
+        'table-20': '1070px',
       },
       borderWidth: {
         1: '1px',
