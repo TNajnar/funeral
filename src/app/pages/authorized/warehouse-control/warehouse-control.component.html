@@ -7,7 +7,7 @@
 
 @if (_warehouseServiceTable.warehouseItems$ | async) {
   <div class="flex items-center gap-14 mb-5">
-    <div class="flex mt-auto w-340 border-b-[1px] border-gray-material2">
+    <div class="flex mt-auto w-340 border-b-1 border-gray-material2">
       @for (tab of _tableTabs; track tab.id) {
         <button
           class="tab px-6 py-3 text-blue-primary hover:bg-gray-material"
@@ -18,7 +18,6 @@
         </button>
       }
     </div>
-
 
     <mat-form-field class="-mb-5">
       <mat-label for="name">{{ _texts.searchItem }}</mat-label>

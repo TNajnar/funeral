@@ -23,25 +23,18 @@ export type TFilterOptions = {
   tabType: ETabVariants;
 }
 
-export enum ETabVariants {
-  All = 'all',
-  Coffin = 'coffin',
-  Urns = 'urns',
-  Flowers = 'flowers',
-}
-
 export type TTableTab = {
   id: number;
   text: string;
   variant: ETabVariants;
 }
 
-export const TABLE_TABS: TTableTab[] = [
-  { id: 33, text: 'Vše', variant: ETabVariants.All },
-  { id: 44, text: 'Rakve', variant: ETabVariants.Coffin },
-  { id: 55, text: 'Urny', variant: ETabVariants.Flowers },
-  { id: 66, text: 'Kytky', variant: ETabVariants.Urns },
-];
+export enum ETabVariants {
+  All = 'all',
+  Coffin = 'coffin',
+  Urns = 'urns',
+  Flowers = 'flowers',
+}
 
 export const MOCK_WAREHOUSE_ITEMS: TWarehouseItem[] = [
   {

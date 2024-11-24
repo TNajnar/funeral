@@ -26,7 +26,7 @@ const _DISPLAYED_COLUMNS = ['id', 'date', 'name', 'availableCount', 'flag', 'com
     { provide: MatPaginatorIntl, useClass: CustomPaginatorService }
   ],
   host: {
-    class: 'flex flex-col overflow-hidden mb-14 border border-gray-muted rounded-md',
+    class: 'flex flex-col mb-20 overflow-hidden border border-gray-muted rounded-md',
   }
 })
 export class WarehouseTableComponent implements AfterViewInit {
@@ -71,17 +71,12 @@ export class WarehouseTableComponent implements AfterViewInit {
   }
 
   onChangeToggle(value: boolean, type: string): void {
-    if (type === 'Flag') {
-      this._tableFilterOptions.isFlagged = value;
-    } else if (type === 'Comment') {
-      this._tableFilterOptions.hasComment = value;
-    }
-
+    this._tableFilterOptions[type === 'Flag' ? 'isFlagged' : 'hasComment'] = value;
     this._warehouseServiceTable.updateTableFilters();
   }
 
-  onFlagClick(itemId: number): void {
-    this._warehouseServiceTable.toggleItemFlag(itemId);
+  onFlagClick(warehouseItem: TWarehouseItem): void {
+    warehouseItem.isFlagged = !warehouseItem.isFlagged;
   }
 
   deleteWarehouseItem(id: number): void {

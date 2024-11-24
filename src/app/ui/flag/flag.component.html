@@ -1,5 +1,5 @@
 <mat-icon
-  class="flag w-6 h-6"
+  class="flag w-6 h-6 hover:bg-blue-bgm rounded-sm"
   [ngClass]="{ 'text-gray': isFlagged, 'text-transparent': !isFlagged }"
   [fontIcon]="isFlagged ? 'flag' : 'outlined_flag'"
   (click)="_handleClickFlag()"

@@ -41,16 +41,6 @@ export class WarehouseTableService {
     this.notifyUpdateWarehouseItems(updatedItems);
   }
 
-  toggleItemFlag(itemId: number): void {
-    const currentItems = this._warehouseItems$.getValue();
-
-    const updatedItems = currentItems.map((item) =>
-      item.id === itemId ? { ...item, isFlagged: !item.isFlagged } : item
-    );
-
-    this.notifyUpdateWarehouseItems(updatedItems);
-  }
-
   updateTableFilters(): void {
     this.tableDataSource.filter = JSON.stringify(this.filterOptions);
   }

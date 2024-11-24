@@ -34,6 +34,6 @@ export class UnauthorizedComponent {
 
     formData.reset();
 
-    this._router.navigate([`/${ERoutes.Warehouse}`]);
+    this._router.navigate([`/${ERoutes.Dashboard}`]);
   }
 }

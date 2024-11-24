@@ -24,6 +24,10 @@
     font-family: Arial, sans-serif;
   }
 
+  /* Always show scrollbar to prevent layout shifts between pages. */
+  html {
+    overflow-y: scroll;
+  }
   
   body.modal-open {
     overflow: hidden;

@@ -9,10 +9,17 @@ import { WarehouseTableService } from './services/warehouse-table.service';
 import { WarehouseTableComponent } from './warehouse-table/warehouse-table.component';
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewWarehouseItemComponent } from './add-new-warehouse-item/add-new-warehouse-item.component';
-import { GraphComponent } from '@app/ui/graph/graph.component';
 import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
-import { ETabVariants, TABLE_TABS, type TTableTab } from './warehouse-control.model';
+import { GraphComponent } from '@app/shared/graph/graph.component';
+import { ETabVariants, type TTableTab } from './warehouse-control.model';
 import { warehouseControl } from '@lib/staticTexts';
+
+const TABLE_TABS: TTableTab[] = [
+  { id: 33, text: 'Vše', variant: ETabVariants.All },
+  { id: 44, text: 'Rakve', variant: ETabVariants.Coffin },
+  { id: 55, text: 'Urny', variant: ETabVariants.Urns },
+  { id: 66, text: 'Kytky', variant: ETabVariants.Flowers },
+];
 
 @Component({
   selector: 'app-warehouse-control',
@@ -24,16 +31,19 @@ import { warehouseControl } from '@lib/staticTexts';
   templateUrl: './warehouse-control.component.html',
   styleUrl: 'warehouse-control.component.css',
   host: {
-    class: 'flex flex-col pb-8',
+    class: 'flex flex-col',
   },
 })
 export class WarehouseControlComponent {
   protected _texts = warehouseControl;
-  protected _tableTabs: TTableTab[] = TABLE_TABS;
   isModalOpen = signal<boolean>(false);
   activeTab = signal<ETabVariants>(ETabVariants.All);
 
   protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
+
+  protected get _tableTabs(): TTableTab[] {
+    return TABLE_TABS;
+  }
 
   toggleModal(): void {
     this.isModalOpen.set(!this.isModalOpen());

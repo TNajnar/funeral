@@ -50,6 +50,11 @@ tr:hover :where(input) {
   cursor: pointer;
 }
 
+.delete-icon:hover {
+  background-color: theme('colors.blue-bgm');
+  border-radius: 2px;
+}
+
 tr:hover :where(.delete-icon) {
   color: theme('colors.blue-primary');
   cursor: pointer;

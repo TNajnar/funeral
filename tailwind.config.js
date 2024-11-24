@@ -10,7 +10,8 @@ module.exports = {
         'blue-secondary': '#646cd6',
         'blue-light': '#f6f9ff',
         'blue-dark': '#4a52b2',
-        //  nejsvetlejsi = dee9fc tmasi = ccdefa  text 03439f
+        'blue-bgm': '#ccdefa',
+        'blue-bgm-light': 'dee9fc',
 
         'gray': '#bbbbbb',
         'gray-light': '#f5f5f5',
@@ -37,7 +38,11 @@ module.exports = {
         340: '340px',
         400: '400px'
       },
+      height: {
+        320: '320px',
+      },
       borderWidth: {
+        1: '1px',
         3: '3px',
       },
       boxShadow: {

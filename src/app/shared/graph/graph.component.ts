@@ -10,7 +10,7 @@ import {
   standalone: true,
   templateUrl: './graph.component.html',
   host: {
-    class: 'flex flex-col justify-center items-center h-[20rem]'
+    class: 'flex flex-col justify-center items-center h-320'
   },
 })
 export class GraphComponent implements OnInit {

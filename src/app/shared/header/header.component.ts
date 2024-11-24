@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
 import { AuthService } from 'services/auth.service';
-import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
 import { ERoutes } from '@lib/enums';
 
 type THeaderItem = {
@@ -22,7 +22,7 @@ const headerItems: THeaderItem[] = [
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, ButtonPrimaryComponent],
+  imports: [RouterModule, MatIcon],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
@@ -30,4 +30,9 @@ export class HeaderComponent {
   protected _headerItems: THeaderItem[] = headerItems;
 
   protected _authService: AuthService = inject(AuthService);
+  private _router: Router = inject(Router);
+
+  onLogoClick(): void {
+    this._router.navigate([`/${ERoutes.Dashboard}`]);
+  }
 }

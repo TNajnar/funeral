@@ -1,5 +1,5 @@
 <mat-icon
-  class="comment w-6 h-6"
+  class="comment w-5 h-5 hover:bg-blue-bgm rounded-sm"
   [ngClass]="{ 'text-gray': hasComment, 'text-transparent': !hasComment }"
   [fontIcon]="hasComment ? 'chat_bubble' : 'chat_bubble_outline'"
   (click)="_toggleModal()"
