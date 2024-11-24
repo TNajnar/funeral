@@ -43,7 +43,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy {
             {
               label: this.label,
               data: this.data, // Data pro graf
-              backgroundColor: this.colors, // Barvy pro sloupce
+              backgroundColor: this.colors, // Barvy pro sloupce ['#4a52b2', '#646cd6', '#ff6384', '#ff9f40']
               borderWidth: 1,
             },
           ],
@@ -61,6 +61,21 @@ export class GraphComponent implements AfterViewInit, OnDestroy {
               },
             },
           },
+        // scales: {
+        //   y: {
+        //     display: false,
+        //     beginAtZero: true,
+        //     grid: {
+        //       display: false,
+        //     },
+        //   },
+        //   x: {
+        //     display: false,
+        //     grid: {
+        //       display: false,
+        //     },
+        //   },
+        // },
         },
       });
       this.cdr.detectChanges();

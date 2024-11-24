@@ -11,7 +11,8 @@ module.exports = {
         'blue-light': '#f6f9ff',
         'blue-dark': '#4a52b2',
         'blue-bgm': '#ccdefa',
-        'blue-bgm-light': 'dee9fc',
+        'blue-bgm-light': '#dee9fc',
+        'blue-fresh': '#3498DB',
 
         'gray': '#bbbbbb',
         'gray-light': '#f5f5f5',
@@ -21,6 +22,7 @@ module.exports = {
         'gray-material': '#f1f0f4',
         'gray-material2': '#e0e2ec',
         
+        'purple': '#9B59B6',
 
         'button-primary': {
           'background': '#E5E5E5',

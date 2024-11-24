@@ -1,7 +1,7 @@
-<div class="flex justify-between">
+<div class="flex justify-between flex-col md:flex-row">
   <div class="relative flex gap-20 items-center w-full">
     <span class="text-gray-dark font-medium">
-      Graf o sjednanych sluzbach a pohrbech v {{ _currentMonth }}
+      Graf o sjednanych sluzbach a pohrbech <br/> v {{ _currentMonth }}
     </span>
 
     <app-graph
@@ -9,13 +9,20 @@
       [labels]="['Pohřby', 'Služby']"
       label="# počet naplanovanych"
       chartType="doughnut"
-      [colors]="['#ff6384', '#ff9f40']"
+      [colors]="['#3498DB', '#9B59B6']"
     />
   </div>
 
-  <div class="flex gap-10 w-2/5">
-    <button mat-fab extended>Novy pohreb</button>
-    <button mat-fab extended>Nova sluzba</button>
+  <div class="flex flex-col desktop:flex-row items-center gap-5 w-1/2">
+    <button mat-fab extended class="mat-raised-button custom-button-funeral">
+      <mat-icon>add</mat-icon>
+      Novy pohreb
+    </button>
+    
+    <button mat-fab extended class="mat-raised-button custom-button-service">
+      <mat-icon>add</mat-icon>
+      Nova sluzba
+    </button>
   </div>
 </div>
 
@@ -24,11 +31,13 @@
     <h4 class="text-start text-lg">Naplanovane pohřby</h4>
 
     <!-- Table TODO -->
+    <div class="border h-full"></div>
   </div>
   
   <div class="w-full">
     <h4 class="text-start text-lg">Naplanovane sluzby</h4>
-
+    
     <!-- Table TODO -->
+    <div class="border h-full"></div>
   </div>
 </div>

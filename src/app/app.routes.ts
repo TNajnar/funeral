@@ -12,7 +12,7 @@ import { ERoles, ERoutes } from '@lib/enums';
 
 export const routes: Routes = [
   { path: ERoutes.Auth, component: UnauthorizedComponent },
-  { path: '', redirectTo: ERoutes.Warehouse, pathMatch: 'full' },
+  { path: '', redirectTo: ERoutes.Dashboard, pathMatch: 'full' },
   {
     path: ERoutes.Dashboard,
     component: DashboardComponent,
