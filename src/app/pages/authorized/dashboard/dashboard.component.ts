@@ -2,20 +2,27 @@ import { Component, inject, LOCALE_ID } from '@angular/core';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import localeCs from '@angular/common/locales/cs';
 
-import { GraphComponent } from '@app/ui/graph/graph.component';
+import { DashboardTableServiceComponent } from './dashboard-table-service/dashboard-table-service.component';
+import { DashboardTableFuneralComponent } from './dashboard-table-funeral/dashboard-table-funeral.component';
+import { ReminderComponent } from './reminder/reminder.component';
+import { GraphComponent } from '@app/shared/graph/graph.component';
 
 registerLocaleData(localeCs);
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [GraphComponent, MatButtonModule, MatIcon],
+  imports: [
+    GraphComponent, DashboardTableServiceComponent, DashboardTableFuneralComponent, ReminderComponent,
+    MatButtonModule, MatIcon, MatTooltipModule,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   host: {
-    class: 'flex flex-col gap-28 w-full'
+    class: 'flex flex-col gap-20 w-full'
   },
   providers: [
     DatePipe,

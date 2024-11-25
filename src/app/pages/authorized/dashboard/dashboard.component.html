@@ -1,7 +1,7 @@
-<div class="flex justify-between flex-col md:flex-row">
-  <div class="relative flex gap-20 items-center w-full">
-    <span class="text-gray-dark font-medium">
-      Graf o sjednanych sluzbach a pohrbech <br/> v {{ _currentMonth }}
+<div class="flex flex-col justify-between gap-10 md:flex-row">
+  <div class="relative flex items-center w-percent-55">
+    <span class="w-full text-gray-dark text-lg font-se">
+      Graf o sjednaných službách a pohřbech <br/> v {{ _currentMonth }}
     </span>
 
     <app-graph
@@ -13,31 +13,43 @@
     />
   </div>
 
-  <div class="flex flex-col desktop:flex-row items-center gap-5 w-1/2">
-    <button mat-fab extended class="mat-raised-button custom-button-funeral">
-      <mat-icon>add</mat-icon>
-      Novy pohreb
-    </button>
-    
-    <button mat-fab extended class="mat-raised-button custom-button-service">
-      <mat-icon>add</mat-icon>
-      Nova sluzba
-    </button>
+  <div class="flex flex-col gap-5 w-percent-45">
+    <app-reminder />
+
+    <div class="flex flex-row items-center gap-5 mt-auto">
+      <button
+        mat-fab extended
+        class="mat-raised-button custom-button-funeral"
+        matTooltip="Přidej nový pohřeb"
+        [matTooltipShowDelay]="1000"
+      >
+        <mat-icon>add</mat-icon>
+        Nový pohřeb
+      </button>
+      
+      <button
+        mat-fab extended
+        class="mat-raised-button custom-button-service"
+        matTooltip="Přidej novou službu"
+        [matTooltipShowDelay]="1000"
+      >
+        <mat-icon>add</mat-icon>
+        Nova služba
+      </button>
+    </div>
   </div>
 </div>
 
 <div class="flex self-center gap-8 w-full">
   <div class="w-full">
-    <h4 class="text-start text-lg">Naplanovane pohřby</h4>
+    <h2 class="pb-5 text-start text-2xl font-medium">Naplánované pohřby</h2>
 
-    <!-- Table TODO -->
-    <div class="border h-full"></div>
+    <app-dashboard-table-funeral />
   </div>
   
   <div class="w-full">
-    <h4 class="text-start text-lg">Naplanovane sluzby</h4>
+    <h2 class="pb-5 text-start text-2xl font-medium">Naplánované služby</h2>
     
-    <!-- Table TODO -->
-    <div class="border h-full"></div>
+    <app-dashboard-table-service />
   </div>
 </div>

@@ -37,6 +37,8 @@ module.exports = {
         }
       },
       width: {
+        'percent-55': '55%',
+        'percent-45': '45%',
         340: '340px',
         400: '400px'
       },
