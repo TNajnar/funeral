@@ -15,6 +15,10 @@
   background-color: inherit;
 }
 
+.mat-mdc-table .mat-mdc-header-cell.header {
+  border-bottom-color: theme('colors.gray');
+}
+
 .mat-mdc-cell.cell {
   border-bottom: none;
 }
@@ -30,13 +34,18 @@
 
 input {
   background-color: white;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 3.5px;
 }
 
 input:hover {
   border: 1px solid theme('colors.gray');
-  border-radius: 3.5px;
+}
+
+input:focus {
+  border-color: theme('colors.blue-primary');
+  box-shadow: 0 0 6px theme('colors.blue-primary');
+  outline: none;
 }
 
 tr:hover :where(input) {

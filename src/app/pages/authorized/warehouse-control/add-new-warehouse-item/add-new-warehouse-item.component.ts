@@ -52,7 +52,7 @@ export class AddNewWarehouseItemComponent {
       return;
     }
 
-    const formattedDate = this.datePipe.transform(formData.value.date, 'yyyy-MM-dd') || '';
+    const formattedDate = this.datePipe.transform(formData.value.date || new Date(), 'yyyy-MM-dd') || '';
 
     this._warehouseServiceTable.addWarehouseItem({
       availableCount: formData.value.availableCount,
