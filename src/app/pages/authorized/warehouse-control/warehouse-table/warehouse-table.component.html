@@ -29,7 +29,7 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
-        id="date"
+        [id]="'date-' + element.id"
         name="date"
         type="date"
         [value]="element.date"
@@ -42,7 +42,7 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
-        id="name"
+        [id]="'name-' + element.id"
         name="name"
         type="text"
         [value]="element.name"
@@ -55,7 +55,7 @@
     <td mat-cell *matCellDef="let element" class="cell w-32">
       <input
         class="input-table w-full"
-        id="availableCount"
+        [id]="'availableCount-' + element.id"
         name="availableCount"
         type="text"
         [value]="element.availableCount"

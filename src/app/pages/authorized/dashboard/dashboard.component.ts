@@ -11,6 +11,7 @@ import { DashboardTableFuneralComponent } from './dashboard-table-funeral/dashbo
 import { ReminderComponent } from './reminder/reminder.component';
 import { GraphComponent } from '@app/shared/graph/graph.component';
 import { ERoutes } from '@lib/enums';
+import { dashboard } from '@lib/staticTexts';
 
 registerLocaleData(localeCs);
 
@@ -32,7 +33,8 @@ registerLocaleData(localeCs);
   ]
 })
 export class DashboardComponent {
-  protected _currentMonth: string | null;
+  protected _texts = dashboard;
+  _currentMonth: string | null;
 
   private _datePipe: DatePipe = inject(DatePipe);
 

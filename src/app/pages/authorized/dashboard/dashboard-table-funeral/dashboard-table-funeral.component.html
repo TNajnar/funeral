@@ -9,9 +9,9 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
-        type="text"
+        [id]="'placeCeremony' + element.id"
         name="placeCeremony"
-        id="placeCeremony"
+        type="text"
         [value]="element.placeCeremony"
       />
     </td>
@@ -22,9 +22,9 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
-        type="text"
+        [id]="'timeCeremony' + element.id"
         name="timeCeremony"
-        id="timeCeremony"
+        type="text"
         [value]="element.timeCeremony"
       />
     </td>
@@ -35,9 +35,9 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
-        type="text"
+        [id]="'deceased' + element.id"
         name="deceased"
-        id="deceased"
+        type="text"
         [value]="element.deceased"
       />
     </td>
@@ -48,14 +48,13 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table w-full"
-        type="text"
+        [id]="'customer' + element.id"
         name="customer"
-        id="customer"
+        type="text"
         [value]="element.customer"
       />
     </td>
   </ng-container>
-
   <tr mat-header-row *matHeaderRowDef="['dateOfNegotiation', 'placeCeremony', 'timeCeremony', 'deceased', 'customer']" class="row"></tr>
   <tr mat-row *matRowDef="let row; columns: ['dateOfNegotiation', 'placeCeremony', 'timeCeremony', 'deceased', 'customer']" class="row"></tr>
 </table>
