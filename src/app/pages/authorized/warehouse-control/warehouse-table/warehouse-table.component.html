@@ -20,12 +20,12 @@
 
 <table mat-table [dataSource]="tableDataSource" class="table">
   <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>{{ _texts.idHeader }}</th>
+    <th mat-header-cell *matHeaderCellDef class="header">{{ _texts.idHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell row w-14">{{ element.id }}</td>
   </ng-container>
 
   <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef>{{ _texts.dateHeader }}</th>
+    <th mat-header-cell *matHeaderCellDef class="header">{{ _texts.dateHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         type="date"
@@ -37,7 +37,7 @@
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>{{ _texts.nameHeader }}</th>
+    <th mat-header-cell *matHeaderCellDef class="header">{{ _texts.nameHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         type="text"
@@ -49,7 +49,7 @@
   </ng-container>
 
   <ng-container matColumnDef="availableCount">
-    <th mat-header-cell *matHeaderCellDef>{{ _texts.availableCountHeader }}</th>
+    <th mat-header-cell *matHeaderCellDef class="header">{{ _texts.availableCountHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell w-32">
       <input
         class="w-full"
@@ -62,27 +62,27 @@
   </ng-container>
 
   <ng-container matColumnDef="flag">
-    <th mat-header-cell *matHeaderCellDef></th>
+    <th mat-header-cell *matHeaderCellDef class="header"></th>
     <td mat-cell *matCellDef="let element" class="cell w-6">
       <app-flag [isFlagged]="element.isFlagged" (onClick)="onFlagClick(element)" />
     </td>
   </ng-container>
 
   <ng-container matColumnDef="comment">
-    <th mat-header-cell *matHeaderCellDef></th>
+    <th mat-header-cell *matHeaderCellDef class="header"></th>
     <td mat-cell *matCellDef="let element" class="cell w-6">
       <app-comment [comment]="element.comment" />
     </td>
   </ng-container>
 
   <ng-container matColumnDef="delete">
-    <th mat-header-cell *matHeaderCellDef></th>
+    <th mat-header-cell *matHeaderCellDef class="header"></th>
     <td mat-cell *matCellDef="let element" class="cell w-6">
       <mat-icon class="delete-icon" fontIcon="delete" (click)="deleteWarehouseItem(element.id)" />
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedTableColumns" class="row"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedTableColumns" class="header row"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedTableColumns" class="row"></tr>
 </table>
 

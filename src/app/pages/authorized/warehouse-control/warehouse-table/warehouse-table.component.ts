@@ -26,7 +26,7 @@ const _DISPLAYED_COLUMNS = ['id', 'date', 'name', 'availableCount', 'flag', 'com
     { provide: MatPaginatorIntl, useClass: CustomPaginatorService }
   ],
   host: {
-    class: 'flex flex-col mb-20 overflow-hidden border border-gray-muted rounded-md',
+    class: 'flex flex-col mb-20 overflow-hidden border border-gray rounded-md',
   }
 })
 export class WarehouseTableComponent implements AfterViewInit {
