@@ -21,7 +21,6 @@ const _DISPLAYED_COLUMNS = ['id', 'date', 'name', 'availableCount', 'flag', 'com
     MatIconModule, MatTableModule, MatPaginatorModule, MatSlideToggleModule,
   ],
   templateUrl: './warehouse-table.component.html',
-  styleUrl: './warehouse-table.component.css',
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorService }
   ],
@@ -34,13 +33,13 @@ export class WarehouseTableComponent implements AfterViewInit {
   selectedPagination: number = 5;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @HostBinding('class.pagination-5') get hostPaginationHeight5(): boolean {
+  @HostBinding('class.h-table-5') get hostPaginationHeight5(): boolean {
     return this.selectedPagination === 5;
   }
-  @HostBinding('class.pagination-10') get hostPaginationHeight10(): boolean {
+  @HostBinding('class.h-table-10') get hostPaginationHeight10(): boolean {
     return this.selectedPagination === 10;
   }
-  @HostBinding('class.pagination-20') get hostPaginationHeight20(): boolean {
+  @HostBinding('class.h-table-20') get hostPaginationHeight20(): boolean {
     return this.selectedPagination === 20;
   }
 
