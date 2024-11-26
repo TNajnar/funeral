@@ -42,13 +42,17 @@
 
 <div class="flex self-center gap-8 w-full">
   <div class="w-1/2">
-    <h2 class="pb-5 text-start text-2xl font-medium">Naplánované pohřby</h2>
+    <h2 class="mb-5 w-max text-start text-2xl font-medium hover:text-blue-primary transition-colors ease-in-out">
+      <a [routerLink]="['/' + planningRoute]">Naplánované pohřby</a>
+    </h2>
 
     <app-dashboard-table-funeral />
   </div>
   
   <div class="w-1/2">
-    <h2 class="pb-5 text-start text-2xl font-medium">Naplánované služby</h2>
+    <h2 class="mb-5 text-start text-2xl font-medium hover:text-blue-primary transition-colors ease-in-out">
+      <a [routerLink]="['/' + planningRoute]">Naplánované služby</a>
+    </h2>
     
     <app-dashboard-table-service />
   </div>
