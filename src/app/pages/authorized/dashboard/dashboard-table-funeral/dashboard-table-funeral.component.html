@@ -12,7 +12,7 @@
         [id]="'placeCeremony' + element.id"
         name="placeCeremony"
         type="text"
-        [value]="element.placeCeremony"
+        [(ngModel)]="element.placeCeremony"
       />
     </td>
   </ng-container>
@@ -25,7 +25,7 @@
         [id]="'timeCeremony' + element.id"
         name="timeCeremony"
         type="text"
-        [value]="element.timeCeremony"
+        [(ngModel)]="element.timeCeremony"
       />
     </td>
   </ng-container>
@@ -38,7 +38,7 @@
         [id]="'deceased' + element.id"
         name="deceased"
         type="text"
-        [value]="element.deceased"
+        [(ngModel)]="element.deceased"
       />
     </td>
   </ng-container>
@@ -51,7 +51,7 @@
         [id]="'customer' + element.id"
         name="customer"
         type="text"
-        [value]="element.customer"
+        [(ngModel)]="element.customer"
       />
     </td>
   </ng-container>

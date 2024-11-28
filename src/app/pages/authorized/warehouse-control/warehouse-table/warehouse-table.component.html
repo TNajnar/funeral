@@ -32,7 +32,7 @@
         [id]="'date-' + element.id"
         name="date"
         type="date"
-        [value]="element.date"
+        [(ngModel)]="element.date"
       />
     </td>
   </ng-container>
@@ -45,7 +45,7 @@
         [id]="'name-' + element.id"
         name="name"
         type="text"
-        [value]="element.name"
+        [(ngModel)]="element.name"
       />
     </td>
   </ng-container>
@@ -58,7 +58,7 @@
         [id]="'availableCount-' + element.id"
         name="availableCount"
         type="text"
-        [value]="element.availableCount"
+        [(ngModel)]="element.availableCount"
       />
     </td>
   </ng-container>

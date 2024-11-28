@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-dashboard-table-service',
   standalone: true,
-  imports: [MatTableModule],
+  imports: [FormsModule, MatTableModule],
   templateUrl: './dashboard-table-service.component.html',
   host: {
     class: 'flex flex-col overflow-hidden border border-gray rounded-md'
