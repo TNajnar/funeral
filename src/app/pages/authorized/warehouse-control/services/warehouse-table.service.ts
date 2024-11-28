@@ -3,8 +3,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { WarehouseTableFiltersService } from './warehouse-table-filters.service';
-import { MOCK_WAREHOUSE_ITEMS} from '../warehouse-control.model';
 import type { TFilterOptions, TWarehouseItem } from '../warehouse-control.model';
+import { MOCK_WAREHOUSE_ITEMS } from '../mockData';
 
 @Injectable({
   providedIn: 'root'
