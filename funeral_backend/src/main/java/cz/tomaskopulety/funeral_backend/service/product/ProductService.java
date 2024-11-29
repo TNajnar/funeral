@@ -11,6 +11,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityExistsException;
 
+import cz.tomaskopulety.funeral_backend.api.product.response.product.ProductGetResponse;
 import cz.tomaskopulety.funeral_backend.db.general.DbMapper;
 import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
@@ -90,27 +91,27 @@ public class ProductService {
         if (months != null) {
             final Set<Integer> formattedMonths = getMonths(months);
             productSpecification = productSpecification.and(ProductSpecification.byMonths(formattedMonths));
-            final Function<ProductEntity,ProductEntity> productMovementsOnlyInMonths = pe -> {
+            final Function<ProductEntity,ProductEntity> productMovementsSelectedMonths = pe -> {
                 final List<ProductMovementEntity> list = pe.getProductMovements().stream()
                         .filter(pme -> formattedMonths.contains(pme.getCreated().getMonthValue()))
                         .toList();
                 pe.setProductMovements(list);
                 return pe;
             };
-            filteringFunctions.add(productMovementsOnlyInMonths);
+            filteringFunctions.add(productMovementsSelectedMonths);
         }
 
         if (sale != null && sale) {
             productSpecification = productSpecification.and(ProductSpecification.bySale());
             final Predicate<Integer> isSale = o -> o < 0;
-            final Function<ProductEntity,ProductEntity> productMovementsOnlySales = pe -> {
+            final Function<ProductEntity,ProductEntity> productMovementsSalesOnly = pe -> {
                 final List<ProductMovementEntity> list = pe.getProductMovements().stream()
                         .filter(pme -> isSale.test(pme.getRequested()))
                         .toList();
                 pe.setProductMovements(list);
                 return pe;
             };
-            filteringFunctions.add(productMovementsOnlySales);
+            filteringFunctions.add(productMovementsSalesOnly);
         }
 
         final List<ProductEntity> productEntities = this.productRepository.findAll(productSpecification);
@@ -210,7 +211,7 @@ public class ProductService {
    * @param productId warehouse identifier of product
    * @param quantity amount of sold products, must be negative value
    * @throws IllegalArgumentException when product not found
-   * @throws IllegalStateException when product is out of stock but is required for sale
+   * @throws IllegalStateException when product is out of stock but is required for sale.
    */
     public Product sellProduct(long productId, int quantity) {
         final ProductEntity productEntity = this.productRepository.findByProductId(productId)
@@ -226,6 +227,18 @@ public class ProductService {
             this.productRepository.save(productEntity);
             return this.dbMapper.map(productEntity);
         }
+    }
+
+    /**
+     * Get product by given identifier.
+     *
+     * @param productId warehouse identifier
+     * @throws IllegalArgumentException when product is not found.
+     * @return {@link Product}
+     */
+    public Product getProduct(long productId) {
+        return this.dbMapper.map(this.productRepository.findByProductId(productId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Product id: %s not found.", productId))));
     }
 
     /**
