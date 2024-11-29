@@ -37,6 +37,11 @@ public class ProductCreateRequest {
     private String note;
 
     /**
+     * If product is flagged.
+     */
+    private boolean flagged;
+
+    /**
      * Products stocked in warehouse.
      */
     @Positive

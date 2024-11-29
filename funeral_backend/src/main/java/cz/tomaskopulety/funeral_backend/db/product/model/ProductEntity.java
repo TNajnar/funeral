@@ -69,7 +69,12 @@ public class ProductEntity {
     /**
     * Products stocked in warehouse.
     */
-    private Integer inStock;
+    private int inStock;
+
+    /**
+     * If product is flagged.
+     */
+    private boolean flagged;
 
     /**
      * Warehouse movements of product.
