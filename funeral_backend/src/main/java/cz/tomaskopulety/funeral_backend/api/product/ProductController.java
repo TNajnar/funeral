@@ -65,8 +65,12 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductGetResponse> getProduct(@PathVariable long productId) {
-        return ResponseEntity.ok(this.apiMapper.map(this.productService.getProduct(productId)));
+    public ResponseEntity<ProductGetResponse> getProduct(
+            @PathVariable long productId,
+            @RequestParam(required = false) @Nullable String months,
+            @RequestParam(required = false) @Nullable Boolean sale
+    ) {
+        return ResponseEntity.ok(this.apiMapper.map(this.productService.getProduct(productId, months, sale)));
     }
 
     @PostMapping("/categories/{productCategoryName}")
