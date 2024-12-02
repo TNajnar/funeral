@@ -275,4 +275,21 @@ public class ProductService {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Update {@link ProductEntity} and save changes.
+     *
+     * @param productId identifier of product
+     * @param product product data
+     * @return {@link Product}
+     */
+    @Nonnull
+    public Product updateProduct(long productId, @Nonnull Product product) {
+        final ProductEntity productEntity = this.productRepository.findByProductId(productId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Product id: %s not found.", productId)));
+        productEntity.setNote(product.getNote());
+        productEntity.setFlagged(product.isFlagged());
+        productEntity.setName(product.getName());
+        productEntity.setInStock(product.getInStock());
+        return this.dbMapper.map(productRepository.save(productEntity));
+    }
 }
