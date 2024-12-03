@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.db.general.DbMapper;
 import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
@@ -49,7 +50,7 @@ public class ProductService {
      * Adds {@link ProductEntity} to database.
      *
      * @param product details of product
-     * @throws IllegalArgumentException when product already exists
+     * @throws EntityExistsException when product already exists
      */
     public Product createProduct(@Nonnull Product product) {
         if (this.productRepository.existsByNameAndProducer_ProducerId(product.getName(), product.getProducer().producerId())) {
@@ -67,7 +68,7 @@ public class ProductService {
      * Gets List of {@link Product} by given specification and filters.
      *
      * @return List of {@link Product}
-     * @throws IllegalArgumentException when entities are not found
+     * @throws EntityNotFoundException when entities are not found
      */
     public List<Product> getProducts(@Nullable Long productCategoryId, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale) {
         final ProductFilter productFilter = setProductFilter(productCategoryId, producerId, months, sale);
@@ -86,13 +87,13 @@ public class ProductService {
 
         if (productCategoryId != null) {
             productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(productCategoryId)
-                    .orElseThrow(() -> new IllegalArgumentException(String.format("Product category id: %s not found.", productCategoryId)));
+                    .orElseThrow(() -> new EntityNotFoundException(String.format("Product category id: %s not found.", productCategoryId)));
             productFilter.setDatabaseFilter(ProductSpecification.byCategory(productCategoryEntity));
         }
 
         if (producerId != null) {
             producerEntity = this.producerRepository.findByProducerId(producerId)
-                    .orElseThrow(() -> new IllegalArgumentException(String.format("Producer id: %s not found.", producerId)));
+                    .orElseThrow(() -> new EntityNotFoundException(String.format("Producer id: %s not found.", producerId)));
             productFilter.setDatabaseFilter(ProductSpecification.byProducer(producerEntity));
         }
 
@@ -192,11 +193,11 @@ public class ProductService {
      *
      * @param productId warehouse identifier of product
      * @param quantity amount of products to be stocked up, must be positive value
-     * @throws IllegalArgumentException when product not found
+     * @throws EntityNotFoundException when product not found
      */
     public Product buyProduct(long productId, int quantity) {
         final ProductEntity productEntity = this.productRepository.findByProductId(productId)
-            .orElseThrow(() -> new IllegalArgumentException(String.format("Product id: %s not found.", productId)));
+            .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
 
         final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity);
 
@@ -212,15 +213,15 @@ public class ProductService {
    *
    * @param productId warehouse identifier of product
    * @param quantity amount of sold products, must be negative value
-   * @throws IllegalArgumentException when product not found
-   * @throws IllegalStateException when product is out of stock but is required for sale.
+   * @throws EntityNotFoundException when product not found
+   * @throws IllegalArgumentException when product is out of stock but is required for sale.
    */
     public Product sellProduct(long productId, int quantity) {
         final ProductEntity productEntity = this.productRepository.findByProductId(productId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Product id: %s not found.", productId)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
 
         if (productEntity.getInStock() + quantity < 0) {
-            throw new IllegalStateException(String.format("Product: %s, %s is not stocked in requested amount. Stocked: %s.", productEntity.getProducer().getName(),  productEntity.getName(), productEntity.getInStock()));
+            throw new IllegalArgumentException(String.format("Product: %s, %s is not stocked in requested amount. Stocked: %s.", productEntity.getProducer().getName(),  productEntity.getName(), productEntity.getInStock()));
         } else {
             final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity);
             productEntity.setInStock(productEntity.getInStock() + quantity);
@@ -235,13 +236,13 @@ public class ProductService {
      * Get product by given identifier.
      *
      * @param productId warehouse identifier
-     * @throws IllegalArgumentException when product is not found.
+     * @throws EntityNotFoundException when product is not found.
      * @return {@link Product}
      */
     public Product getProduct(long productId, @Nullable String months, @Nullable Boolean sale) {
         final ProductFilter productFilter = setProductFilter(null, null, months, sale);
         final ProductEntity productEntity = this.productRepository.findByProductId(productId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Product id: %s not found.", productId)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
         productFilter.getDataFilters()
                 .forEach(df -> df.apply(productEntity));
         return dbMapper.map(productEntity);
@@ -249,6 +250,7 @@ public class ProductService {
 
     /**
      * Takes string of month numbers and create Set.
+     * Months are formatted as numbers connected with dash(range of months) or comma(one month). For example "1-5,9,10".
      *
      * @param months string
      * @return Set of {@link Integer}
@@ -280,12 +282,13 @@ public class ProductService {
      *
      * @param productId identifier of product
      * @param product product data
+     * @throws EntityNotFoundException when product not found
      * @return {@link Product}
      */
     @Nonnull
     public Product updateProduct(long productId, @Nonnull Product product) {
         final ProductEntity productEntity = this.productRepository.findByProductId(productId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Product id: %s not found.", productId)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
         productEntity.setNote(product.getNote());
         productEntity.setFlagged(product.isFlagged());
         productEntity.setName(product.getName());

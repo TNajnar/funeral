@@ -2,6 +2,8 @@ package cz.tomaskopulety.funeral_backend.api.general;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 
 import cz.tomaskopulety.funeral_backend.api.general.response.ErrorResponse;
 
@@ -24,10 +26,23 @@ public class ErrorHandler {
     }
 
     @Nonnull
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleException(@Nonnull final ConstraintViolationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
+    @Nonnull
     @ExceptionHandler(EntityExistsException.class)
     public ResponseEntity<ErrorResponse> handleException(@Nonnull final EntityExistsException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ErrorResponse(HttpStatus.CONFLICT, ex.getMessage()));
+    }
+    @Nonnull
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(@Nonnull final EntityNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(new ErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage()));
     }
 
     @Nonnull

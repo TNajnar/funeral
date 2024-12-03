@@ -3,6 +3,7 @@ package cz.tomaskopulety.funeral_backend.api.general;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import jakarta.annotation.Nonnull;
+import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.api.product.request.ProductRequest;
 import cz.tomaskopulety.funeral_backend.api.product.response.product.ProductGetMovementResponse;
@@ -79,11 +80,11 @@ public class ApiMapper {
      *
      * @param producerId warehouse identifier
      * @return {@link Producer}
-     * @throws IllegalArgumentException
+     * @throws EntityNotFoundException when producer not found
      */
     private Producer getProducer(long producerId){
         final ProducerEntity producerEntity = this.producerRepository.findByProducerId(producerId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Producer with id: %d not found.", producerId)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Producer with id: %d not found.", producerId)));
         return new Producer(producerId, producerEntity.getName());
     }
 
@@ -92,11 +93,11 @@ public class ApiMapper {
      *
      * @param productCategoryId warehouse identifier
      * @return {@link ProductCategory}
-     * @throws IllegalArgumentException
+     * @throws EntityNotFoundException when product category not found
      */
     private ProductCategory getProductCategory(long productCategoryId){
         final ProductCategoryEntity productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(productCategoryId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Product category with id: %d not found.", productCategoryId)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product category with id: %d not found.", productCategoryId)));
         return new ProductCategory(productCategoryId, productCategoryEntity.getName());
     }
 
