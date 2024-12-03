@@ -64,6 +64,15 @@ public class ProductController {
         );
     }
 
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductGetResponse> getProduct(
+            @PathVariable long productId,
+            @RequestParam(required = false) @Nullable String months,
+            @RequestParam(required = false) @Nullable Boolean sale
+    ) {
+        return ResponseEntity.ok(this.apiMapper.map(this.productService.getProduct(productId, months, sale)));
+    }
+
     @PostMapping("/categories/{productCategoryName}")
     public ResponseEntity<SimpleInfoResponse> createProductCategory(@PathVariable @NotEmpty String productCategoryName) {
         final ProductCategory productCategory = this.productService.createProductCategory(productCategoryName);
