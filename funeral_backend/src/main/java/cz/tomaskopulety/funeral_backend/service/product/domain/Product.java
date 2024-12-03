@@ -42,7 +42,7 @@ public class Product {
     private final String note;
 
     /**
-    * Products stocked in warehouse.
+    * Amount of product stocked in warehouse.
     */
     private final int inStock;
 

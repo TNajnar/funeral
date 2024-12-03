@@ -4,6 +4,7 @@ import java.time.Clock;
 import java.time.ZonedDateTime;
 import java.util.stream.Collectors;
 import jakarta.annotation.Nonnull;
+import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
@@ -39,7 +40,7 @@ public class DbMapper {
      *
      * @param product {@link Product}
      * @return {@link ProductEntity}
-     * @throws IllegalArgumentException
+     * @throws EntityNotFoundException when entity not found
      */
     @Nonnull
     public ProductEntity map(@Nonnull Product product){
@@ -51,12 +52,12 @@ public class DbMapper {
 
         productEntity.setProductCategory(
                 this.productCategoryRepository.findByProductCategoryId(product.getProductCategory().productCategoryId())
-                        .orElseThrow(() -> new IllegalArgumentException(String.format("Product category: %s not found.", productEntity.getName())))
+                        .orElseThrow(() -> new EntityNotFoundException(String.format("Product category: %s not found.", productEntity.getName())))
         );
 
         productEntity.setProducer(
                 this.producerRepository.findByProducerId(product.getProducer().producerId())
-                        .orElseThrow(() -> new IllegalArgumentException(String.format("Product category: %s not found.", productEntity.getName())))
+                        .orElseThrow(() -> new EntityNotFoundException(String.format("Producer: %s not found.", productEntity.getName())))
         );
         productEntity.setProductMovements(
                 product.getProductMovements()
@@ -123,9 +124,9 @@ public class DbMapper {
     /**
      * Maps {@link ProductMovement} to {@link ProductMovementEntity}.
      *
-     * @param oldState
-     * @param requested
-     * @return
+     * @param oldState Old state of stocked products.
+     * @param requested Requested change of stock.
+     * @return {@link ProductMovementEntity}
      */
     @Nonnull
     public ProductMovementEntity map(int oldState, int requested){

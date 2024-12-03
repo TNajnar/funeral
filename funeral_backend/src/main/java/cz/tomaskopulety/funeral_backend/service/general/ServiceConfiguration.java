@@ -1,7 +1,6 @@
 package cz.tomaskopulety.funeral_backend.service.general;
 
 import java.time.Clock;
-import java.time.ZoneId;
 import jakarta.annotation.Nonnull;
 
 import cz.tomaskopulety.funeral_backend.api.general.ApiMapper;
@@ -34,7 +33,7 @@ public class ServiceConfiguration {
 
     @Bean
     public Clock clock(){
-        return Clock.system(ZoneId.of("Europe/Prague"));
+        return Clock.systemDefaultZone();
     }
 
 }

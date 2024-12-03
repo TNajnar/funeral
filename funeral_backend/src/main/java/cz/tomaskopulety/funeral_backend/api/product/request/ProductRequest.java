@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,35 +17,41 @@ public class ProductRequest {
      * Warehouse identifier of producer.
      */
     @NotNull
+    @Schema(description = "Identifier of producer.", example = "4521803355", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long producerId;
 
     /**
      * Warehouse identifier of product category.
      */
     @NotNull
+    @Schema(description = "Identifier of product category.", example = "4521803355", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long productCategoryId;
 
     /**
      * Name of product.
      */
     @NotEmpty
+    @Schema(description = "Name of product.", example = "Věnec březový", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
     /**
      * Additional note.
      */
     @Nullable
+    @Schema(description = "Additional note.", example = "8 svíček", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String note;
 
     /**
      * If product is flagged.
      */
+    @Schema(description = "If product is flagged.", example = "false", requiredMode = Schema.RequiredMode.REQUIRED)
     private boolean flagged;
 
     /**
-     * Products stocked in warehouse.
+     * Amount of product to be stocked up in warehouse.
      */
     @Positive
+    @Schema(description = "Amount of product to be stocked up in warehouse.", example = "24", requiredMode = Schema.RequiredMode.REQUIRED)
     private int stockUp;
 
 }
