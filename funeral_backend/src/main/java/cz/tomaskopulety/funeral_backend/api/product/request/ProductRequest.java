@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductCreateRequest {
+public class ProductRequest {
 
     /**
      * Warehouse identifier of producer.

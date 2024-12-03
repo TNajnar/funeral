@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import jakarta.annotation.Nonnull;
 
-import cz.tomaskopulety.funeral_backend.api.product.request.ProductCreateRequest;
+import cz.tomaskopulety.funeral_backend.api.product.request.ProductRequest;
 import cz.tomaskopulety.funeral_backend.api.product.response.product.ProductGetMovementResponse;
 import cz.tomaskopulety.funeral_backend.api.product.response.product.ProductGetResponse;
 import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
@@ -32,12 +32,12 @@ public class ApiMapper {
     private final ProductCategoryRepository productCategoryRepository;
 
     /**
-     * Maps {@link ProductCreateRequest} to {@link Product}
+     * Maps {@link ProductRequest} to {@link Product}
      *
-     * @param request {@link ProductCreateRequest}
+     * @param request {@link ProductRequest}
      * @return {@link Product}
      */
-    public Product map(@Nonnull ProductCreateRequest request){
+    public Product map(@Nonnull ProductRequest request){
         return Product.builder()
                 .productCategory(getProductCategory(request.getProductCategoryId()))
                 .producer(getProducer(request.getProducerId()))

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import cz.tomaskopulety.funeral_backend.api.general.ApiMapper;
-import cz.tomaskopulety.funeral_backend.api.product.request.ProductCreateRequest;
+import cz.tomaskopulety.funeral_backend.api.product.request.ProductRequest;
 import cz.tomaskopulety.funeral_backend.api.product.response.product.ProductGetResponse;
 import cz.tomaskopulety.funeral_backend.api.general.response.SimpleInfoResponse;
 import cz.tomaskopulety.funeral_backend.service.product.ProductService;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,9 +45,15 @@ public class ProductController {
     private final ApiMapper apiMapper;
 
     @PostMapping
-    public ResponseEntity<ProductGetResponse> createProduct(@RequestBody @Valid @NotNull ProductCreateRequest request) {
+    public ResponseEntity<ProductGetResponse> createProduct(@RequestBody @Valid @NotNull ProductRequest request) {
         final Product product = this.productService.createProduct(this.apiMapper.map(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductGetResponse> updateProduct(@PathVariable long productId, @RequestBody @Valid @NotNull ProductRequest request) {
+        final Product product = this.productService.updateProduct(productId, this.apiMapper.map(request));
+        return ResponseEntity.ok(this.apiMapper.map(product));
     }
 
     @GetMapping
