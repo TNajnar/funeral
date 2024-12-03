@@ -1,0 +1,1 @@
+ALTER TABLE funeral.product ADD COLUMN flagged BOOLEAN NOT NULL DEFAULT false;
