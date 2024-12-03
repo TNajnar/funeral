@@ -67,63 +67,22 @@ public class ProductService {
     /**
      * Gets List of {@link Product} by given specification and filters.
      *
+     * @param productCategoryId identifier of product category
+     * @param producerId identifier of producer
+     * @param months selection of months for filtering product movements
+     * @param sale if sales from product movement should be selected only
+     * @param productName full text for searching product by name
      * @return List of {@link Product}
      * @throws EntityNotFoundException when entities are not found
      */
-    public List<Product> getProducts(@Nullable Long productCategoryId, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale) {
-        final ProductFilter productFilter = setProductFilter(productCategoryId, producerId, months, sale);
+    public List<Product> getProducts(@Nullable Long productCategoryId, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale, @Nullable String productName) {
+        final ProductFilter productFilter = setProductFilter(productCategoryId, producerId, months, sale, productName);
         final List<ProductEntity> productEntities = this.productRepository.findAll(productFilter.getDatabaseFilter());
 
         productEntities.forEach(pe -> productFilter.getDataFilters().forEach(df -> df.apply(pe)));
         return productEntities.stream()
                 .map(this.dbMapper::map)
                 .toList();
-    }
-
-    private ProductFilter setProductFilter(@Nullable Long productCategoryId, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale){
-        final ProductFilter productFilter = new ProductFilter(Specification.where(null));
-        ProductCategoryEntity productCategoryEntity;
-        ProducerEntity producerEntity;
-
-        if (productCategoryId != null) {
-            productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(productCategoryId)
-                    .orElseThrow(() -> new EntityNotFoundException(String.format("Product category id: %s not found.", productCategoryId)));
-            productFilter.setDatabaseFilter(ProductSpecification.byCategory(productCategoryEntity));
-        }
-
-        if (producerId != null) {
-            producerEntity = this.producerRepository.findByProducerId(producerId)
-                    .orElseThrow(() -> new EntityNotFoundException(String.format("Producer id: %s not found.", producerId)));
-            productFilter.setDatabaseFilter(ProductSpecification.byProducer(producerEntity));
-        }
-
-        if (months != null) {
-            final Set<Integer> formattedMonths = getMonths(months);
-            productFilter.setDatabaseFilter(ProductSpecification.byMonths(formattedMonths));
-            final Function<ProductEntity,ProductEntity> productMovementsSelectedMonths = pe -> {
-                final List<ProductMovementEntity> list = pe.getProductMovements().stream()
-                        .filter(pme -> formattedMonths.contains(pme.getCreated().getMonthValue()))
-                        .toList();
-                pe.setProductMovements(list);
-                return pe;
-            };
-            productFilter.getDataFilters().add(productMovementsSelectedMonths);
-        }
-
-        if (sale != null && sale) {
-            productFilter.setDatabaseFilter(ProductSpecification.bySale());
-            final Predicate<Integer> isSale = o -> o < 0;
-            final Function<ProductEntity,ProductEntity> productMovementsSalesOnly = pe -> {
-                final List<ProductMovementEntity> list = pe.getProductMovements().stream()
-                        .filter(pme -> isSale.test(pme.getRequested()))
-                        .toList();
-                pe.setProductMovements(list);
-                return pe;
-            };
-            productFilter.getDataFilters().add(productMovementsSalesOnly);
-        }
-
-        return productFilter;
     }
 
     /**
@@ -240,12 +199,31 @@ public class ProductService {
      * @return {@link Product}
      */
     public Product getProduct(long productId, @Nullable String months, @Nullable Boolean sale) {
-        final ProductFilter productFilter = setProductFilter(null, null, months, sale);
+        final ProductFilter productFilter = setProductFilter(null, null, months, sale, null);
         final ProductEntity productEntity = this.productRepository.findByProductId(productId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
         productFilter.getDataFilters()
                 .forEach(df -> df.apply(productEntity));
         return dbMapper.map(productEntity);
+    }
+
+    /**
+     * Update {@link ProductEntity} and save changes.
+     *
+     * @param productId identifier of product
+     * @param product product data
+     * @throws EntityNotFoundException when product not found
+     * @return {@link Product}
+     */
+    @Nonnull
+    public Product updateProduct(long productId, @Nonnull Product product) {
+        final ProductEntity productEntity = this.productRepository.findByProductId(productId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
+        productEntity.setNote(product.getNote());
+        productEntity.setFlagged(product.isFlagged());
+        productEntity.setName(product.getName());
+        productEntity.setInStock(product.getInStock());
+        return this.dbMapper.map(productRepository.save(productEntity));
     }
 
     /**
@@ -278,21 +256,64 @@ public class ProductService {
     }
 
     /**
-     * Update {@link ProductEntity} and save changes.
+     * Set filters for product selection.
      *
-     * @param productId identifier of product
-     * @param product product data
-     * @throws EntityNotFoundException when product not found
-     * @return {@link Product}
+     * @param productCategoryId identifier of product category
+     * @param producerId identifier of producer
+     * @param months selection of months for filtering product movements
+     * @param sale if sales from product movement should be selected only
+     * @param productName full text for searching product by name
+     * @return {@link ProductFilter}
      */
     @Nonnull
-    public Product updateProduct(long productId, @Nonnull Product product) {
-        final ProductEntity productEntity = this.productRepository.findByProductId(productId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
-        productEntity.setNote(product.getNote());
-        productEntity.setFlagged(product.isFlagged());
-        productEntity.setName(product.getName());
-        productEntity.setInStock(product.getInStock());
-        return this.dbMapper.map(productRepository.save(productEntity));
+    private ProductFilter setProductFilter(@Nullable Long productCategoryId, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale, @Nullable String productName){
+        final ProductFilter productFilter = new ProductFilter(Specification.where(null));
+        ProductCategoryEntity productCategoryEntity;
+        ProducerEntity producerEntity;
+
+        if (productCategoryId != null) {
+            productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(productCategoryId)
+                    .orElseThrow(() -> new EntityNotFoundException(String.format("Product category id: %s not found.", productCategoryId)));
+            productFilter.setDatabaseFilter(ProductSpecification.byCategory(productCategoryEntity));
+        }
+
+        if (producerId != null) {
+            producerEntity = this.producerRepository.findByProducerId(producerId)
+                    .orElseThrow(() -> new EntityNotFoundException(String.format("Producer id: %s not found.", producerId)));
+            productFilter.setDatabaseFilter(ProductSpecification.byProducer(producerEntity));
+        }
+
+        if (months != null) {
+            final Set<Integer> formattedMonths = getMonths(months);
+            productFilter.setDatabaseFilter(ProductSpecification.byMonths(formattedMonths));
+            final Function<ProductEntity,ProductEntity> productMovementsSelectedMonths = pe -> {
+                final List<ProductMovementEntity> list = pe.getProductMovements().stream()
+                        .filter(pme -> formattedMonths.contains(pme.getCreated().getMonthValue()))
+                        .toList();
+                pe.setProductMovements(list);
+                return pe;
+            };
+            productFilter.getDataFilters().add(productMovementsSelectedMonths);
+        }
+
+        if (sale != null && sale) {
+            productFilter.setDatabaseFilter(ProductSpecification.bySale());
+            final Predicate<Integer> isSale = o -> o < 0;
+            final Function<ProductEntity,ProductEntity> productMovementsSalesOnly = pe -> {
+                final List<ProductMovementEntity> list = pe.getProductMovements().stream()
+                        .filter(pme -> isSale.test(pme.getRequested()))
+                        .toList();
+                pe.setProductMovements(list);
+                return pe;
+            };
+            productFilter.getDataFilters().add(productMovementsSalesOnly);
+        }
+
+        if (productName != null) {
+            productFilter.setDatabaseFilter(ProductSpecification.byProductName(productName));
+        }
+
+        return productFilter;
     }
+
 }
