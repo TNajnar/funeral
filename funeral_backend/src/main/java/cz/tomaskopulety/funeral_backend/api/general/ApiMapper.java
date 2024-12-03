@@ -46,6 +46,7 @@ public class ApiMapper {
                 .note(request.getNote())
                 .inStock(request.getStockUp())
                 .productMovements(new ArrayList<>())
+                .flagged(request.isFlagged())
                 .build();
     }
 
@@ -69,6 +70,7 @@ public class ApiMapper {
                                 .map(this::map)
                                 .collect(Collectors.toList())
                 )
+                .flagged(product.isFlagged())
                 .build();
     }
 

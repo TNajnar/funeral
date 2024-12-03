@@ -44,7 +44,12 @@ public class Product {
     /**
     * Products stocked in warehouse.
     */
-    private final Integer inStock;
+    private final int inStock;
+
+    /**
+     * If product is flagged.
+     */
+    private final boolean flagged;
 
     /**
      * Warehouse movements of product.

@@ -89,6 +89,7 @@ public class DbMapper {
                         .map(this::map)
                         .toList()
                 )
+                .flagged(productEntity.isFlagged())
                 .build();
     }
 
