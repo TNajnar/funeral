@@ -6,10 +6,11 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { WarehouseTableService } from '../services/warehouse-table.service';
+import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
 import { CustomPaginatorService } from 'services/custom-paginator.service';
 import { FlagComponent } from '@app/ui/flag/flag.component';
 import { CommentComponent } from '@app/ui/comment/comment.component';
-import type { TFilterOptions, TWarehouseItem } from '../warehouse-control.model';
+import type { TFilterOptions, TWarehouseItem, TWarehouseItems } from '../warehouse-control.model';
 import { warehouseControl } from '@lib/staticTexts';
 
 const _DISPLAYED_COLUMNS = ['id', 'date', 'name', 'availableCount', 'flag', 'comment', 'delete'];
@@ -45,12 +46,16 @@ export class WarehouseTableComponent implements AfterViewInit {
   }
 
   protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
+  private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
 
   ngAfterViewInit(): void {
     this.tableDataSource.paginator = this.paginator;
-    const subscription = this._warehouseServiceTable.warehouseItems$.subscribe((warehouseItems) => {
-      this.tableDataSource.data = warehouseItems;
+    const subscription = this._gateway.allWarehouseItems().subscribe({
+      next: (item: TWarehouseItems) => {
+        this.tableDataSource.data = item.products;
+        this._warehouseServiceTable.notifyUpdateWarehouseItems([...item.products]);
+      }
     });
 
     this._destroyRef.onDestroy(() =>
@@ -76,10 +81,13 @@ export class WarehouseTableComponent implements AfterViewInit {
   }
 
   onFlagClick(warehouseItem: TWarehouseItem): void {
-    warehouseItem.isFlagged = !warehouseItem.isFlagged;
+    console.log('🚀 ~ WarehouseTableComponent ~ onFlagClick ~ warehouseItem:', warehouseItem);
+    this._gateway.saveFlag(warehouseItem.productId).subscribe({
+      next: (): void => console.log('Flag saved')
+    });
   }
 
   deleteWarehouseItem(id: number): void {
-    this._warehouseServiceTable.deleteWarehouseItem(id);
+    // this._warehouseServiceTable.deleteWarehouseItem(id);
   }
 }

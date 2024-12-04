@@ -11,7 +11,7 @@ export class WarehouseTableFiltersService {
     hasComment: false,
     isFlagged: false,
     searchText: '',
-    tabType: ETabVariants.All,
+    productCategory: ETabVariants.All,
   };
 
   _createFilterPredicate(): (warehouseItem: TWarehouseItem, filter: string) => boolean {
@@ -31,8 +31,8 @@ export class WarehouseTableFiltersService {
       const matchesComment = !parsedFilter.hasComment || !!warehouseItem.comment === parsedFilter.hasComment;
 
       // Filter based on select tab
-      const matchesTabType = parsedFilter.tabType === ETabVariants.All ||
-        warehouseItem.tabType === parsedFilter.tabType;
+      const matchesTabType = parsedFilter.productCategory === ETabVariants.All ||
+        warehouseItem.productCategory === parsedFilter.productCategory;
 
       // Return true if all matches
       return matchesSearchText && matchesFlag && matchesComment && matchesTabType;

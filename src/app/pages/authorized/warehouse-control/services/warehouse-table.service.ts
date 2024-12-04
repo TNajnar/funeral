@@ -3,14 +3,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { WarehouseTableFiltersService } from './warehouse-table-filters.service';
-import { MOCK_WAREHOUSE_ITEMS} from '../warehouse-control.model';
 import type { TFilterOptions, TWarehouseItem } from '../warehouse-control.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WarehouseTableService {
-  private _warehouseItems$ = new BehaviorSubject<TWarehouseItem[]>(MOCK_WAREHOUSE_ITEMS); // TODO data from API
+  protected _warehouseItems$ = new BehaviorSubject<TWarehouseItem[]>([]);
   tableDataSource = new MatTableDataSource<TWarehouseItem>();
 
   private _warehouseTableFilters: WarehouseTableFiltersService = inject(WarehouseTableFiltersService);
@@ -31,15 +30,15 @@ export class WarehouseTableService {
     this._warehouseItems$.next(items);
   }
 
-  addWarehouseItem(warehouseItem: TWarehouseItem): void {
-    const currentItems = this._warehouseItems$.getValue();
-    this.notifyUpdateWarehouseItems([warehouseItem, ...currentItems]);
-  }
+  // addWarehouseItem(warehouseItem: TWarehouseItem): void {
+  //   const currentItems = this._warehouseItems$.getValue();
+  //   this.notifyUpdateWarehouseItems([warehouseItem, ...currentItems]);
+  // }
 
-  deleteWarehouseItem(id: number): void {
-    const updatedItems = this._warehouseItems$.getValue().filter((item) => item.id !== id);
-    this.notifyUpdateWarehouseItems(updatedItems);
-  }
+  // deleteWarehouseItem(id: number): void {
+  //   const updatedItems = this._warehouseItems$.getValue().filter((item) => item.id !== id);
+  //   this.notifyUpdateWarehouseItems(updatedItems);
+  // }
 
   updateTableFilters(): void {
     this.tableDataSource.filter = JSON.stringify(this.filterOptions);
