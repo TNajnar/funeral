@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,16 +18,30 @@ public class ProductRequest {
     /**
      * Warehouse identifier of producer.
      */
-    @NotNull
-    @Schema(description = "Identifier of producer.", example = "4521803355", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Nullable
+    @Schema(description = "Identifier of producer.", example = "4521803355", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long producerId;
+
+    /**
+     * Name of producer.
+     */
+    @Nullable
+    @Schema(description = "Name of producer.", example = "Najnar a Kopulety s.r.o.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String producer;
 
     /**
      * Warehouse identifier of product category.
      */
-    @NotNull
+    @Nullable
     @Schema(description = "Identifier of product category.", example = "4521803355", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long productCategoryId;
+
+    /**
+     * Name of product category.
+     */
+    @NotNull
+    @Schema(description = "Name of product category.", example = "Rakev", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String productCategory;
 
     /**
      * Name of product.
@@ -46,6 +61,7 @@ public class ProductRequest {
      * If product is flagged.
      */
     @Schema(description = "If product is flagged.", example = "false", requiredMode = Schema.RequiredMode.REQUIRED)
+    @JsonProperty("isFlagged")
     private boolean flagged;
 
     /**

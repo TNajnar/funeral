@@ -84,7 +84,7 @@ public class ProductController {
             @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PatchMapping(path = "/{productId}/stockUp/{quantity}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(path = "/{productId}/stock-up/{quantity}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductGetResponse> stockUpProduct(@PathVariable long productId, @Parameter(description = "Amount of product to be bought. Must be positive number.", example = "3") @Positive @PathVariable int quantity) {
         final Product product = this.productService.stockUpProduct(productId, quantity);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));

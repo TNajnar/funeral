@@ -44,7 +44,7 @@ public class ProductEntity {
     /**
     * Producer of product.
     */
-    @Nonnull
+    @Nullable
     @OneToOne
     @JoinColumn(name = "id_producer")
     private ProducerEntity producer;

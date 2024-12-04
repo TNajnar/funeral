@@ -15,6 +15,9 @@ public interface ProducerRepository extends JpaRepository<ProducerEntity, Long> 
     @Nonnull
     Optional<ProducerEntity> findByProducerId(long producerId);
 
+    @Nonnull
+    Optional<ProducerEntity> findByName(@Nonnull String producer);
+
     boolean existsByName(@Nonnull String name);
 
 }
