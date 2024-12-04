@@ -1,5 +1,6 @@
 package cz.tomaskopulety.funeral_backend.api.product.request;
 
+import java.time.OffsetDateTime;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -35,17 +36,24 @@ public class ProductRequest {
     private String name;
 
     /**
-     * Additional note.
+     * Additional comment.
      */
     @Nullable
     @Schema(description = "Additional note.", example = "8 svíček", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String note;
+    private String comment;
 
     /**
      * If product is flagged.
      */
     @Schema(description = "If product is flagged.", example = "false", requiredMode = Schema.RequiredMode.REQUIRED)
     private boolean flagged;
+
+    /**
+     * When product was stocked up.
+     */
+    @Nullable
+    @Schema(description = "When product was stocked up.", example = "2024-11-14T14:28:00+02:00", requiredMode = Schema.RequiredMode.REQUIRED)
+    private OffsetDateTime created;
 
     /**
      * Amount of product to be stocked up in warehouse.

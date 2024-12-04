@@ -61,10 +61,10 @@ public class ProductEntity {
     private String name;
 
     /**
-    * Additional note.
+    * Additional comment.
     */
     @Nullable
-    private String note;
+    private String comment;
 
     /**
     * Amount of product stocked in warehouse.

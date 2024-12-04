@@ -4,22 +4,17 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Negative;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import cz.tomaskopulety.funeral_backend.api.general.ApiMapper;
 import cz.tomaskopulety.funeral_backend.api.general.response.ErrorResponse;
 import cz.tomaskopulety.funeral_backend.api.product.request.ProductRequest;
-import cz.tomaskopulety.funeral_backend.api.product.response.product.ProducerResponses;
-import cz.tomaskopulety.funeral_backend.api.product.response.product.ProductCategoryResponses;
-import cz.tomaskopulety.funeral_backend.api.product.response.product.ProductGetResponse;
-import cz.tomaskopulety.funeral_backend.api.general.response.SimpleInfoResponse;
-import cz.tomaskopulety.funeral_backend.api.product.response.product.ProductResponses;
+import cz.tomaskopulety.funeral_backend.api.product.request.ProductSetStringRequest;
+import cz.tomaskopulety.funeral_backend.api.product.response.ProductGetResponse;
+import cz.tomaskopulety.funeral_backend.api.product.response.ProductResponses;
 import cz.tomaskopulety.funeral_backend.service.product.ProductService;
-import cz.tomaskopulety.funeral_backend.service.product.domain.Producer;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
-import cz.tomaskopulety.funeral_backend.service.product.domain.ProductCategory;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RestController
 @Validated
-@Tag(name = "Products")
+@Tag(name = "Product")
 @RequestMapping(path = ProductController.BASE_URL)
 public class ProductController {
 
@@ -56,60 +52,6 @@ public class ProductController {
 
     @Nonnull
     private final ApiMapper apiMapper;
-
-    @Operation(summary = "Create new producer.", operationId = "createNewProducer", description = "Create new producer.", responses = {
-            @ApiResponse(responseCode = "201", description = "Producer created successfully.", content = {@Content(schema = @Schema(implementation = SimpleInfoResponse.class))}),
-            @ApiResponse(responseCode = "409", description = "Producer exists already.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @PostMapping(path = "/producers/{producerName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SimpleInfoResponse> createProducer(@PathVariable @NotEmpty String producerName) {
-        final Producer producer = this.productService.createProducer(producerName);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new SimpleInfoResponse(producer.producerId(), producer.name()));
-    }
-
-    @Operation(summary = "Get list of producers.", operationId = "getListOfProducers", description = "Get list of producers.", responses = {
-            @ApiResponse(responseCode = "200", description = "Producers loaded successfully.", content = {@Content(schema = @Schema(implementation = ProducerResponses.class))}),
-            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @GetMapping(path = "/producers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProducerResponses> getProducers() {
-        return ResponseEntity.ok(
-                new ProducerResponses(
-                        this.productService.getProducers()
-                                .stream()
-                                .map(pc -> new SimpleInfoResponse(pc.producerId(), pc.name()))
-                                .toList()
-                )
-        );
-    }
-
-    @Operation(summary = "Create new product category.", operationId = "createNewProductCategory", description = "Create new product category.", responses = {
-            @ApiResponse(responseCode = "201", description = "Product category created successfully.", content = {@Content(schema = @Schema(implementation = ProductCategoryResponses.class))}),
-            @ApiResponse(responseCode = "409", description = "Product category exists already.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @PostMapping(path = "/categories/{productCategoryName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SimpleInfoResponse> createProductCategory(@PathVariable @NotEmpty String productCategoryName) {
-        final ProductCategory productCategory = this.productService.createProductCategory(productCategoryName);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new SimpleInfoResponse(productCategory.productCategoryId(), productCategory.name()));
-    }
-
-    @Operation(summary = "Get list of product categories.", operationId = "getListOfProductCategories", description = "Get list of product categories.", responses = {
-            @ApiResponse(responseCode = "200", description = "Product categories loaded successfully.", content = {@Content(schema = @Schema(implementation = ProductCategoryResponses.class))}),
-            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @GetMapping(path = "/categories", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductCategoryResponses> getProductCategories() {
-        return ResponseEntity.ok(
-                new ProductCategoryResponses(
-                        this.productService.getProductCategories()
-                                .stream()
-                                .map(pc -> new SimpleInfoResponse(pc.productCategoryId(), pc.name()))
-                                .toList()
-                )
-        );
-    }
 
     @Operation(summary = "Create new product.", operationId = "createProduct", description = "Create new product and return its data including new given identifier.", responses = {
             @ApiResponse(responseCode = "201", description = "Product created successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
@@ -136,6 +78,18 @@ public class ProductController {
         return ResponseEntity.ok(this.apiMapper.map(product));
     }
 
+    @Operation(summary = "Stock up product.", operationId = "stockUpProduct", description = "Stock up product by given value.", responses = {
+            @ApiResponse(responseCode = "200", description = "Products stocked up successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "Some of request parameters are wrong.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PatchMapping(path = "/{productId}/stockUp/{quantity}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductGetResponse> stockUpProduct(@PathVariable long productId, @Parameter(description = "Amount of product to be bought. Must be positive number.", example = "3") @Positive @PathVariable int quantity) {
+        final Product product = this.productService.stockUpProduct(productId, quantity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
+    }
+
     @Operation(summary = "Sell product.", operationId = "sellProduct", description = "Sell product by given value.", responses = {
             @ApiResponse(responseCode = "200", description = "Products sold successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
             @ApiResponse(responseCode = "400", description = "Some of request parameters are wrong.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -148,16 +102,37 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
     }
 
-    @Operation(summary = "Buy product.", operationId = "buyProduct", description = "Buy product by given value.", responses = {
-            @ApiResponse(responseCode = "200", description = "Products bought successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
-            @ApiResponse(responseCode = "400", description = "Some of request parameters are wrong.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+    @Operation(summary = "Flag product.", operationId = "flagProduct", description = "Set product as flagged.", responses = {
+            @ApiResponse(responseCode = "200", description = "Product flagged successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
             @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PatchMapping(path = "/{productId}/buy/{quantity}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductGetResponse> buyProduct(@PathVariable long productId, @Parameter(description = "Amount of product to be bought. Must be positive number.", example = "3") @Positive @PathVariable int quantity) {
-        final Product product = this.productService.buyProduct(productId, quantity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
+    @PatchMapping(path = "/{productId}/flag", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductGetResponse> flagProduct(@PathVariable long productId) {
+        final Product product = this.productService.flagProduct(productId);
+        return ResponseEntity.ok(this.apiMapper.map(product));
+    }
+
+    @Operation(summary = "Set product comment.", operationId = "setProductComment", description = "Set product comment.", responses = {
+            @ApiResponse(responseCode = "200", description = "Product comment set successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
+            @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PatchMapping(path = "/{productId}/comment", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductGetResponse> setProductNote(@PathVariable long productId, @RequestBody @Valid @NotNull ProductSetStringRequest request) {
+        final Product product = this.productService.setProductComment(productId, request.getValue());
+        return ResponseEntity.ok(this.apiMapper.map(product));
+    }
+
+    @Operation(summary = "Set product name.", operationId = "setProductName", description = "Set product name.", responses = {
+            @ApiResponse(responseCode = "200", description = "Product name set successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
+            @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PatchMapping(path = "/{productId}/name", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductGetResponse> setProductName(@PathVariable long productId, @RequestBody @Valid @NotNull ProductSetStringRequest request) {
+        final Product product = this.productService.setProductName(productId, request.getValue());
+        return ResponseEntity.ok(this.apiMapper.map(product));
     }
 
     @Operation(summary = "Get list of products.", operationId = "getListOfProducts", description = "Get list of saved products. Filters can be added as path variables to have selection more specific.", responses = {
@@ -195,6 +170,17 @@ public class ProductController {
             @Parameter(description = "Select only products which contain at least one sale.") @RequestParam(required = false) @Nullable Boolean sale
     ) {
         return ResponseEntity.ok(this.apiMapper.map(this.productService.getProduct(productId, months, sale)));
+    }
+
+    @Operation(summary = "Delete product.", operationId = "deleteProduct", description = "Delete selected product.", responses = {
+            @ApiResponse(responseCode = "204", description = "Product deleted successfully.", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @DeleteMapping(path = "/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deleteProduct(@PathVariable long productId) {
+        this.productService.deleteProduct(productId);
+        return ResponseEntity.noContent().build();
     }
 
 }

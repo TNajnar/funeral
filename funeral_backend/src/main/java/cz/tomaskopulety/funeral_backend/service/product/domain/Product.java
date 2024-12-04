@@ -1,8 +1,12 @@
 package cz.tomaskopulety.funeral_backend.service.product.domain;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
+import cz.tomaskopulety.funeral_backend.service.producer.domain.Producer;
+import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -36,10 +40,10 @@ public class Product {
     private final String name;
 
     /**
-    * Additional note.
+    * Additional comment.
     */
     @Nullable
-    private final String note;
+    private final String comment;
 
     /**
     * Amount of product stocked in warehouse.
@@ -50,6 +54,12 @@ public class Product {
      * If product is flagged.
      */
     private final boolean flagged;
+
+    /**
+     * When product was stocked up.
+     */
+    @Nullable
+    private OffsetDateTime created;
 
     /**
      * Warehouse movements of product.
