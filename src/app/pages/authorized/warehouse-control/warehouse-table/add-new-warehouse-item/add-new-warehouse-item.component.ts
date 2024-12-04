@@ -1,19 +1,21 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 
-import { WarehouseTableService } from '../services/warehouse-table.service';
+import { WarehouseTableService } from '@pages/authorized/warehouse-control/services/warehouse-table.service';
+import { WarehouseGatewayService } from '@pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
 import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
 import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
-import { ETabVariants } from '../warehouse-control.model';
+import { resolveNewItemArgs } from '@pages/authorized/warehouse-control/utils/utils';
+import type {
+  TNewItemArgs, TWarehouseItem
+} from '@pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
+import { ETabVariants } from '@pages/authorized/warehouse-control/utils/enums';
 import { warehouseControl } from '@lib/staticTexts';
 
-interface IItemType {
+interface ISelectItem {
   value: string;
   viewValue: string;
 }
@@ -25,7 +27,7 @@ const enumToCs: Record<ETabVariants, string> = {
   [ETabVariants.Flowers]: 'Kytky',
 };
 
-const itemTypes: IItemType[] = Object.values(ETabVariants).map((value) => ({
+const selectItems: ISelectItem[] = Object.values(ETabVariants).map((value) => ({
   value: value,
   viewValue: enumToCs[value],
 }));
@@ -34,34 +36,29 @@ const itemTypes: IItemType[] = Object.values(ETabVariants).map((value) => ({
   selector: 'app-add-new-warehouse-item',
   standalone: true,
   // eslint-disable-next-line max-len
-  imports: [FormsModule, ButtonSecondaryComponent, ButtonPrimaryComponent, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule],
+  imports: [FormsModule, ButtonSecondaryComponent, ButtonPrimaryComponent, MatFormFieldModule, MatInputModule, MatSelectModule],
   templateUrl: './add-new-warehouse-item.component.html',
-  providers: [DatePipe],
 })
 export class AddNewWarehouseItemComponent {
   protected _texts = warehouseControl.newItemComponent;
-  itemTypes: IItemType[] = itemTypes;
+  selectItems: ISelectItem[] = selectItems;
 
   @Output() onCancel = new EventEmitter<void>();
 
-  _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
-  datePipe: DatePipe = inject(DatePipe);
+  private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
+  private _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
 
   protected _onSubmit(formData: NgForm): void {
     if (formData.form.invalid) {
       return;
     }
 
-    const formattedDate = this.datePipe.transform(formData.value.date || new Date(), 'yyyy-MM-dd') || '';
+    const resolvedItemArgs: TNewItemArgs = resolveNewItemArgs(formData.value, formData.value.availableCount);
 
-    this._warehouseServiceTable.addWarehouseItem({
-      availableCount: formData.value.availableCount,
-      comment: undefined,
-      date: formattedDate,
-      id: Math.floor(Math.random() * 1000),
-      isFlagged: formData.value.isFlagged,
-      name: formData.value.name,
-      tabType: formData.value.itemType,
+    this._gateway.addWarehouseItem(resolvedItemArgs).subscribe({
+      next: (newWarehouseItem: TWarehouseItem): void => {
+        this._warehouseServiceTable.addWarehouseItem(newWarehouseItem);
+      },
     });
 
     this.onCancel.emit();

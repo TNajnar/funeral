@@ -1,0 +1,46 @@
+<div class="flex items-center mt-auto w-fit h-full border-b-1 border-gray-material2">
+  @for (tab of categories(); track tab.id) {
+    <button
+      class="tab px-6 py-3 text-blue-primary hover:bg-gray-material"
+      (click)="onTabClick(tab)"
+      [ngClass]="{ 'active': activeTab() === tab.id }"
+    >
+      {{ tab.name }}
+    </button>
+  }
+  
+  <div class="relative">
+    <button class="px-6 py-custom-6 h-full hover:bg-gray-material" (click)="toggleMenu()">
+      <mat-icon class="text-blue-primary mt-2" fontIcon="more_horiz" />
+    </button>
+    
+    <div
+      class="absolute top-12 -right-100 z-10 py-2 w-165 text-sm bg-white rounded-md shadow-custom border border-gray-material2"
+      [ngClass]="{ 'block': isMenuOpen(), 'hidden': !isMenuOpen() }"
+    >
+      @for (menuItem of categoryMenuItems; track menuItem.id) {
+        <button
+          class="flex items-center gap-2 p-2 w-full hover:bg-gray-material"
+          (click)="onMenuItemClick(menuItem)"
+        >
+          <mat-icon class="text-blue-primary" [fontIcon]="menuItem.icon" />
+          <span>{{ menuItem.name }}</span>
+        </button>
+      }
+
+      <span class="arrow"></span>
+    </div>
+  </div>
+</div>
+
+@if (handleModalVariantOpen(_EModalVariants.NewCategory)) {
+  <app-modal [title]="_texts.categoryModalTitle" (onClose)="toggleModal(_EModalVariants.NewCategory)">
+    <app-new-category (toggleModal)="toggleModal($event)" />
+  </app-modal>
+}
+
+@if (handleModalVariantOpen(_EModalVariants.EditOrRemoveCategory)) {
+  <app-modal [title]="_texts.categoryModalTitleEdit" (onClose)="toggleModal(_EModalVariants.EditOrRemoveCategory)">
+    <app-edit-categories (toggleModal)="toggleModal($event)" />
+  </app-modal>
+}

@@ -4,51 +4,34 @@
   </app-modal>
 }
 
+<div class="flex items-center gap-14 mb-5">
+  <app-filter-tabs />
 
-@if (_warehouseServiceTable.warehouseItems$ | async) {
-  <div class="flex items-center gap-14 mb-5">
-    <div class="flex mt-auto w-340 border-b-1 border-gray-material2">
-      @for (tab of _tableTabs; track tab.id) {
-        <button
-          class="tab px-6 py-3 text-blue-primary hover:bg-gray-material"
-          (click)="onTabClick(tab.variant)"
-          [ngClass]="{ 'active': activeTab() === tab.variant }"
-        >
-          {{ tab.text }}
-        </button>
-      }
-    </div>
+  <mat-form-field class="-mb-5 ml-auto">
+    <mat-label for="name">{{ _texts.searchItem }}</mat-label>
+    <mat-icon matSuffix>search</mat-icon>
+    <input
+      matInput
+      type="text"
+      name="searchItem"
+      id="searchItem"
+      ngModel
+      (ngModelChange)="onSearchQueryChange($event)"
+    />
+  </mat-form-field>
 
-    <mat-form-field class="-mb-5">
-      <mat-label for="name">{{ _texts.searchItem }}</mat-label>
-      <mat-icon matSuffix>search</mat-icon>
-      <input
-        matInput
-        type="text"
-        name="searchItem"
-        id="searchItem"
-        ngModel
-        (ngModelChange)="onSearchQueryChange($event)"
-      />
-    </mat-form-field>
-  
-    <app-button-secondary class="ml-auto" (click)="toggleModal()">
-      {{ _texts.addNewItem }}
-    </app-button-secondary>
-  </div>
-
-  <app-warehouse-table />
-
-  <!-- TODO  -->
-  <app-graph
-    [data]="[11, 5, 10]"
-    [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']"
-    label="# počet rakví"
-    chartType="bar"
-    [colors]="['#646cd6', '#ff6384', '#ff9f40']"
-  />
-} @else {
-  <app-button-secondary class="self-center" (click)="toggleModal()">
+  <app-button-secondary class="ml-auto w-145" (click)="toggleModal()">
     {{ _texts.addNewItem }}
   </app-button-secondary>
-}
+</div>
+
+<app-warehouse-table />
+
+<!-- TODO  -->
+<app-graph
+  [data]="[11, 5, 10]"
+  [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']"
+  label="# počet rakví"
+  chartType="bar"
+  [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+/>

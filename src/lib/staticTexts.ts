@@ -21,18 +21,31 @@ export const loginTexts = {
 };
 
 export const warehouseControl = {
-  addNewItem: 'Přidat novou položku +',
+  addNewItem: 'Přidat položku',
   searchItem: 'Hledat položku',
 
+  filterTabs: {
+    categoryModalTitle: 'Vytvoř novou kategorii',
+    categoryModalTitleEdit: 'Editovat kategorie',
+
+    newCategory: {
+      label: 'Název nové kategorie:',
+      error: 'Neplatný název kategorie.',
+      submit: 'Potvrdit',
+      cancel: 'Zrušit',
+    },
+  },
+
   table: {
-    idHeader: 'ID',
-    dateHeader: 'Datum',
+    categoryHeader: 'Kategorie',
+    typeHeader: 'Typ',
     nameHeader: 'Název',
     availableCountHeader: 'Na skladě',
     addNewItem: 'Přidat novou položku +',
 
     filterWithFlag: 'S vlaječkou',
-    filterWithComment: 'S komentářem'
+    filterWithComment: 'S komentářem',
+    emptyWarehouse: 'Sklad je prázdný',
   },
 
   newItemComponent: {
@@ -58,6 +71,10 @@ export const commentComponent = {
   error: 'Tohle pole je povinné.',
   submit: 'Potvrdit',
   cancel: 'Zrušit',
+};
+
+export const modalComponent = {
+  ok: 'Okay',
 };
 
 /* #endregion */
