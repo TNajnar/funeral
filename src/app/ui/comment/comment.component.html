@@ -15,7 +15,7 @@
           name="comment"
           id="comment"
           type="text"
-          required
+          (ngModelChange)="_onChangedComment($event)"
           [(ngModel)]="_localComment"
           #comment="ngModel"
         ></textarea>
@@ -26,7 +26,7 @@
       </mat-form-field>
 
       <div class="flex self-end gap-4">
-        <app-button-secondary [disabled]="form.invalid ?? false" class="w-24" [fullWidth]="true" [type]="'submit'">
+        <app-button-secondary [disabled]="form.invalid || _isPristine" class="w-24" [fullWidth]="true" [type]="'submit'">
           {{ _texts.submit }}
         </app-button-secondary>
       

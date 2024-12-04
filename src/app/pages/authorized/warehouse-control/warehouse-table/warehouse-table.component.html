@@ -19,26 +19,37 @@
 </div>
 
 <table mat-table [dataSource]="tableDataSource" class="table">
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef class="header">{{ _texts.idHeader }}</th>
-    <td mat-cell *matCellDef="let element" class="cell row w-14">{{ element.id }}</td>
-  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="tableColumns" class="header row"></tr>
+  <tr mat-row *matRowDef="let row; columns: tableColumns" class="row"></tr>
 
-  <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef class="header">{{ _texts.dateHeader }}</th>
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef class="header w-374">{{ _texts.categoryHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
-        [id]="'date-' + element.id"
-        name="date"
-        type="date"
-        [(ngModel)]="element.date"
+        type="text"
+        name="category"
+        id="category"
+        [(ngModel)]="element.productCategory"
+      />
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef class="header w-374">{{ _texts.typeHeader }}</th>
+    <td mat-cell *matCellDef="let element" class="cell">
+      <input
+        class="input-table"
+        type="text"
+        name="type"
+        id="type"
+        [(ngModel)]="element.type"
       />
     </td>
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef class="header">{{ _texts.nameHeader }}</th>
+    <th mat-header-cell *matHeaderCellDef class="header w-[464px]">{{ _texts.nameHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
@@ -51,47 +62,53 @@
   </ng-container>
 
   <ng-container matColumnDef="availableCount">
-    <th mat-header-cell *matHeaderCellDef class="header">{{ _texts.availableCountHeader }}</th>
-    <td mat-cell *matCellDef="let element" class="cell w-32">
+    <th mat-header-cell *matHeaderCellDef class="header w-32">{{ _texts.availableCountHeader }}</th>
+    <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table w-full"
         [id]="'availableCount-' + element.id"
         name="availableCount"
-        type="text"
-        [(ngModel)]="element.availableCount"
+        id="availableCount"
+        [value]="element.inStock"
       />
     </td>
   </ng-container>
 
   <ng-container matColumnDef="flag">
-    <th mat-header-cell *matHeaderCellDef class="header"></th>
+    <th mat-header-cell *matHeaderCellDef class="header min-w-6"> </th>
     <td mat-cell *matCellDef="let element" class="cell w-6">
       <app-flag [isFlagged]="element.isFlagged" (onClick)="onFlagClick(element)" />
     </td>
   </ng-container>
 
   <ng-container matColumnDef="comment">
-    <th mat-header-cell *matHeaderCellDef class="header"></th>
+    <th mat-header-cell *matHeaderCellDef class="header min-w-6"></th>
     <td mat-cell *matCellDef="let element" class="cell w-6">
-      <app-comment [comment]="element.comment" />
+      <app-comment [comment]="element.comment" (onSaveComment)="onSaveComment(element, $event)" />
     </td>
   </ng-container>
 
   <ng-container matColumnDef="delete">
-    <th mat-header-cell *matHeaderCellDef class="header"></th>
+    <th mat-header-cell *matHeaderCellDef class="header min-w-6"></th>
     <td mat-cell *matCellDef="let element" class="cell w-6">
-      <mat-icon class="table-delete-icon" fontIcon="delete" (click)="deleteWarehouseItem(element.id)" />
+      <mat-icon class="table-delete-icon" fontIcon="delete" (click)="deleteWarehouseItem(element.productId)" />
     </td>
   </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedTableColumns" class="header row"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedTableColumns" class="row"></tr>
 </table>
 
+<!-- If no data in table show this message -->
+<ng-container *ngIf="!isLoading() && tableDataSource.data.length === 0">
+  <tr class="mt-4 self-center">
+    <td [attr.colspan]="tableColumns.length">
+      {{ _texts.emptyWarehouse }}
+    </td>
+  </tr>
+</ng-container>
+
 <mat-paginator
+  aria-label="Select page of periodic elements"
   class="custom-pagination"
   showFirstLastButtons
-  aria-label="Select page of periodic elements"
   [pageSizeOptions]="[5, 10, 20]"
   (page)="selectedPagination = $event.pageSize"
 />
