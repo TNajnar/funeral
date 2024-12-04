@@ -1,9 +1,11 @@
 package cz.tomaskopulety.funeral_backend.db.general;
 
 import java.time.Clock;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.stream.Collectors;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
@@ -12,9 +14,9 @@ import cz.tomaskopulety.funeral_backend.db.product.model.ProducerEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductMovementEntity;
-import cz.tomaskopulety.funeral_backend.service.product.domain.Producer;
+import cz.tomaskopulety.funeral_backend.service.producer.domain.Producer;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
-import cz.tomaskopulety.funeral_backend.service.product.domain.ProductCategory;
+import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 import cz.tomaskopulety.funeral_backend.service.product.domain.ProductMovement;
 
 import lombok.AllArgsConstructor;
@@ -46,7 +48,7 @@ public class DbMapper {
     public ProductEntity map(@Nonnull Product product){
         final ProductEntity productEntity = new ProductEntity();
         productEntity.setName(product.getName());
-        productEntity.setNote(product.getNote());
+        productEntity.setComment(product.getComment());
         productEntity.setInStock(product.getInStock());
         productEntity.setProductId(product.getProductId());
 
@@ -79,7 +81,7 @@ public class DbMapper {
     public Product map(@Nonnull ProductEntity productEntity){
         return Product.builder()
                 .name(productEntity.getName())
-                .note(productEntity.getNote())
+                .comment(productEntity.getComment())
                 .inStock(productEntity.getInStock())
                 .productId(productEntity.getProductId())
                 .productCategory(new ProductCategory(productEntity.getProductCategory().getProductCategoryId(), productEntity.getProductCategory().getName()))
@@ -129,9 +131,9 @@ public class DbMapper {
      * @return {@link ProductMovementEntity}
      */
     @Nonnull
-    public ProductMovementEntity map(int oldState, int requested){
+    public ProductMovementEntity map(int oldState, int requested, @Nullable OffsetDateTime created){
         final ProductMovementEntity productMovementEntity = new ProductMovementEntity();
-        productMovementEntity.setCreated(ZonedDateTime.now(this.clock));
+        productMovementEntity.setCreated(created == null ? ZonedDateTime.now(this.clock) : created.toZonedDateTime());
         productMovementEntity.setOldState(oldState);
         productMovementEntity.setRequested(requested);
         productMovementEntity.setNewState(oldState + requested);

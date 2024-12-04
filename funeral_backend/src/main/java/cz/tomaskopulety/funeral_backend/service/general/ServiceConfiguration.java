@@ -8,7 +8,9 @@ import cz.tomaskopulety.funeral_backend.db.general.DbMapper;
 import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductRepository;
+import cz.tomaskopulety.funeral_backend.service.producer.ProducerService;
 import cz.tomaskopulety.funeral_backend.service.product.ProductService;
+import cz.tomaskopulety.funeral_backend.service.productcategory.ProductCategoryService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +19,18 @@ import org.springframework.context.annotation.Configuration;
 public class ServiceConfiguration {
 
     @Bean
-    public ProductService productService(@Nonnull ProductRepository productRepository, @Nonnull ProducerRepository producerRepository, @Nonnull ProductCategoryRepository productCategoryRepository, @Nonnull DbMapper dbMapper) {
-        return new ProductService(productRepository, producerRepository, productCategoryRepository, dbMapper);
+    public ProductService productService(@Nonnull ProductRepository productRepository, @Nonnull ProducerService producerService, @Nonnull ProductCategoryService productCategoryService, @Nonnull DbMapper dbMapper) {
+        return new ProductService(productRepository, producerService, productCategoryService, dbMapper);
+    }
+
+    @Bean
+    public ProducerService producerService(@Nonnull ProducerRepository producerRepository, @Nonnull DbMapper dbMapper) {
+        return new ProducerService(producerRepository, dbMapper);
+    }
+
+    @Bean
+    public ProductCategoryService productCategoryService(@Nonnull ProductCategoryRepository productCategoryRepository, @Nonnull DbMapper dbMapper) {
+        return new ProductCategoryService(productCategoryRepository, dbMapper);
     }
 
     @Bean

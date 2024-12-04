@@ -12,19 +12,16 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.db.general.DbMapper;
-import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
-import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductFilter;
 import cz.tomaskopulety.funeral_backend.db.product.ProductRepository;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProducerEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductMovementEntity;
-import cz.tomaskopulety.funeral_backend.service.general.IdGenerator;
-import cz.tomaskopulety.funeral_backend.service.product.domain.Producer;
+import cz.tomaskopulety.funeral_backend.service.producer.ProducerService;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
-import cz.tomaskopulety.funeral_backend.service.product.domain.ProductCategory;
 import cz.tomaskopulety.funeral_backend.db.product.ProductSpecification;
+import cz.tomaskopulety.funeral_backend.service.productcategory.ProductCategoryService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,10 +35,10 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Nonnull
-    private final ProducerRepository producerRepository;
+    private final ProducerService producerService;
 
     @Nonnull
-    private final ProductCategoryRepository productCategoryRepository;
+    private final ProductCategoryService productCategoryService;
 
     @Nonnull
     private final DbMapper dbMapper;
@@ -52,12 +49,13 @@ public class ProductService {
      * @param product details of product
      * @throws EntityExistsException when product already exists
      */
+    @Nonnull
     public Product createProduct(@Nonnull Product product) {
         if (this.productRepository.existsByNameAndProducer_ProducerId(product.getName(), product.getProducer().producerId())) {
             throw new EntityExistsException(String.format("Product: %s exists already.", product.getName()));
         } else {
             ProductEntity productEntity = this.dbMapper.map(product);
-            final ProductMovementEntity productMovementEntity = this.dbMapper.map(0, product.getInStock());
+            final ProductMovementEntity productMovementEntity = this.dbMapper.map(0, product.getInStock(), product.getCreated());
             productEntity.getProductMovements().add(productMovementEntity);
             this.productRepository.save(productEntity);
             return this.dbMapper.map(productEntity);
@@ -73,8 +71,8 @@ public class ProductService {
      * @param sale if sales from product movement should be selected only
      * @param productName full text for searching product by name
      * @return List of {@link Product}
-     * @throws EntityNotFoundException when entities are not found
      */
+    @Nonnull
     public List<Product> getProducts(@Nullable Long productCategoryId, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale, @Nullable String productName) {
         final ProductFilter productFilter = setProductFilter(productCategoryId, producerId, months, sale, productName);
         final List<ProductEntity> productEntities = this.productRepository.findAll(productFilter.getDatabaseFilter());
@@ -86,79 +84,17 @@ public class ProductService {
     }
 
     /**
-     * Adds new {@link ProductCategoryEntity} to database.
-     *
-     * @param productCategoryName name of product category
-     * @throws EntityExistsException when product category exists already
-     */
-    public ProductCategory createProductCategory(@Nonnull String productCategoryName) {
-        if (this.productCategoryRepository.existsByName(productCategoryName)) {
-            throw new EntityExistsException(String.format("Product category: %s exists already.", productCategoryName));
-        } else {
-            final ProductCategoryEntity productCategoryEntity = new ProductCategoryEntity();
-            productCategoryEntity.setName(productCategoryName);
-            productCategoryEntity.setProductCategoryId(IdGenerator.generateNumericID());
-
-            this.productCategoryRepository.save(productCategoryEntity);
-            return this.dbMapper.map(productCategoryEntity);
-        }
-    }
-
-    /**
-     * Gets all saved {@link ProductCategory}.
-     *
-     * @return List of {@link ProductCategory}
-     */
-    public List<ProductCategory> getProductCategories() {
-        return this.productCategoryRepository.findAll()
-                .stream()
-                .map(this.dbMapper::map)
-                .toList();
-    }
-
-    /**
-     * Adds new {@link ProducerEntity} to database.
-     *
-     * @param producerName name of producer
-     * @throws EntityExistsException when producer exists already
-     */
-    public Producer createProducer(@Nonnull String producerName) {
-        if (this.producerRepository.existsByName(producerName)) {
-            throw new EntityExistsException(String.format("Producer: %s exists already.", producerName));
-        } else {
-            final ProducerEntity producerEntity = new ProducerEntity();
-            producerEntity.setName(producerName);
-            producerEntity.setProducerId(IdGenerator.generateNumericID());
-
-            this.producerRepository.save(producerEntity);
-            return this.dbMapper.map(producerEntity);
-        }
-    }
-
-    /**
-     * Gets all saved {@link Producer}.
-     *
-     * @return List of {@link Producer}
-     */
-    public List<Producer> getProducers() {
-        return this.producerRepository.findAll()
-                .stream()
-                .map(this.dbMapper::map)
-                .toList();
-    }
-
-    /**
      * Increase number of products in database by given value.
      *
      * @param productId warehouse identifier of product
      * @param quantity amount of products to be stocked up, must be positive value
-     * @throws EntityNotFoundException when product not found
+     * @return {@link Product}
      */
-    public Product buyProduct(long productId, int quantity) {
-        final ProductEntity productEntity = this.productRepository.findByProductId(productId)
-            .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
+    @Nonnull
+    public Product stockUpProduct(long productId, int quantity) {
+        final ProductEntity productEntity = getProductEntity(productId);
 
-        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity);
+        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null);
 
         productEntity.setInStock(productEntity.getInStock() + quantity);
         productEntity.getProductMovements().add(productMovementEntity);
@@ -167,22 +103,22 @@ public class ProductService {
         return this.dbMapper.map(productEntity);
     }
 
-  /**
-   * Decrease number of products in database by one.
-   *
-   * @param productId warehouse identifier of product
-   * @param quantity amount of sold products, must be negative value
-   * @throws EntityNotFoundException when product not found
-   * @throws IllegalArgumentException when product is out of stock but is required for sale.
-   */
+    /**
+     * Decrease number of products in database by one.
+     *
+     * @param productId warehouse identifier of product
+     * @param quantity amount of sold products, must be negative value
+     * @throws IllegalArgumentException when product is out of stock but is required for sale.
+     * @return {@link Product}
+     */
+    @Nonnull
     public Product sellProduct(long productId, int quantity) {
-        final ProductEntity productEntity = this.productRepository.findByProductId(productId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
+        final ProductEntity productEntity = getProductEntity(productId);
 
         if (productEntity.getInStock() + quantity < 0) {
             throw new IllegalArgumentException(String.format("Product: %s, %s is not stocked in requested amount. Stocked: %s.", productEntity.getProducer().getName(),  productEntity.getName(), productEntity.getInStock()));
         } else {
-            final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity);
+            final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null);
             productEntity.setInStock(productEntity.getInStock() + quantity);
             productEntity.getProductMovements().add(productMovementEntity);
 
@@ -192,16 +128,75 @@ public class ProductService {
     }
 
     /**
+     * Set product as flagged.
+     *
+     * @param productId identifier of product
+     * @return {@link Product}
+     */
+    @Nonnull
+    public Product flagProduct(long productId) {
+        final ProductEntity productEntity = getProductEntity(productId);
+        productEntity.setFlagged(!productEntity.isFlagged());
+        this.productRepository.save(productEntity);
+        return this.dbMapper.map(productEntity);
+    }
+
+    /**
+     * Get product by given identifier.
+     * @param productId identifier or product
+     * @throws EntityNotFoundException when product not found.
+     * @return {@link ProductEntity}
+     */
+    @Nonnull
+    private ProductEntity getProductEntity(long productId) {
+        return this.productRepository.findByProductId(productId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
+    }
+
+    /**
+     * Set product comment.
+     *
+     * @param productId identifier of product
+     * @param value value to update comment
+     * @return {@link Product}
+     */
+    @Nonnull
+    public Product setProductComment(long productId, @Nullable String value) {
+        final ProductEntity productEntity = getProductEntity(productId);
+        productEntity.setComment(value);
+        this.productRepository.save(productEntity);
+        return this.dbMapper.map(productEntity);
+    }
+
+    /**
+     * Set product name.
+     *
+     * @param productId identifier of product
+     * @param value value to update name
+     * @return {@link Product}
+     */
+    @Nonnull
+    public Product setProductName(long productId, @Nullable String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Product name can not be null.");
+        }
+        final ProductEntity productEntity = getProductEntity(productId);
+        productEntity.setName(value);
+        this.productRepository.save(productEntity);
+        return this.dbMapper.map(productEntity);
+    }
+
+    /**
      * Get product by given identifier.
      *
      * @param productId warehouse identifier
      * @throws EntityNotFoundException when product is not found.
      * @return {@link Product}
      */
+    @Nonnull
     public Product getProduct(long productId, @Nullable String months, @Nullable Boolean sale) {
         final ProductFilter productFilter = setProductFilter(null, null, months, sale, null);
-        final ProductEntity productEntity = this.productRepository.findByProductId(productId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
+        final ProductEntity productEntity = getProductEntity(productId);
         productFilter.getDataFilters()
                 .forEach(df -> df.apply(productEntity));
         return dbMapper.map(productEntity);
@@ -217,13 +212,23 @@ public class ProductService {
      */
     @Nonnull
     public Product updateProduct(long productId, @Nonnull Product product) {
-        final ProductEntity productEntity = this.productRepository.findByProductId(productId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Product id: %s not found.", productId)));
-        productEntity.setNote(product.getNote());
+        final ProductEntity productEntity = getProductEntity(productId);
+        productEntity.setComment(product.getComment());
         productEntity.setFlagged(product.isFlagged());
         productEntity.setName(product.getName());
         productEntity.setInStock(product.getInStock());
         return this.dbMapper.map(productRepository.save(productEntity));
+    }
+
+    /**
+     * Delete {@link ProductEntity}.
+     *
+     * @param productId identifier of product
+     * @throws EntityNotFoundException when product not found
+     */
+    public void deleteProduct(long productId) {
+        final ProductEntity productEntity = getProductEntity(productId);
+        this.productRepository.delete(productEntity);
     }
 
     /**
@@ -272,14 +277,12 @@ public class ProductService {
         ProducerEntity producerEntity;
 
         if (productCategoryId != null) {
-            productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(productCategoryId)
-                    .orElseThrow(() -> new EntityNotFoundException(String.format("Product category id: %s not found.", productCategoryId)));
+            productCategoryEntity = this.productCategoryService.getProductCategoryEntity(productCategoryId);
             productFilter.setDatabaseFilter(ProductSpecification.byCategory(productCategoryEntity));
         }
 
         if (producerId != null) {
-            producerEntity = this.producerRepository.findByProducerId(producerId)
-                    .orElseThrow(() -> new EntityNotFoundException(String.format("Producer id: %s not found.", producerId)));
+            producerEntity = this.producerService.getProducerEntity(producerId);
             productFilter.setDatabaseFilter(ProductSpecification.byProducer(producerEntity));
         }
 

@@ -26,12 +26,12 @@ class ProductServiceTest {
 
     private ProductService productService;
 
-    @BeforeEach
-    void setUp() {
-        this.clock = Clock.system(ZoneId.of("Europe/Prague"));
-        this.dbMapper = new DbMapper(this.producerRepository, this.productCategoryRepository, this.clock);
-        this.productService = new ProductService(this.productRepository, this.producerRepository, this.productCategoryRepository, this.dbMapper);
-    }
+//    @BeforeEach
+//    void setUp() {
+//        this.clock = Clock.system(ZoneId.of("Europe/Prague"));
+//        this.dbMapper = new DbMapper(this.producerRepository, this.productCategoryRepository, this.clock);
+//        this.productService = new ProductService(this.productRepository, this.producerRepository, this.productCategoryRepository, this.dbMapper);
+//    }
 
 //    @Test
 //    void createProduct() {
