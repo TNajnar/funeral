@@ -4,6 +4,7 @@ import java.util.List;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -29,14 +30,15 @@ public class ProductGetResponse {
     /**
      * Warehouse identifier of producer.
      */
-    @Schema(description = "Warehouse identifier of producer.", example = "6491643754", requiredMode = Schema.RequiredMode.REQUIRED)
-    private long producerId;
+    @Nullable
+    @Schema(description = "Warehouse identifier of producer.", example = "6491643754", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private Long producerId;
 
     /**
      * Producer of product.
      */
-    @Nonnull
-    @Schema(description = "Producer of product.", example = "Gardena", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Nullable
+    @Schema(description = "Producer of product.", example = "Gardena", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private final String producer;
 
     /**
@@ -69,6 +71,7 @@ public class ProductGetResponse {
      * If product is flagged.
      */
     @Schema(description = "If product is flagged.", example = "false", requiredMode = Schema.RequiredMode.REQUIRED)
+    @JsonProperty("isFlagged")
     private final boolean flagged;
 
     /**

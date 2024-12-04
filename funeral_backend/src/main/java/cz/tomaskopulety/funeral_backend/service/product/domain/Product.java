@@ -30,7 +30,7 @@ public class Product {
     /**
     * Producer of product.
     */
-    @Nonnull
+    @Nullable
     private final Producer producer;
 
     /**

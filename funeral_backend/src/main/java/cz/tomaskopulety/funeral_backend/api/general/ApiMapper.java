@@ -3,6 +3,7 @@ package cz.tomaskopulety.funeral_backend.api.general;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.api.product.request.ProductRequest;
@@ -11,7 +12,6 @@ import cz.tomaskopulety.funeral_backend.api.product.response.ProductGetResponse;
 import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProducerEntity;
-import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.service.general.IdGenerator;
 import cz.tomaskopulety.funeral_backend.service.producer.domain.Producer;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
@@ -41,8 +41,8 @@ public class ApiMapper {
     @Nonnull
     public Product map(@Nonnull ProductRequest request){
         return Product.builder()
-                .productCategory(getProductCategory(request.getProductCategoryId()))
-                .producer(getProducer(request.getProducerId()))
+                .productCategory(getProductCategory(request.getProductCategoryId(), request.getProductCategory()))
+                .producer(null)
                 .productId(IdGenerator.generateNumericID())
                 .name(request.getName())
                 .comment(request.getComment())
@@ -63,13 +63,13 @@ public class ApiMapper {
     public ProductGetResponse map(@Nonnull Product product){
         return ProductGetResponse.builder()
                 .productCategory(product.getProductCategory().name())
-                .producer(product.getProducer().name())
+                .producer(null)
                 .productId(product.getProductId())
                 .name(product.getName())
                 .comment(product.getComment())
                 .inStock(product.getInStock())
                 .productCategoryId(product.getProductCategory().productCategoryId())
-                .producerId(product.getProducer().producerId())
+                .producerId(null)
                 .productMovements(
                         product.getProductMovements()
                                 .stream()
@@ -98,14 +98,12 @@ public class ApiMapper {
      * Gets {@link ProductCategory} by given identifier
      *
      * @param productCategoryId warehouse identifier
+     * @param productCategoryName name of category
      * @return {@link ProductCategory}
-     * @throws EntityNotFoundException when product category not found
      */
     @Nonnull
-    private ProductCategory getProductCategory(long productCategoryId){
-        final ProductCategoryEntity productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(productCategoryId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Product category with id: %d not found.", productCategoryId)));
-        return new ProductCategory(productCategoryId, productCategoryEntity.getName());
+    private ProductCategory getProductCategory(@Nullable Long productCategoryId, @Nonnull String productCategoryName){
+        return new ProductCategory(productCategoryId, productCategoryName);
     }
 
     /**

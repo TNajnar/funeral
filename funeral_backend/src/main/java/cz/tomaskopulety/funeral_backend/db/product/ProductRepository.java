@@ -31,18 +31,12 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
     boolean existsByNameAndProducer_ProducerId(@Nonnull String name, long producerId);
 
     /**
-     * Check if product with given identifier exists already.
+     * Check if product with given name exists already.
      *
-     * @param productId identifier of product
+     * @param name name of product
      * @return true if exists, otherwise false
      */
-    boolean existsByProductId(long productId);
+    boolean existsByName(@Nonnull String name);
 
-    /**
-     * Delete product with given identifier.
-     *
-     * @param productId identifier of product
-     */
-    void deleteByProductId(long productId);
 
 }

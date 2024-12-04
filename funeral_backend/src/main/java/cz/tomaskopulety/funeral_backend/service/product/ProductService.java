@@ -22,6 +22,7 @@ import cz.tomaskopulety.funeral_backend.service.producer.ProducerService;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
 import cz.tomaskopulety.funeral_backend.db.product.ProductSpecification;
 import cz.tomaskopulety.funeral_backend.service.productcategory.ProductCategoryService;
+import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,15 +52,17 @@ public class ProductService {
      */
     @Nonnull
     public Product createProduct(@Nonnull Product product) {
-        if (this.productRepository.existsByNameAndProducer_ProducerId(product.getName(), product.getProducer().producerId())) {
+        if (this.productRepository.existsByName(product.getName())) {
             throw new EntityExistsException(String.format("Product: %s exists already.", product.getName()));
-        } else {
-            ProductEntity productEntity = this.dbMapper.map(product);
-            final ProductMovementEntity productMovementEntity = this.dbMapper.map(0, product.getInStock(), product.getCreated());
-            productEntity.getProductMovements().add(productMovementEntity);
-            this.productRepository.save(productEntity);
-            return this.dbMapper.map(productEntity);
         }
+        final ProductCategory productCategory = this.productCategoryService.createProductCategory(product.getProductCategory().name());
+
+        final ProductEntity productEntity = this.dbMapper.map(product, productCategory);
+        final ProductMovementEntity productMovementEntity = this.dbMapper.map(0, product.getInStock(), product.getCreated());
+        productEntity.getProductMovements().add(productMovementEntity);
+        this.productRepository.save(productEntity);
+        return this.dbMapper.map(productEntity);
+
     }
 
     /**

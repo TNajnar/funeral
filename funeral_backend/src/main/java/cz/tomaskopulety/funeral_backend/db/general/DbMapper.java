@@ -45,7 +45,7 @@ public class DbMapper {
      * @throws EntityNotFoundException when entity not found
      */
     @Nonnull
-    public ProductEntity map(@Nonnull Product product){
+    public ProductEntity map(@Nonnull Product product, @Nonnull ProductCategory productCategory){
         final ProductEntity productEntity = new ProductEntity();
         productEntity.setName(product.getName());
         productEntity.setComment(product.getComment());
@@ -53,14 +53,10 @@ public class DbMapper {
         productEntity.setProductId(product.getProductId());
 
         productEntity.setProductCategory(
-                this.productCategoryRepository.findByProductCategoryId(product.getProductCategory().productCategoryId())
-                        .orElseThrow(() -> new EntityNotFoundException(String.format("Product category: %s not found.", productEntity.getName())))
+                this.productCategoryRepository.findByName(productCategory.name())
+                        .orElseThrow(() -> new EntityNotFoundException(String.format("Product category with name: %s not found.", productCategory.name())))
         );
 
-        productEntity.setProducer(
-                this.producerRepository.findByProducerId(product.getProducer().producerId())
-                        .orElseThrow(() -> new EntityNotFoundException(String.format("Producer: %s not found.", productEntity.getName())))
-        );
         productEntity.setProductMovements(
                 product.getProductMovements()
                         .stream()
@@ -85,7 +81,7 @@ public class DbMapper {
                 .inStock(productEntity.getInStock())
                 .productId(productEntity.getProductId())
                 .productCategory(new ProductCategory(productEntity.getProductCategory().getProductCategoryId(), productEntity.getProductCategory().getName()))
-                .producer(new Producer(productEntity.getProducer().getProducerId(), productEntity.getProducer().getName()))
+                .producer(null)
                 .productMovements(
                         productEntity.getProductMovements()
                         .stream()

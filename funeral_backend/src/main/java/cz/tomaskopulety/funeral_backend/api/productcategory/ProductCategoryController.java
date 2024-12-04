@@ -3,7 +3,6 @@ package cz.tomaskopulety.funeral_backend.api.productcategory;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotEmpty;
 
-import cz.tomaskopulety.funeral_backend.api.general.ApiMapper;
 import cz.tomaskopulety.funeral_backend.api.general.response.ErrorResponse;
 import cz.tomaskopulety.funeral_backend.api.general.response.SimpleInfoResponse;
 import cz.tomaskopulety.funeral_backend.api.productcategory.response.ProductCategoryResponses;
