@@ -49,9 +49,9 @@ export class WarehouseControlComponent {
     this.isModalOpen.set(!this.isModalOpen());
   }
 
-  onTabClick(tabType: ETabVariants): void {
-    this.activeTab.set(tabType);
-    this._warehouseServiceTable.filterOptions.tabType = tabType;
+  onTabClick(productCategory: ETabVariants): void {
+    this.activeTab.set(productCategory);
+    this._warehouseServiceTable.filterOptions.productCategory = productCategory;
     this._warehouseServiceTable.updateTableFilters();
   }
 

@@ -7,11 +7,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 
-import { WarehouseTableService } from '../services/warehouse-table.service';
 import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
 import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
 import { ETabVariants } from '../warehouse-control.model';
 import { warehouseControl } from '@lib/staticTexts';
+import { WarehouseGatewayService } from '../gateways/warehouse-gateway.service';
 
 interface IItemType {
   value: string;
@@ -44,25 +44,28 @@ export class AddNewWarehouseItemComponent {
 
   @Output() onCancel = new EventEmitter<void>();
 
-  _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
-  datePipe: DatePipe = inject(DatePipe);
+  private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
+  private _datePipe: DatePipe = inject(DatePipe);
 
   protected _onSubmit(formData: NgForm): void {
     if (formData.form.invalid) {
       return;
     }
 
-    const formattedDate = this.datePipe.transform(formData.value.date || new Date(), 'yyyy-MM-dd') || '';
+    const formattedDate = this._datePipe.transform(formData.value.date || new Date(), 'yyyy-MM-dd') || '';
 
-    this._warehouseServiceTable.addWarehouseItem({
-      availableCount: formData.value.availableCount,
-      comment: undefined,
-      date: formattedDate,
-      id: Math.floor(Math.random() * 1000),
-      isFlagged: formData.value.isFlagged,
-      name: formData.value.name,
-      tabType: formData.value.itemType,
-    });
+    this._gateway.addWarehouseItem({
+      created: new Date().toISOString(),
+      productCategoryId: 6491643754,
+      productCategory: 'Věnce33sds1',
+      producerId: 6491643754,
+      producer: 'Gardena',
+      productId: 2397940629,
+      name: 'Rakev331sss',
+      comment: '8 svíček',
+      stockUp: 24,
+      isFlagged: false
+    }).subscribe();
 
     this.onCancel.emit();
     formData.reset();
