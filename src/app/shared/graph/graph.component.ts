@@ -11,8 +11,9 @@ import {
   selector: 'app-graph',
   standalone: true,
   templateUrl: './graph.component.html',
+  styleUrl: './graph.component.css',
   host: {
-    class: 'flex flex-col justify-center items-center h-320'
+    class: 'flex flex-col justify-center items-center'
   },
 })
 export class GraphComponent implements AfterViewInit, OnDestroy {

@@ -25,7 +25,7 @@
   }
 
   /* Always show scrollbar to prevent layout shifts between pages. */
-  html {
+  body {
     overflow-y: scroll;
   }
   

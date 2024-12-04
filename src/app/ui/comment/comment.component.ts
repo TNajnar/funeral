@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,10 +28,12 @@ import { commentComponent } from '@lib/staticTexts';
 })
 export class CommentComponent implements OnInit {
   @Input() comment?: string;
+  @Output() onSaveComment = new EventEmitter<string | undefined>();
 
   protected _texts = commentComponent;
   protected _isModalOpen = signal<boolean>(false);
   protected _localComment?: string;
+  protected _isPristine: boolean = true;
 
   ngOnInit(): void {
     if (this.comment) {
@@ -47,11 +49,23 @@ export class CommentComponent implements OnInit {
     this._isModalOpen.set(!this._isModalOpen());
   }
 
+  protected _onChangedComment(input: string): void {
+    if (input === this._localComment) {
+      return;
+    }
+
+    this._isPristine = false;
+  }
+
   protected _onSubmitComment(formData: NgForm): void {
     if (formData.form.invalid) {
       return;
     }
+
     this._localComment = formData.value.comment;
+
+    this.onSaveComment.emit(this._localComment);
+    this._isPristine = true;
     this._toggleModal();
   }
 }

@@ -1,31 +1,15 @@
 <form class="flex flex-col gap-4" #form="ngForm" (ngSubmit)="_onSubmit(form)">
   <div class="grid grid-cols-2 gap-4">
     <mat-form-field>
-      <mat-label for="date">{{ _texts.date }}</mat-label>
-      <input
-        matInput
-        datepicker-append-to-body="true"
-        [matDatepicker]="picker"
-        name="date"
-        id="date"
-        ngModel
-        #date="ngModel"
-      />
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label for="itemType">{{ _texts.itemType }}</mat-label>
+      <mat-label for="productCategory">{{ _texts.itemType }}</mat-label>
       <mat-select
-        name="itemType"
+        name="productCategory"
         panelClass="custom-select-panel"
         ngModel
-        #itemType="ngModel"
+        #productCategory="ngModel"
       >
-        @for (itemType of itemTypes; track itemType) {
-          <mat-option [value]="itemType.value">{{ itemType.viewValue }}</mat-option>
+        @for (selectItem of selectItems; track selectItem.value) {
+          <mat-option [value]="selectItem.value">{{ selectItem.viewValue }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -51,7 +35,7 @@
       <mat-label for="availableCount">{{ _texts.availableCount }}</mat-label>
       <input
         matInput
-        type="availableCount"
+        type="number"
         name="availableCount"
         id="availableCount"
         ngModel

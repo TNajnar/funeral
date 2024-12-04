@@ -1,24 +1,27 @@
-import { AfterViewInit, Component, DestroyRef, HostBinding, inject, ViewChild } from '@angular/core';
+import { Component, computed, HostBinding, inject, Signal, ViewChild } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { WarehouseTableService } from '../services/warehouse-table.service';
+import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
 import { CustomPaginatorService } from 'services/custom-paginator.service';
 import { FlagComponent } from '@app/ui/flag/flag.component';
 import { CommentComponent } from '@app/ui/comment/comment.component';
-import type { TFilterOptions, TWarehouseItem } from '../warehouse-control.model';
+import type { TFilterOptions } from '../utils/warehouse-control.model';
+import type { TWarehouseItem } from '../utils/warehouse-control.gateway.model';
+import { _DISPLAYED_COLUMNS } from '../utils/consts';
 import { warehouseControl } from '@lib/staticTexts';
-
-const _DISPLAYED_COLUMNS = ['id', 'date', 'name', 'availableCount', 'flag', 'comment', 'delete'];
 
 @Component({
   selector: 'app-warehouse-table',
   standalone: true,
-  imports: [FormsModule, FlagComponent, CommentComponent,
-    MatIconModule, MatTableModule, MatPaginatorModule, MatSlideToggleModule,
+  imports: [NgIf, FormsModule, FlagComponent, CommentComponent,
+    MatIconModule, MatTableModule, MatPaginatorModule, MatSlideToggleModule, MatProgressSpinnerModule
   ],
   templateUrl: './warehouse-table.component.html',
   providers: [
@@ -28,7 +31,7 @@ const _DISPLAYED_COLUMNS = ['id', 'date', 'name', 'availableCount', 'flag', 'com
     class: 'flex flex-col mb-20 overflow-hidden border border-gray rounded-md',
   }
 })
-export class WarehouseTableComponent implements AfterViewInit {
+export class WarehouseTableComponent {
   protected _texts = warehouseControl.table;
   selectedPagination: number = 5;
 
@@ -44,17 +47,10 @@ export class WarehouseTableComponent implements AfterViewInit {
   }
 
   protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
-  private _destroyRef: DestroyRef = inject(DestroyRef);
+  private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
 
-  ngAfterViewInit(): void {
+  constructor() {
     this.tableDataSource.paginator = this.paginator;
-    const subscription = this._warehouseServiceTable.warehouseItems$.subscribe((warehouseItems) => {
-      this.tableDataSource.data = warehouseItems;
-    });
-
-    this._destroyRef.onDestroy(() =>
-      subscription.unsubscribe()
-    );
   }
 
   get tableDataSource(): MatTableDataSource<TWarehouseItem, MatPaginator> {
@@ -65,9 +61,13 @@ export class WarehouseTableComponent implements AfterViewInit {
     return this._warehouseServiceTable.filterOptions;
   }
 
-  get displayedTableColumns(): string[] {
+  get tableColumns(): string[] {
     return _DISPLAYED_COLUMNS;
   }
+
+  isLoading: Signal<boolean> = computed(() => {
+    return this._warehouseServiceTable.isLoading();
+  });
 
   onChangeToggle(value: boolean, type: string): void {
     this._tableFilterOptions[type === 'Flag' ? 'isFlagged' : 'hasComment'] = value;
@@ -75,10 +75,26 @@ export class WarehouseTableComponent implements AfterViewInit {
   }
 
   onFlagClick(warehouseItem: TWarehouseItem): void {
-    warehouseItem.isFlagged = !warehouseItem.isFlagged;
+    this._gateway.saveFlag(warehouseItem.productId).subscribe({
+      next: (responseWarehouseItem: TWarehouseItem): void => {
+        warehouseItem.isFlagged = responseWarehouseItem.isFlagged;
+      }
+    });
   }
 
-  deleteWarehouseItem(id: number): void {
-    this._warehouseServiceTable.deleteWarehouseItem(id);
+  onSaveComment(warehouseItem: TWarehouseItem, comment?: string): void {
+    this._gateway.saveComment(warehouseItem.productId, comment).subscribe({
+      next: (responseWarehouseItem: TWarehouseItem): void => {
+        warehouseItem.comment = responseWarehouseItem.comment;
+      }
+    });
+  }
+
+  deleteWarehouseItem(productId: number): void {
+    this._gateway.deleteWarehouseItem(productId).subscribe({
+      next: (): void => {
+        this._warehouseServiceTable.deleteWarehouseItem(productId);
+      }
+    });
   }
 }

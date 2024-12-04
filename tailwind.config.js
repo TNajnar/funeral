@@ -36,10 +36,16 @@ module.exports = {
           'disabled-text': '#cccccc',
         }
       },
+      padding: {
+        'custom-6': '6px',
+      },
       width: {
         'percent-55': '55%',
         'percent-45': '45%',
+        145: '145px',
+        165: '165px',
         340: '340px',
+        374: '374px',
         400: '400px'
       },
       height: {
@@ -47,6 +53,9 @@ module.exports = {
         'table-5': '395px',
         'table-10': '619px',
         'table-20': '1070px',
+      },
+      inset: {
+        '100': '100px',
       },
       borderWidth: {
         1: '1px',
