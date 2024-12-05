@@ -29,7 +29,6 @@ public class ProductCategoryService {
      * Adds new {@link ProductCategoryEntity} to database.
      *
      * @param productCategoryName name of product category
-     * @throws EntityExistsException when product category exists already
      */
     @Nonnull
     public ProductCategory createProductCategory(@Nonnull String productCategoryName) {
@@ -59,15 +58,20 @@ public class ProductCategoryService {
     }
 
     /**
-     * Get product category by given identifier.
+     * Get product category by given name.
      *
-     * @param productCategoryId identifier of producer
+     * @param productCategoryName name of product category
+     * @throws EntityNotFoundException when category not found
      * @return {@link ProducerEntity}
      */
     @Nonnull
-    public ProductCategoryEntity getProductCategoryEntity(long productCategoryId) {
-        return this.productCategoryRepository.findByProductCategoryId(productCategoryId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Product category id: %s not found.", productCategoryId)));
+    public ProductCategoryEntity getProductCategoryEntity(@Nonnull String productCategoryName) {
+        return this.productCategoryRepository.findByName(productCategoryName)
+                .orElseThrow(() -> {
+                    final List<String> categoryNames = this.productCategoryRepository.findAll().stream().map(ProductCategoryEntity::getName).toList();
+                    return new EntityNotFoundException(String.format("Product category name: %s not found. Available categories: %s.", productCategoryName, categoryNames));
+                });
+
     }
 
 }

@@ -29,9 +29,6 @@ public class ApiMapper {
     @Nonnull
     private final ProducerRepository producerRepository;
 
-    @Nonnull
-    private final ProductCategoryRepository productCategoryRepository;
-
     /**
      * Maps {@link ProductRequest} to {@link Product}
      *
