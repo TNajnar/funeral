@@ -142,7 +142,7 @@ public class ProductController {
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponses> getProducts(
-            @Parameter(description = "Identifier of product category. Select only products from given category.") @RequestParam(name = "productCategory", required = false) @Nullable Long productCategoryId,
+            @Parameter(description = "Name of product category. Select only products from given category.") @RequestParam(name = "productCategoryName", required = false) @Nullable String productCategoryName,
             @Parameter(description = "Identifier of producer. Select only products from given producer.") @RequestParam(name = "producer", required = false) @Nullable Long producerId,
             @Parameter(description = "Months as numbers connected with dash(range of months) or comma(one month).", example = "1-5,9,10") @RequestParam(required = false) @Nullable String months,
             @Parameter(description = "Select only products which contain at least one sale.") @RequestParam(required = false) @Nullable Boolean sale,
@@ -150,7 +150,7 @@ public class ProductController {
     ) {
         return ResponseEntity.ok(
                 new ProductResponses(
-                        this.productService.getProducts(productCategoryId, producerId, months, sale, productName)
+                        this.productService.getProducts(productCategoryName, producerId, months, sale, productName)
                                 .stream()
                                 .map(this.apiMapper::map)
                                 .toList()

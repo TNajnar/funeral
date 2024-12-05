@@ -39,8 +39,8 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public ApiMapper apiMapper(@Nonnull ProducerRepository producerRepository, @Nonnull ProductCategoryRepository productCategoryRepository) {
-        return new ApiMapper(producerRepository, productCategoryRepository);
+    public ApiMapper apiMapper(@Nonnull ProducerRepository producerRepository) {
+        return new ApiMapper(producerRepository);
     }
 
     @Bean

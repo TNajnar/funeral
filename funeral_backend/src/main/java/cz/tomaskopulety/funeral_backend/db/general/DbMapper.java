@@ -45,18 +45,14 @@ public class DbMapper {
      * @throws EntityNotFoundException when entity not found
      */
     @Nonnull
-    public ProductEntity map(@Nonnull Product product, @Nonnull ProductCategory productCategory){
+    public ProductEntity map(@Nonnull Product product, @Nonnull ProductCategoryEntity productCategoryEntity){
         final ProductEntity productEntity = new ProductEntity();
         productEntity.setName(product.getName());
         productEntity.setComment(product.getComment());
         productEntity.setInStock(product.getInStock());
         productEntity.setProductId(product.getProductId());
-
-        productEntity.setProductCategory(
-                this.productCategoryRepository.findByName(productCategory.name())
-                        .orElseThrow(() -> new EntityNotFoundException(String.format("Product category with name: %s not found.", productCategory.name())))
-        );
-
+        productEntity.setProductCategory(productCategoryEntity);
+        productEntity.setFlagged(product.isFlagged());
         productEntity.setProductMovements(
                 product.getProductMovements()
                         .stream()

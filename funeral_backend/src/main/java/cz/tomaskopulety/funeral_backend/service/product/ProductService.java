@@ -22,7 +22,6 @@ import cz.tomaskopulety.funeral_backend.service.producer.ProducerService;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
 import cz.tomaskopulety.funeral_backend.db.product.ProductSpecification;
 import cz.tomaskopulety.funeral_backend.service.productcategory.ProductCategoryService;
-import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +54,7 @@ public class ProductService {
         if (this.productRepository.existsByName(product.getName())) {
             throw new EntityExistsException(String.format("Product: %s exists already.", product.getName()));
         }
-        final ProductCategory productCategory = this.productCategoryService.createProductCategory(product.getProductCategory().name());
+        final ProductCategoryEntity productCategory = this.productCategoryService.getProductCategoryEntity(product.getProductCategory().name());
 
         final ProductEntity productEntity = this.dbMapper.map(product, productCategory);
         final ProductMovementEntity productMovementEntity = this.dbMapper.map(0, product.getInStock(), product.getCreated());
@@ -68,7 +67,7 @@ public class ProductService {
     /**
      * Gets List of {@link Product} by given specification and filters.
      *
-     * @param productCategoryId identifier of product category
+     * @param productCategoryName name of product category
      * @param producerId identifier of producer
      * @param months selection of months for filtering product movements
      * @param sale if sales from product movement should be selected only
@@ -76,8 +75,8 @@ public class ProductService {
      * @return List of {@link Product}
      */
     @Nonnull
-    public List<Product> getProducts(@Nullable Long productCategoryId, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale, @Nullable String productName) {
-        final ProductFilter productFilter = setProductFilter(productCategoryId, producerId, months, sale, productName);
+    public List<Product> getProducts(@Nullable String productCategoryName, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale, @Nullable String productName) {
+        final ProductFilter productFilter = setProductFilter(productCategoryName, producerId, months, sale, productName);
         final List<ProductEntity> productEntities = this.productRepository.findAll(productFilter.getDatabaseFilter());
 
         productEntities.forEach(pe -> productFilter.getDataFilters().forEach(df -> df.apply(pe)));
@@ -266,7 +265,7 @@ public class ProductService {
     /**
      * Set filters for product selection.
      *
-     * @param productCategoryId identifier of product category
+     * @param productCategoryName identifier of product category
      * @param producerId identifier of producer
      * @param months selection of months for filtering product movements
      * @param sale if sales from product movement should be selected only
@@ -274,13 +273,13 @@ public class ProductService {
      * @return {@link ProductFilter}
      */
     @Nonnull
-    private ProductFilter setProductFilter(@Nullable Long productCategoryId, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale, @Nullable String productName){
+    private ProductFilter setProductFilter(@Nullable String productCategoryName, @Nullable Long producerId, @Nullable String months, @Nullable Boolean sale, @Nullable String productName){
         final ProductFilter productFilter = new ProductFilter(Specification.where(null));
         ProductCategoryEntity productCategoryEntity;
         ProducerEntity producerEntity;
 
-        if (productCategoryId != null) {
-            productCategoryEntity = this.productCategoryService.getProductCategoryEntity(productCategoryId);
+        if (productCategoryName != null) {
+            productCategoryEntity = this.productCategoryService.getProductCategoryEntity(productCategoryName);
             productFilter.setDatabaseFilter(ProductSpecification.byCategory(productCategoryEntity));
         }
 
