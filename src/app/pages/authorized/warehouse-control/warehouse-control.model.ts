@@ -17,11 +17,11 @@ export type TWarehouseItem = {
   created: string;
   isFlagged: boolean;
   name: string;
-  producer: string;
-  productId: number;
-  producerId: number;
+  producer?: string;
+  productId?: number;
+  producerId?: number;
   productCategory: string;
-  productCategoryId: number;
+  productCategoryId?: number;
   productMovements?: any[];
   inStock?: number;
   stockUp: number;

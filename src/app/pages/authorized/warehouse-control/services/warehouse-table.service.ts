@@ -9,7 +9,7 @@ import type { TFilterOptions, TWarehouseItem } from '../warehouse-control.model'
   providedIn: 'root'
 })
 export class WarehouseTableService {
-  protected _warehouseItems$ = new BehaviorSubject<TWarehouseItem[]>([]);
+  _warehouseItems$ = new BehaviorSubject<TWarehouseItem[]>([]);
   tableDataSource = new MatTableDataSource<TWarehouseItem>();
 
   private _warehouseTableFilters: WarehouseTableFiltersService = inject(WarehouseTableFiltersService);
@@ -26,19 +26,21 @@ export class WarehouseTableService {
     return this._warehouseTableFilters.filterOptions;
   }
 
-  notifyUpdateWarehouseItems(items: TWarehouseItem[]): void {
+  notifyUpdateWarehouseItems$(items: TWarehouseItem[]): void {
     this._warehouseItems$.next(items);
   }
 
-  // addWarehouseItem(warehouseItem: TWarehouseItem): void {
-  //   const currentItems = this._warehouseItems$.getValue();
-  //   this.notifyUpdateWarehouseItems([warehouseItem, ...currentItems]);
-  // }
+  addWarehouseItem(warehouseItem: TWarehouseItem): void {
+    const currentItems = this._warehouseItems$.getValue();
+    this.notifyUpdateWarehouseItems$([warehouseItem, ...currentItems]);
+  }
 
-  // deleteWarehouseItem(id: number): void {
-  //   const updatedItems = this._warehouseItems$.getValue().filter((item) => item.id !== id);
-  //   this.notifyUpdateWarehouseItems(updatedItems);
-  // }
+  deleteWarehouseItem(productId: number): void {
+    const updatedItems = this._warehouseItems$.getValue().filter((warehouseItem) =>
+      warehouseItem.productId !== productId
+    );
+    this.notifyUpdateWarehouseItems$(updatedItems);
+  }
 
   updateTableFilters(): void {
     this.tableDataSource.filter = JSON.stringify(this.filterOptions);

@@ -28,7 +28,15 @@ export class WarehouseGatewayService {
     );
   }
 
-  saveFlag(productId: number): Observable<void> {
+  deleteWarehouseItem(productId: number): Observable<void> {
+    return this._httpClient.delete<void>(`${BASE_URL}/products/${productId}`).pipe(
+      catchError((error) => {
+        return throwError(() => new Error('Failed to delete item.', error));
+      })
+    );
+  }
+
+  saveFlag(productId?: number): Observable<void> {
     return this._httpClient.patch<void>(`${BASE_URL}/products/${productId}/flag`, { productId }).pipe(
       catchError((error) => {
         return throwError(() => new Error('Failed to save flag.', error));

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DestroyRef, HostBinding, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, HostBinding, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
@@ -48,14 +48,18 @@ export class WarehouseTableComponent implements AfterViewInit {
   protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
+  cd = inject(ChangeDetectorRef);
 
   ngAfterViewInit(): void {
     this.tableDataSource.paginator = this.paginator;
     const subscription = this._gateway.allWarehouseItems().subscribe({
-      next: (item: TWarehouseItems) => {
-        this.tableDataSource.data = item.products;
-        this._warehouseServiceTable.notifyUpdateWarehouseItems([...item.products]);
+      next: (data: TWarehouseItems) => {
+        this._warehouseServiceTable.notifyUpdateWarehouseItems$(data.products);
       }
+    });
+
+    this._warehouseServiceTable.warehouseItems$.subscribe((warehouseItems) => {
+      this.tableDataSource.data = warehouseItems;
     });
 
     this._destroyRef.onDestroy(() =>
@@ -81,13 +85,18 @@ export class WarehouseTableComponent implements AfterViewInit {
   }
 
   onFlagClick(warehouseItem: TWarehouseItem): void {
-    console.log('🚀 ~ WarehouseTableComponent ~ onFlagClick ~ warehouseItem:', warehouseItem);
     this._gateway.saveFlag(warehouseItem.productId).subscribe({
-      next: (): void => console.log('Flag saved')
+      next: (): void => {
+        warehouseItem.isFlagged = !warehouseItem.isFlagged;
+      }
     });
   }
 
-  deleteWarehouseItem(id: number): void {
-    // this._warehouseServiceTable.deleteWarehouseItem(id);
+  deleteWarehouseItem(productId: number): void {
+    this._gateway.deleteWarehouseItem(productId).subscribe({
+      next: (): void => {
+        this._warehouseServiceTable.deleteWarehouseItem(productId);
+      }
+    });
   }
 }
