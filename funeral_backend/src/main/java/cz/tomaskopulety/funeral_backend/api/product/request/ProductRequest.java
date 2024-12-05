@@ -33,7 +33,7 @@ public class ProductRequest {
      * Warehouse identifier of product category.
      */
     @Nullable
-    @Schema(description = "Identifier of product category.", example = "4521803355", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Identifier of product category.", example = "4521803355", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long productCategoryId;
 
     /**
