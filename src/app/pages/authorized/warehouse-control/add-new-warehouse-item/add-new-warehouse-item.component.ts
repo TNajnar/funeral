@@ -1,6 +1,5 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -12,8 +11,10 @@ import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-second
 import { ETabVariants } from '../warehouse-control.model';
 import { warehouseControl } from '@lib/staticTexts';
 import { WarehouseGatewayService } from '../gateways/warehouse-gateway.service';
+import { WarehouseTableService } from '../services/warehouse-table.service';
+import { resolveNewItemArgs } from '../utils/utils';
 
-interface IItemType {
+interface ISelectItem {
   value: string;
   viewValue: string;
 }
@@ -25,7 +26,7 @@ const enumToCs: Record<ETabVariants, string> = {
   [ETabVariants.Flowers]: 'Kytky',
 };
 
-const itemTypes: IItemType[] = Object.values(ETabVariants).map((value) => ({
+const selectItems: ISelectItem[] = Object.values(ETabVariants).map((value) => ({
   value: value,
   viewValue: enumToCs[value],
 }));
@@ -36,36 +37,28 @@ const itemTypes: IItemType[] = Object.values(ETabVariants).map((value) => ({
   // eslint-disable-next-line max-len
   imports: [FormsModule, ButtonSecondaryComponent, ButtonPrimaryComponent, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule],
   templateUrl: './add-new-warehouse-item.component.html',
-  providers: [DatePipe],
 })
 export class AddNewWarehouseItemComponent {
   protected _texts = warehouseControl.newItemComponent;
-  itemTypes: IItemType[] = itemTypes;
+  selectItems: ISelectItem[] = selectItems;
 
   @Output() onCancel = new EventEmitter<void>();
 
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
-  private _datePipe: DatePipe = inject(DatePipe);
+  private _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
 
   protected _onSubmit(formData: NgForm): void {
     if (formData.form.invalid) {
       return;
     }
 
-    const formattedDate = this._datePipe.transform(formData.value.date || new Date(), 'yyyy-MM-dd') || '';
+    const newWarehouseItem = resolveNewItemArgs(formData.value, formData.value.availableCount);
 
-    this._gateway.addWarehouseItem({
-      created: new Date().toISOString(),
-      productCategoryId: 6491643754,
-      productCategory: 'Věnce33sds1',
-      producerId: 6491643754,
-      producer: 'Gardena',
-      productId: 2397940629,
-      name: 'Rakev331sss',
-      comment: '8 svíček',
-      stockUp: 24,
-      isFlagged: false
-    }).subscribe();
+    this._gateway.addWarehouseItem(newWarehouseItem).subscribe({
+      next: () => {
+        this._warehouseServiceTable.addWarehouseItem(newWarehouseItem);
+      },
+    });
 
     this.onCancel.emit();
     formData.reset();
