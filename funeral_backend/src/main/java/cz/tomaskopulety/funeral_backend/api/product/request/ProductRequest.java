@@ -76,6 +76,6 @@ public class ProductRequest {
      */
     @Positive
     @Schema(description = "Amount of product to be stocked up in warehouse.", example = "24", requiredMode = Schema.RequiredMode.REQUIRED)
-    private int stockUp;
+    private int inStock;
 
 }

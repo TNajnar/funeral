@@ -10,7 +10,6 @@ import cz.tomaskopulety.funeral_backend.api.product.request.ProductRequest;
 import cz.tomaskopulety.funeral_backend.api.product.response.ProductGetMovementResponse;
 import cz.tomaskopulety.funeral_backend.api.product.response.ProductGetResponse;
 import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
-import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProducerEntity;
 import cz.tomaskopulety.funeral_backend.service.general.IdGenerator;
 import cz.tomaskopulety.funeral_backend.service.producer.domain.Producer;
@@ -44,7 +43,7 @@ public class ApiMapper {
                 .name(request.getName())
                 .comment(request.getComment())
                 .created(request.getCreated())
-                .inStock(request.getStockUp())
+                .inStock(request.getInStock())
                 .productMovements(new ArrayList<>())
                 .flagged(request.isFlagged())
                 .build();
