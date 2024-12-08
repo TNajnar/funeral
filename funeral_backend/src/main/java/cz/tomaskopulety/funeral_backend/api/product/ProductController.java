@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import cz.tomaskopulety.funeral_backend.api.general.ApiMapper;
 import cz.tomaskopulety.funeral_backend.api.general.response.ErrorResponse;
@@ -88,6 +89,17 @@ public class ProductController {
     public ResponseEntity<ProductGetResponse> stockUpProduct(@PathVariable long productId, @Parameter(description = "Amount of product to be bought. Must be positive number.", example = "3") @Positive @PathVariable int quantity) {
         final Product product = this.productService.stockUpProduct(productId, quantity);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
+    }
+
+    @Operation(summary = "Set product inStock.", operationId = "setProductInStock", description = "Set product inStock.", responses = {
+            @ApiResponse(responseCode = "200", description = "Product inStock set successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
+            @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PatchMapping(path = "/{productId}/inStock/{amount}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductGetResponse> setProductInStock(@PathVariable long productId, @PathVariable @PositiveOrZero int amount) {
+        final Product product = this.productService.setProductInStock(productId, amount);
+        return ResponseEntity.ok(this.apiMapper.map(product));
     }
 
     @Operation(summary = "Sell product.", operationId = "sellProduct", description = "Sell product by given value.", responses = {

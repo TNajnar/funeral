@@ -171,6 +171,27 @@ public class ProductService {
     }
 
     /**
+     * Set product inStock.
+     *
+     * @param productId identifier of product
+     * @param value value to update inStock
+     * @return {@link Product}
+     */
+    @Nonnull
+    public Product setProductInStock(long productId, int value) {
+        final ProductEntity productEntity = getProductEntity(productId);
+
+        final int quantity = value - productEntity.getInStock();
+        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null);
+        productEntity.setInStock(productEntity.getInStock() + quantity);
+        productEntity.getProductMovements().add(productMovementEntity);
+        productEntity.setInStock(value);
+
+        this.productRepository.save(productEntity);
+        return this.dbMapper.map(productEntity);
+    }
+
+    /**
      * Set product name.
      *
      * @param productId identifier of product
