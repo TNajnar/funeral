@@ -7,7 +7,7 @@ export function resolveNewItemArgs(formData: TNewItemArgs, availableCount: numbe
     created: formattedDate.toISOString(),
     productCategory: formData.productCategory || ETabVariants.All,
     name: formData.name,
-    stockUp: availableCount,
+    inStock: availableCount,
     isFlagged: false,
   };
 }

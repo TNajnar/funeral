@@ -41,6 +41,14 @@ export class WarehouseGatewayService {
       catchError((error) => {
         return throwError(() => new Error('Failed to save flag.', error));
       })
-    );;
+    );
+  }
+
+  saveComment(productId?: number): Observable<void> {
+    return this._httpClient.patch<void>(`${BASE_URL}/products/${productId}/comment`, { productId }).pipe(
+      catchError((error) => {
+        return throwError(() => new Error('Failed to save comment.', error));
+      })
+    );
   }
 }

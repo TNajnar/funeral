@@ -48,7 +48,6 @@ export class WarehouseTableComponent implements AfterViewInit {
   protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
-  cd = inject(ChangeDetectorRef);
 
   ngAfterViewInit(): void {
     this.tableDataSource.paginator = this.paginator;

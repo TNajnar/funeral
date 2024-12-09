@@ -5,7 +5,7 @@ export type TWarehouseItems = {
 export type TWarehouseItem = {
   comment?: string;
   created: string;
-  inStock?: number;
+  inStock: number;
   isFlagged: boolean;
   name: string;
   producer?: string;
@@ -14,14 +14,13 @@ export type TWarehouseItem = {
   productCategoryId?: number;
   productId?: number;
   productMovements?: any[];
-  stockUp: number;
 }
 
 export type TNewItemArgs = {
   created: string;
   productCategory: string;
   name: string;
-  stockUp: number;
+  inStock: number;
   isFlagged: boolean;
 }
 
