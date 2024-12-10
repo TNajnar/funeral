@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, HostBinding, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, HostBinding, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
@@ -85,8 +85,16 @@ export class WarehouseTableComponent implements AfterViewInit {
 
   onFlagClick(warehouseItem: TWarehouseItem): void {
     this._gateway.saveFlag(warehouseItem.productId).subscribe({
-      next: (): void => {
-        warehouseItem.isFlagged = !warehouseItem.isFlagged;
+      next: (responseWarehouseItem: TWarehouseItem): void => {
+        warehouseItem.isFlagged = responseWarehouseItem.isFlagged;
+      }
+    });
+  }
+
+  onSaveComment(warehouseItem: TWarehouseItem, comment?: string): void {
+    this._gateway.saveComment(warehouseItem.productId, comment).subscribe({
+      next: (responseWarehouseItem: TWarehouseItem): void => {
+        warehouseItem.comment = responseWarehouseItem.comment;
       }
     });
   }

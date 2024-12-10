@@ -6,13 +6,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 
-import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
-import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
-import { ETabVariants } from '../warehouse-control.model';
-import { warehouseControl } from '@lib/staticTexts';
 import { WarehouseGatewayService } from '../gateways/warehouse-gateway.service';
 import { WarehouseTableService } from '../services/warehouse-table.service';
+import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
+import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
 import { resolveNewItemArgs } from '../utils/utils';
+import { ETabVariants, type TNewItemArgs, type TWarehouseItem } from '../warehouse-control.model';
+import { warehouseControl } from '@lib/staticTexts';
 
 interface ISelectItem {
   value: string;
@@ -52,10 +52,10 @@ export class AddNewWarehouseItemComponent {
       return;
     }
 
-    const newWarehouseItem = resolveNewItemArgs(formData.value, formData.value.availableCount);
+    const resolvedItemArgs: TNewItemArgs = resolveNewItemArgs(formData.value, formData.value.availableCount);
 
-    this._gateway.addWarehouseItem(newWarehouseItem).subscribe({
-      next: () => {
+    this._gateway.addWarehouseItem(resolvedItemArgs).subscribe({
+      next: (newWarehouseItem: TWarehouseItem): void => {
         this._warehouseServiceTable.addWarehouseItem(newWarehouseItem);
       },
     });

@@ -49,4 +49,8 @@ export const commentComponent = {
   cancel: 'Zrušit',
 };
 
+export const modalComponent = {
+  ok: 'Okay',
+};
+
 /* #endregion */

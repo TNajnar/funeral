@@ -12,9 +12,19 @@ export type TWarehouseItem = {
   producerId?: number;
   productCategory: string;
   productCategoryId?: number;
-  productId?: number;
-  productMovements?: any[];
+  productId: number;
+  productMovements?: TProductMovement[];
 }
+
+type TProductMovement = {
+  created: string;
+  productMovementType: TProductMovementType;
+  oldState: number;
+  requested: number;
+  newState: number;
+}
+
+type TProductMovementType = 'PURCHASE' | 'SALE';
 
 export type TNewItemArgs = {
   created: string;
