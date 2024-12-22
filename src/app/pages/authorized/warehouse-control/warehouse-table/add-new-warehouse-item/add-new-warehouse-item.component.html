@@ -1,7 +1,7 @@
 <form class="flex flex-col gap-4" #form="ngForm" (ngSubmit)="_onSubmit(form)">
   <div class="grid grid-cols-2 gap-4">
     <mat-form-field>
-      <mat-label for="productCategory">{{ _texts.itemType }}</mat-label>
+      <mat-label for="productCategory">{{ _texts.itemCategory }}</mat-label>
       <mat-select
         name="productCategory"
         panelClass="custom-select-panel"
@@ -12,6 +12,23 @@
           <mat-option [value]="selectItem.value">{{ selectItem.viewValue }}</mat-option>
         }
       </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label for="type">{{ _texts.itemType }}</mat-label>
+      <input
+        matInput
+        type="text"
+        name="type"
+        id="type"
+        ngModel
+        required
+        #type="ngModel"
+      />
+
+      @if (type.touched && type.dirty && type.invalid) {
+        <mat-error>{{ _texts.nameError }}</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>

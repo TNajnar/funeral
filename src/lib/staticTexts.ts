@@ -28,6 +28,13 @@ export const warehouseControl = {
     categoryModalTitle: 'Vytvoř novou kategorii',
     categoryModalTitleEdit: 'Editovat kategorie',
 
+    editCategory: {
+      label: 'Název kategorie',
+      error: 'Neplatný název kategorie.',
+      submit: 'Potvrdit',
+      cancel: 'Zrušit',
+    },
+
     newCategory: {
       label: 'Název nové kategorie:',
       error: 'Neplatný název kategorie.',
@@ -51,6 +58,7 @@ export const warehouseControl = {
   newItemComponent: {
     title: 'Přidat novou položku',
     date: 'Datum',
+    itemCategory: 'Kategorie',
     itemType: 'Typ',
     name: 'Název',
     nameError: 'Prosím vložte jméno položky.',

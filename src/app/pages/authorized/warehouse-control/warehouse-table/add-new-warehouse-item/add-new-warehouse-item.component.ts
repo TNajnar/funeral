@@ -6,8 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { WarehouseTableService } from '@pages/authorized/warehouse-control/services/warehouse-table.service';
 import { WarehouseGatewayService } from '@pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
-import { ButtonPrimaryComponent } from '@app/ui/button-primary/button-primary.component';
-import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
+import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
 import { resolveNewItemArgs } from '@pages/authorized/warehouse-control/utils/utils';
 import type {
   TNewItemArgs, TWarehouseItem

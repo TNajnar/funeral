@@ -10,8 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { WarehouseTableService } from '../services/warehouse-table.service';
 import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
 import { CustomPaginatorService } from 'services/custom-paginator.service';
-import { FlagComponent } from '@app/ui/flag/flag.component';
-import { CommentComponent } from '@app/ui/comment/comment.component';
+import { CommentComponent, FlagComponent } from '@app/ui';
 import type { TFilterOptions } from '../utils/warehouse-control.model';
 import type { TWarehouseItem } from '../utils/warehouse-control.gateway.model';
 import { _DISPLAYED_COLUMNS } from '../utils/consts';
@@ -21,7 +20,7 @@ import { warehouseControl } from '@lib/staticTexts';
   selector: 'app-warehouse-table',
   standalone: true,
   imports: [NgIf, FormsModule, FlagComponent, CommentComponent,
-    MatIconModule, MatTableModule, MatPaginatorModule, MatSlideToggleModule, MatProgressSpinnerModule
+    MatIconModule, MatTableModule, MatPaginatorModule, MatSlideToggleModule, MatProgressSpinnerModule,
   ],
   templateUrl: './warehouse-table.component.html',
   providers: [
