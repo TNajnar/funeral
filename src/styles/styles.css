@@ -52,8 +52,13 @@
 
 @layer components {
   dialog.cdk-custom-pane .cdk-overlay-container .cdk-overlay-pane {
-    top: 132px !important;
-    left: 21.1px  !important;
+    top: 132px !important;   /* TODO */
+    left: 21.1px  !important;   /* TODO */
+  }
+
+  .custom-select-panel.mat-mdc-select-panel {
+    position: absolute;
+    left: 4px;
   }
 
   /* #region Slide Toggle */
@@ -76,9 +81,12 @@
 
   /* #region Table */
 
-  .custom-select-panel.mat-mdc-select-panel {
-    position: absolute;
-    left: 260px;
+  .base-table-border {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid theme('colors.gray');
+    border-radius: 4px;
   }
 
   .mat-mdc-table.table {

@@ -12,7 +12,7 @@ import { MOCK_FUNERAL_DATA } from '../mockData';
   imports: [FormsModule, DatePipe, MatTableModule],
   templateUrl: './dashboard-table-funeral.component.html',
   host: {
-    class: 'flex flex-col overflow-hidden border border-gray rounded-md'
+    class: 'base-table-border'
   }
 })
 export class DashboardTableFuneralComponent {

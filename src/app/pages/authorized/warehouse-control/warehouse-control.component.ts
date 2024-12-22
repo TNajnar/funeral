@@ -11,8 +11,7 @@ import {
   AddNewWarehouseItemComponent
 } from './warehouse-table/add-new-warehouse-item/add-new-warehouse-item.component';
 import { FilterTabsComponent } from './filter-tabs/filter-tabs.component';
-import { ModalComponent } from '@app/ui/modal/modal.component';
-import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-secondary.component';
+import { ButtonSecondaryComponent, ModalComponent } from '@app/ui';
 import { GraphComponent } from '@app/shared/graph/graph.component';
 import type { TWarehouseItems } from './utils/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
@@ -42,7 +41,7 @@ export class WarehouseControlComponent implements OnInit {
 
     const subscription = this._gateway.fetchAllWarehouseItems().subscribe({
       next: (data: TWarehouseItems): void => {
-        this._warehouseServiceTable.notifyUpdateWarehouseItems$(data.products);
+        this._warehouseServiceTable.notifyWarehouseItemsChange$(data.products);
       },
       complete: (): void => this._warehouseServiceTable.isLoading.set(false),
     });
