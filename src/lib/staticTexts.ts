@@ -1,5 +1,16 @@
 /* region Pages */
 
+export const dashboard = {
+  graphText: 'Graf o sjednaných službách a pohřbech ',
+  in: 'v',
+  newFuneral: 'Nový pohřeb',
+  newService: 'Nová služba',
+  funerals: 'Naplánované pohřby',
+  services: 'Naplánované služby',
+  funeralTooltip: 'Přidej nový pohřeb',
+  serviceTooltip: 'Přidej novou službu',
+};
+
 export const loginTexts = {
   title: 'Příhlášení',
   email: 'Email',

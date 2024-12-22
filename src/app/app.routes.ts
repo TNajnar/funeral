@@ -2,17 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './pages/authorized/dashboard/dashboard.component';
-import { BouquetMusicComponent } from './pages/authorized/bouquet-music/bouquet-music.component';
-import { GardenerServicesComponent } from './pages/authorized/gardener-services/gardener-services.component';
 import { NegotiationComponent } from './pages/authorized/negotiation/negotiation.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { WarehouseControlComponent } from './pages/authorized/warehouse-control/warehouse-control.component';
+import { PlanningComponent } from './pages/authorized/planning/planning.component';
 import { hasRoleGuard } from '@lib/has-role.guard';
 import { ERoles, ERoutes } from '@lib/enums';
 
 export const routes: Routes = [
   { path: ERoutes.Auth, component: UnauthorizedComponent },
-  { path: '', redirectTo: ERoutes.Warehouse, pathMatch: 'full' },
+  { path: '', redirectTo: ERoutes.Dashboard, pathMatch: 'full' },
   {
     path: ERoutes.Dashboard,
     component: DashboardComponent,
@@ -30,20 +29,14 @@ export const routes: Routes = [
     },
   },
   {
-    path: ERoutes.BouquetAndMusic,
-    component: BouquetMusicComponent,
-    canActivate: [hasRoleGuard],
-    data: { roles: [ ERoles.Authorized ]}
-  },
-  {
-    path: ERoutes.GardenerServices,
-    component: GardenerServicesComponent,
+    path: ERoutes.Negotiation,
+    component: NegotiationComponent,
     canActivate: [hasRoleGuard],
     data: { roles: [ ERoles.Authorized ] }
   },
   {
-    path: ERoutes.Negotiation,
-    component: NegotiationComponent,
+    path: ERoutes.Planning,
+    component: PlanningComponent,
     canActivate: [hasRoleGuard],
     data: { roles: [ ERoles.Authorized ] }
   },
