@@ -27,9 +27,9 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
-        type="text"
         name="category"
-        id="category"
+        type="text"
+        [id]="'category' + element.productId"
         [(ngModel)]="element.productCategory"
       />
     </td>
@@ -40,9 +40,9 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
-        type="text"
         name="type"
-        id="type"
+        type="text"
+        [id]="'type' + element.productId"
         [(ngModel)]="element.type"
       />
     </td>
@@ -53,9 +53,9 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
-        [id]="'name-' + element.id"
         name="name"
         type="text"
+        [id]="'name-' + element.productId"
         [(ngModel)]="element.name"
       />
     </td>
@@ -66,10 +66,9 @@
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table w-full"
-        [id]="'availableCount-' + element.id"
         name="availableCount"
-        id="availableCount"
-        [value]="element.inStock"
+        [id]="'availableCount-' + element.productId"
+        [(ngModel)]="element.inStock"
       />
     </td>
   </ng-container>

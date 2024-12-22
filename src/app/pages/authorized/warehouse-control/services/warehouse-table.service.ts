@@ -35,21 +35,21 @@ export class WarehouseTableService {
 
   categories: Signal<TCategory[]> = this._categories.asReadonly();
 
-  notifyUpdateWarehouseItems$(items: TWarehouseItem[]): void {
+  notifyWarehouseItemsChange$(items: TWarehouseItem[]): void {
     this._warehouseItems$.next(items);
     this._tableDataSource.data = this._warehouseItems$.getValue();
   }
 
   addWarehouseItem(warehouseItem: TWarehouseItem): void {
     const currentItems = this._warehouseItems$.getValue();
-    this.notifyUpdateWarehouseItems$([warehouseItem, ...currentItems]);
+    this.notifyWarehouseItemsChange$([warehouseItem, ...currentItems]);
   }
 
   deleteWarehouseItem(productId: number): void {
     const updatedItems = this._warehouseItems$.getValue().filter((warehouseItem) =>
       warehouseItem.productId !== productId
     );
-    this.notifyUpdateWarehouseItems$(updatedItems);
+    this.notifyWarehouseItemsChange$(updatedItems);
   }
 
   updateTableFilters(): void {

@@ -6,7 +6,7 @@ import { WarehouseTableService } from '../services/warehouse-table.service';
 import { WarehouseGatewayService } from '../gateways/warehouse-gateway.service';
 import { NewCategoryComponent } from './new-category/new-category.component';
 import { EditCategoriesComponent } from './edit-categories/edit-categories.component';
-import { ModalComponent } from '@app/ui/modal/modal.component';
+import { ModalComponent } from '@app/ui';
 import { CATEGORY_MENU_ITEMS } from '../utils/consts';
 import type { TCategories, TCategory } from '../utils/warehouse-control.gateway.model';
 import type { TCategoryMenuItem, TCategoryModals } from '../utils/warehouse-control.model';

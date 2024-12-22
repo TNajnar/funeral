@@ -42,7 +42,7 @@ module.exports = {
       width: {
         'percent-55': '55%',
         'percent-45': '45%',
-        145: '145px',
+        135: '135px',
         165: '165px',
         340: '340px',
         374: '374px',
@@ -55,7 +55,7 @@ module.exports = {
         'table-20': '1070px',
       },
       inset: {
-        '100': '100px',
+        '104': '104px',
       },
       borderWidth: {
         1: '1px',
