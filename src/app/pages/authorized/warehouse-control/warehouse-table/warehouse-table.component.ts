@@ -1,4 +1,4 @@
-import { Component, computed, HostBinding, inject, Signal, ViewChild } from '@angular/core';
+import { Component, computed, HostBinding, inject, signal, Signal, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { WarehouseTableService } from '../services/warehouse-table.service';
 import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
 import { CustomPaginatorService } from 'services/custom-paginator.service';
+import { ProductAmountChangeMenuComponent } from './product-amount-change-menu/product-amount-change-menu.component';
 import { CommentComponent, FlagComponent } from '@app/ui';
 import type { TFilterOptions } from '../utils/warehouse-control.model';
 import type { TWarehouseItem } from '../utils/warehouse-control.gateway.model';
@@ -19,30 +20,32 @@ import { warehouseControl } from '@lib/staticTexts';
 @Component({
   selector: 'app-warehouse-table',
   standalone: true,
-  imports: [NgIf, FormsModule, FlagComponent, CommentComponent,
+  imports: [NgIf, FormsModule, FlagComponent, CommentComponent, ProductAmountChangeMenuComponent,
     MatIconModule, MatTableModule, MatPaginatorModule, MatSlideToggleModule, MatProgressSpinnerModule,
   ],
   templateUrl: './warehouse-table.component.html',
-  providers: [
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorService }
-  ],
+  providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorService }],
   host: {
-    class: 'flex flex-col mb-20 overflow-hidden border border-gray rounded-md',
+    class: 'flex flex-col mb-20 border border-gray rounded-md',
   }
 })
 export class WarehouseTableComponent {
   protected _texts = warehouseControl.table;
+  activeCountMenu = signal<number | undefined>(undefined);
   selectedPagination: number = 5;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @HostBinding('class.h-table-5') get hostPaginationHeight5(): boolean {
-    return this.selectedPagination === 5;
-  }
-  @HostBinding('class.h-table-10') get hostPaginationHeight10(): boolean {
-    return this.selectedPagination === 10;
-  }
-  @HostBinding('class.h-table-20') get hostPaginationHeight20(): boolean {
-    return this.selectedPagination === 20;
+  @HostBinding('class') get hostClasses(): string {
+    switch (this.selectedPagination) {
+      case 5:
+        return 'h-table-5';
+      case 10:
+        return 'h-table-10';
+      case 20:
+        return 'h-table-20';
+      default:
+        return '';
+    }
   }
 
   protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
@@ -67,6 +70,15 @@ export class WarehouseTableComponent {
   isLoading: Signal<boolean> = computed(() => {
     return this._warehouseServiceTable.isLoading();
   });
+
+  toggleCountMenu(productId: number): void {
+    if (this.activeCountMenu() === productId) {
+      this.activeCountMenu.set(undefined);
+      return;
+    }
+
+    this.activeCountMenu.set(productId);
+  }
 
   onChangeToggle(value: boolean, type: string): void {
     this._tableFilterOptions[type === 'Flag' ? 'isFlagged' : 'hasComment'] = value;
