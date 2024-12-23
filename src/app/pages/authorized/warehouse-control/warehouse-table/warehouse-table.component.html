@@ -57,6 +57,7 @@
         type="text"
         [id]="'name-' + element.productId"
         [(ngModel)]="element.name"
+        (blur)="onNameChange(element.name, element)"
       />
     </td>
   </ng-container>
@@ -68,9 +69,11 @@
         <input
           class="input-table w-full"
           name="availableAmount"
+          type="text"
           [id]="'availableAmount-' + element.productId"
           [(ngModel)]="element.inStock"
           (focus)="activeCountMenu.set(undefined)"
+          (blur)="onAmountChange(element.inStock, element)"
         >
   
         <button class="stock-count-menu hover:bg-gray" (click)="toggleCountMenu(element.productId)">
