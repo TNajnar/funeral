@@ -11,9 +11,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+import cz.tomaskopulety.funeral_backend.db.company.model.CompanyEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,6 +43,14 @@ public class ProductEntity {
     @OneToOne
     @JoinColumn(name = "id_product_category")
     private ProductCategoryEntity productCategory;
+
+    /**
+     * Company which owns product.
+     */
+    @Nonnull
+    @ManyToOne
+    @JoinColumn(name = "id_company")
+    private CompanyEntity company;
 
     /**
     * Producer of product.
