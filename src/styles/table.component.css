@@ -1,0 +1,150 @@
+@tailwind components;
+
+@layer components {
+   /* #region Base Table */
+
+   .base-table-border {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid theme('colors.gray');
+    border-radius: 4px;
+  }
+
+  .mat-mdc-table.table {
+    max-height: 100%;
+    background-color: inherit;
+  }
+  
+  .mat-mdc-table .mat-mdc-header-cell.header {
+    border-bottom-color: theme('colors.gray');
+  }
+  
+  .mat-mdc-cell.cell {
+    border-bottom: none;
+  }
+  
+  .mat-mdc-row.row {
+    height: 45px;
+  }
+  
+  .mat-mdc-row.row:hover {
+    background-color: theme('colors.blue-light');
+    cursor: pointer;
+  }
+
+  .mat-mdc-row.row:hover,
+  .mat-mdc-row.row:focus-within {
+    background-color: theme('colors.blue-light');
+  }
+
+  .mat-mdc-row.row:hover .input-table,
+  .mat-mdc-row.row:focus-within .input-table {
+    background-color: theme('colors.blue-light');
+  }
+  
+  .input-table {
+    padding: 2px;
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 3.5px;
+  }
+  
+  .input-table:hover {
+    border: 1px solid theme('colors.gray');
+  }
+  
+  .input-table:focus {
+    background-color: theme('colors.blue-light');
+    border-color: theme('colors.blue-primary');
+    box-shadow: 0 0 6px theme('colors.blue-primary');
+    outline: none;
+  }
+
+  tr:hover :where(.input-table) {
+    background-color: theme('colors.blue-light');
+  }
+
+  .table-delete-icon {
+    width: 24px;
+    height: 24px;
+    color: transparent;
+    cursor: pointer;
+  }
+  
+  .table-delete-icon:hover {
+    background-color: theme('colors.blue-bgm');
+    border-radius: 2px;
+  }
+  
+  tr:hover :where(.table-delete-icon) {
+    color: theme('colors.blue-primary');
+    cursor: pointer;
+  }
+  
+  .mat-mdc-paginator.custom-pagination {
+    margin-top: auto;
+    background-color: inherit;
+  }
+
+  /* #endregion */
+
+  /* #region Extend WarehouseTable stockMenu styles */
+
+  .input-table:hover:not(:focus),
+  .input-wrapper:hover .input-table:not(:focus),
+  .stock-count-menu:hover ~ .input-table:not(:focus) {
+    border: 1px solid theme('colors.gray');
+  }
+  
+  .input-wrapper {
+    position: relative;
+  }
+  
+  .stock-count-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0px 4px 4px 4px;
+    height: 100%;
+    background-color: theme('colors.gray-muted');
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    color: theme('colors.blue-primary');
+    font-weight: 700;
+  }
+    
+  .input-table:focus + .stock-count-menu,
+  .input-wrapper:hover .stock-count-menu {
+    display: block;
+  }
+
+  /* Style for input when focused or activeCountMenu */
+  .input-wrapper.active .input-table,
+  .input-table:focus,
+  .input-wrapper.active:hover .input-table {
+    background-color: theme('colors.blue-light');
+    border-color: theme('colors.blue-primary');
+    box-shadow: 0 0 6px theme('colors.blue-primary');
+    outline: none;
+  }
+  
+  /* Style for stock-count-menu when focused or activeCountMenu */
+  .input-wrapper.active .stock-count-menu,
+  .input-table:focus + .stock-count-menu {
+    display: block;
+    background-color: theme('colors.gray-muted');
+    border-top: 1px solid theme('colors.blue-primary');
+    border-right: 1px solid theme('colors.blue-primary');
+    border-bottom: 1px solid theme('colors.blue-primary');
+    color: theme('colors.blue-primary');
+  }
+
+  .mat-mdc-cell.cell-count {
+    border-bottom: none;
+    overflow: unset;
+  }
+
+  /* #endregion */
+}

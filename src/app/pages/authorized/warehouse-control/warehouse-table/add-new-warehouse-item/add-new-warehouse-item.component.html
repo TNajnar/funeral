@@ -49,18 +49,18 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label for="availableCount">{{ _texts.availableCount }}</mat-label>
+      <mat-label for="availableAmount">{{ _texts.availableCount }}</mat-label>
       <input
         matInput
         type="number"
-        name="availableCount"
-        id="availableCount"
+        name="availableAmount"
+        id="availableAmount"
         ngModel
         required
-        #availableCount="ngModel"
+        #availableAmount="ngModel"
       />
 
-      @if (availableCount.touched && availableCount.dirty && availableCount.invalid) {
+      @if (availableAmount.touched && availableAmount.dirty && availableAmount.invalid) {
         <mat-error>{{ _texts.availableCountError }}</mat-error>
       }
     </mat-form-field>
