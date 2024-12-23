@@ -1,0 +1,25 @@
+input {
+  padding: 2px;
+  background-color: white;
+  border: 1px solid theme('colors.gray-muted');
+  border-radius: 3.5px;
+}
+
+input:focus {
+  border-color: theme('colors.blue-primary');
+  box-shadow: 0 0 6px theme('colors.blue-primary');
+  outline: none;
+}
+
+.arrow {
+  position: absolute;
+  top: -8px;
+  right: 23px;
+  z-index: 5;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid white;
+}

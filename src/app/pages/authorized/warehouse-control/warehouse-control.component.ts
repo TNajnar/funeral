@@ -24,9 +24,6 @@ import { warehouseControl } from '@lib/staticTexts';
     MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent,
   ],
   templateUrl: './warehouse-control.component.html',
-  host: {
-    class: 'flex flex-col',
-  },
 })
 export class WarehouseControlComponent implements OnInit {
   protected _texts = warehouseControl;

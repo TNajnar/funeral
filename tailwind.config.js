@@ -42,8 +42,10 @@ module.exports = {
       width: {
         'percent-55': '55%',
         'percent-45': '45%',
+        100: '100px',
         135: '135px',
         165: '165px',
+        290.6: '290.66px',
         340: '340px',
         374: '374px',
         400: '400px'
@@ -56,6 +58,7 @@ module.exports = {
       },
       inset: {
         '104': '104px',
+        '139': '139px',
       },
       borderWidth: {
         1: '1px',

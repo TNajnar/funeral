@@ -57,6 +57,15 @@ export class WarehouseGatewayService extends BaseGatewayService {
     );
   }
 
+  changeProductAmount(productId: number, amount: number): Observable<TWarehouseItem> {
+    return this._httpClient.patch<TWarehouseItem>(`${BASE_URL}/products/${productId}/inStock/${amount}`, {}).pipe(
+      catchError((error) => {
+        this._errorService.showError('Chyba při změně množství produktu: ' + error.message);
+        return throwError(() => new Error('Failed to change products amount.', error));
+      })
+    );
+  }
+
   fetchCategories(): Observable<TCategories> {
     return this._httpClient.get<TCategories>(`${BASE_URL}/product-categories`).pipe(
       catchError((error) => {

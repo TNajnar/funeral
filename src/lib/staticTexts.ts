@@ -53,6 +53,13 @@ export const warehouseControl = {
     filterWithFlag: 'S vlaječkou',
     filterWithComment: 'S komentářem',
     emptyWarehouse: 'Sklad je prázdný',
+
+    amountMenu: {
+      title: 'Změnit množství',
+      submit: 'Potvrdit',
+      cancel: 'Zrušit',
+      tooltip: 'Nepoužívat pro naskladnění nových produktů',
+    }
   },
 
   newItemComponent: {
