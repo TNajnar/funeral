@@ -7,7 +7,6 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Join;
 
-import cz.tomaskopulety.funeral_backend.db.product.model.ProducerEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductMovementEntity;
@@ -25,17 +24,6 @@ public class ProductSpecification {
     @Nonnull
     public static Specification<ProductEntity> byCategory(final ProductCategoryEntity category) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("productCategory"), category);
-    }
-
-    /**
-     * Create database specification for selecting products by producer.
-     *
-     * @param producer producer category
-     * @return {@link Specification}
-     */
-    @Nonnull
-    public static Specification<ProductEntity> byProducer(final ProducerEntity producer) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("producer"), producer);
     }
 
     /**

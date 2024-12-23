@@ -27,12 +27,6 @@ public class ProductGetResponse {
     @Schema(description = "Category of product.", example = "Věnce", requiredMode = Schema.RequiredMode.REQUIRED)
     private final String productCategory;
 
-    /**
-     * Warehouse identifier of producer.
-     */
-    @Nullable
-    @Schema(description = "Warehouse identifier of producer.", example = "6491643754", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private Long producerId;
 
     /**
      * Producer of product.
@@ -40,6 +34,13 @@ public class ProductGetResponse {
     @Nullable
     @Schema(description = "Producer of product.", example = "Gardena", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private final String producer;
+
+    /**
+     * Type of product.
+     */
+    @Nullable
+    @Schema(description = "Type of product.", example = "Zimní", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private final String type;
 
     /**
      * Warehouse identifier of product.

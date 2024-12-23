@@ -2,14 +2,15 @@ package cz.tomaskopulety.funeral_backend.service.productcategory;
 
 import java.util.List;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.db.general.DbMapper;
 import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
-import cz.tomaskopulety.funeral_backend.db.product.model.ProducerEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.service.general.IdGenerator;
+import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
 import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 
 import lombok.AllArgsConstructor;
@@ -62,7 +63,7 @@ public class ProductCategoryService {
      *
      * @param productCategoryName name of product category
      * @throws EntityNotFoundException when category not found
-     * @return {@link ProducerEntity}
+     * @return {@link ProductCategoryEntity}
      */
     @Nonnull
     public ProductCategoryEntity getProductCategoryEntity(@Nonnull String productCategoryName) {
@@ -72,6 +73,38 @@ public class ProductCategoryService {
                     return new EntityNotFoundException(String.format("Product category name: %s not found. Available categories: %s.", productCategoryName, categoryNames));
                 });
 
+    }
+
+    /**
+     * Delete category by given identifier.
+     *
+     * @param categoryId warehouse identifier of category
+     * @throws EntityNotFoundException when category not found.
+     */
+    public void deleteCategory(long categoryId) {
+        final ProductCategoryEntity productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(categoryId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product category: %s not found.", categoryId)));
+        this.productCategoryRepository.delete(productCategoryEntity);
+    }
+
+    /**
+     * Set category name.
+     *
+     * @param categoryId identifier of category
+     * @param value value to update name
+     * @throws EntityNotFoundException when category not found.
+     * @return {@link Product}
+     */
+    @Nonnull
+    public ProductCategory setCategoryName(long categoryId, @Nullable String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Category name can not be null.");
+        }
+        final ProductCategoryEntity productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(categoryId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product category: %s not found.", categoryId)));
+        productCategoryEntity.setName(value);
+        this.productCategoryRepository.save(productCategoryEntity);
+        return this.dbMapper.map(productCategoryEntity);
     }
 
 }

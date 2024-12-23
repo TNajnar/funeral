@@ -147,6 +147,28 @@ public class ProductController {
         return ResponseEntity.ok(this.apiMapper.map(product));
     }
 
+    @Operation(summary = "Set producer name.", operationId = "setProducerName", description = "Set producer name.", responses = {
+            @ApiResponse(responseCode = "200", description = "Producer name set successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
+            @ApiResponse(responseCode = "422", description = "Producer not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PatchMapping(path = "/{productId}/producer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductGetResponse> setProducerName(@PathVariable long productId, @RequestBody @Valid @NotNull ProductSetStringRequest request) {
+        final Product product = this.productService.setProducerName(productId, request.getValue());
+        return ResponseEntity.ok(this.apiMapper.map(product));
+    }
+
+    @Operation(summary = "Set type.", operationId = "setType", description = "Set type.", responses = {
+            @ApiResponse(responseCode = "200", description = "Type set successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
+            @ApiResponse(responseCode = "422", description = "Type not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PatchMapping(path = "/{productId}/type", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductGetResponse> setType(@PathVariable long productId, @RequestBody @Valid @NotNull ProductSetStringRequest request) {
+        final Product product = this.productService.setType(productId, request.getValue());
+        return ResponseEntity.ok(this.apiMapper.map(product));
+    }
+
     @Operation(summary = "Get list of products.", operationId = "getListOfProducts", description = "Get list of saved products. Filters can be added as path variables to have selection more specific.", responses = {
             @ApiResponse(responseCode = "200", description = "Products loaded successfully.", content = {@Content(schema = @Schema(implementation = ProductResponses.class))}),
             @ApiResponse(responseCode = "422", description = "Objects required for getting products were not found (product category, ....).", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -155,14 +177,13 @@ public class ProductController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponses> getProducts(
             @Parameter(description = "Name of product category. Select only products from given category.") @RequestParam(name = "productCategoryName", required = false) @Nullable String productCategoryName,
-            @Parameter(description = "Identifier of producer. Select only products from given producer.") @RequestParam(name = "producer", required = false) @Nullable Long producerId,
             @Parameter(description = "Months as numbers connected with dash(range of months) or comma(one month).", example = "1-5,9,10") @RequestParam(required = false) @Nullable String months,
             @Parameter(description = "Select only products which contain at least one sale.") @RequestParam(required = false) @Nullable Boolean sale,
             @Parameter(description = "Full text search for product name.") @RequestParam(required = false) @Nullable String productName
     ) {
         return ResponseEntity.ok(
                 new ProductResponses(
-                        this.productService.getProducts(productCategoryName, producerId, months, sale, productName)
+                        this.productService.getProducts(productCategoryName, months, sale, productName)
                                 .stream()
                                 .map(this.apiMapper::map)
                                 .toList()

@@ -3,16 +3,14 @@ package cz.tomaskopulety.funeral_backend.api.general;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.api.product.request.ProductRequest;
 import cz.tomaskopulety.funeral_backend.api.product.response.ProductGetMovementResponse;
 import cz.tomaskopulety.funeral_backend.api.product.response.ProductGetResponse;
-import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
-import cz.tomaskopulety.funeral_backend.db.product.model.ProducerEntity;
+import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
+import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.service.general.IdGenerator;
-import cz.tomaskopulety.funeral_backend.service.producer.domain.Producer;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
 import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 import cz.tomaskopulety.funeral_backend.service.product.domain.ProductMovement;
@@ -26,7 +24,7 @@ import lombok.AllArgsConstructor;
 public class ApiMapper {
 
     @Nonnull
-    private final ProducerRepository producerRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
     /**
      * Maps {@link ProductRequest} to {@link Product}
@@ -37,8 +35,9 @@ public class ApiMapper {
     @Nonnull
     public Product map(@Nonnull ProductRequest request){
         return Product.builder()
-                .productCategory(getProductCategory(request.getProductCategoryId(), request.getProductCategory()))
-                .producer(null)
+                .type(request.getType())
+                .producer(request.getProducer())
+                .productCategory(getProductCategory(request.getProductCategoryId()))
                 .productId(IdGenerator.generateNumericID())
                 .name(request.getName())
                 .comment(request.getComment())
@@ -59,13 +58,13 @@ public class ApiMapper {
     public ProductGetResponse map(@Nonnull Product product){
         return ProductGetResponse.builder()
                 .productCategory(product.getProductCategory().name())
-                .producer(null)
+                .producer(product.getProducer())
                 .productId(product.getProductId())
                 .name(product.getName())
                 .comment(product.getComment())
                 .inStock(product.getInStock())
                 .productCategoryId(product.getProductCategory().productCategoryId())
-                .producerId(null)
+                .type(product.getType())
                 .productMovements(
                         product.getProductMovements()
                                 .stream()
@@ -77,29 +76,17 @@ public class ApiMapper {
     }
 
     /**
-     * Gets {@link Producer} by given identifier
-     *
-     * @param producerId warehouse identifier
-     * @return {@link Producer}
-     * @throws EntityNotFoundException when producer not found
-     */
-    @Nonnull
-    private Producer getProducer(long producerId){
-        final ProducerEntity producerEntity = this.producerRepository.findByProducerId(producerId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Producer with id: %d not found.", producerId)));
-        return new Producer(producerId, producerEntity.getName());
-    }
-
-    /**
      * Gets {@link ProductCategory} by given identifier
      *
      * @param productCategoryId warehouse identifier
-     * @param productCategoryName name of category
+     * @throws EntityNotFoundException when category not found.
      * @return {@link ProductCategory}
      */
     @Nonnull
-    private ProductCategory getProductCategory(@Nullable Long productCategoryId, @Nonnull String productCategoryName){
-        return new ProductCategory(productCategoryId, productCategoryName);
+    private ProductCategory getProductCategory(@Nonnull Long productCategoryId){
+        final ProductCategoryEntity productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(productCategoryId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product category with id: %d not found.", productCategoryId)));
+        return new ProductCategory(productCategoryEntity.getProductCategoryId(), productCategoryEntity.getName());
     }
 
     /**

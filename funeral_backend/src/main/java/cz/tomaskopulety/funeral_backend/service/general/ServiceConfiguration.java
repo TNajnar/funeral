@@ -5,10 +5,8 @@ import jakarta.annotation.Nonnull;
 
 import cz.tomaskopulety.funeral_backend.api.general.ApiMapper;
 import cz.tomaskopulety.funeral_backend.db.general.DbMapper;
-import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductRepository;
-import cz.tomaskopulety.funeral_backend.service.producer.ProducerService;
 import cz.tomaskopulety.funeral_backend.service.product.ProductService;
 import cz.tomaskopulety.funeral_backend.service.productcategory.ProductCategoryService;
 
@@ -19,13 +17,8 @@ import org.springframework.context.annotation.Configuration;
 public class ServiceConfiguration {
 
     @Bean
-    public ProductService productService(@Nonnull ProductRepository productRepository, @Nonnull ProducerService producerService, @Nonnull ProductCategoryService productCategoryService, @Nonnull DbMapper dbMapper) {
-        return new ProductService(productRepository, producerService, productCategoryService, dbMapper);
-    }
-
-    @Bean
-    public ProducerService producerService(@Nonnull ProducerRepository producerRepository, @Nonnull DbMapper dbMapper) {
-        return new ProducerService(producerRepository, dbMapper);
+    public ProductService productService(@Nonnull ProductRepository productRepository, @Nonnull ProductCategoryService productCategoryService, @Nonnull DbMapper dbMapper) {
+        return new ProductService(productRepository, productCategoryService, dbMapper);
     }
 
     @Bean
@@ -34,13 +27,13 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public DbMapper dbMapper(@Nonnull ProducerRepository producerRepository, @Nonnull ProductCategoryRepository productCategoryRepository, @Nonnull Clock clock) {
-        return new DbMapper(producerRepository, productCategoryRepository, clock);
+    public DbMapper dbMapper(@Nonnull Clock clock) {
+        return new DbMapper(clock);
     }
 
     @Bean
-    public ApiMapper apiMapper(@Nonnull ProducerRepository producerRepository) {
-        return new ApiMapper(producerRepository);
+    public ApiMapper apiMapper(@Nonnull ProductCategoryRepository productCategoryRepository) {
+        return new ApiMapper(productCategoryRepository);
     }
 
     @Bean

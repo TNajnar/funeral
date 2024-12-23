@@ -16,13 +16,6 @@ import lombok.Setter;
 public class ProductRequest {
 
     /**
-     * Warehouse identifier of producer.
-     */
-    @Nullable
-    @Schema(description = "Identifier of producer.", example = "4521803355", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private Long producerId;
-
-    /**
      * Name of producer.
      */
     @Nullable
@@ -32,16 +25,16 @@ public class ProductRequest {
     /**
      * Warehouse identifier of product category.
      */
-    @Nullable
-    @Schema(description = "Identifier of product category.", example = "4521803355", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @NotNull
+    @Schema(description = "Identifier of product category.", example = "4521803355", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long productCategoryId;
 
     /**
-     * Name of product category.
+     * Type of product.
      */
-    @NotNull
-    @Schema(description = "Name of product category.", example = "Rakev", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String productCategory;
+    @Nullable
+    @Schema(description = "Type of product.", example = "Smuteční", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String type;
 
     /**
      * Name of product.

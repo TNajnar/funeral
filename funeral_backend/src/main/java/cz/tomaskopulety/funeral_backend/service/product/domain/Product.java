@@ -5,7 +5,6 @@ import java.util.List;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
-import cz.tomaskopulety.funeral_backend.service.producer.domain.Producer;
 import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 
 import lombok.Builder;
@@ -28,10 +27,16 @@ public class Product {
     private final ProductCategory productCategory;
 
     /**
-    * Producer of product.
-    */
+     * Producer of product.
+     */
     @Nullable
-    private final Producer producer;
+    private final String producer;
+
+    /**
+     * Type of product.
+     */
+    @Nullable
+    private final String type;
 
     /**
     * Name of product.

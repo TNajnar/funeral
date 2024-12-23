@@ -45,14 +45,18 @@ public class ProductEntity {
     * Producer of product.
     */
     @Nullable
-    @OneToOne
-    @JoinColumn(name = "id_producer")
-    private ProducerEntity producer;
+    private String producer;
 
     /**
     * Identifier of  product.
     */
     private long productId;
+
+    /**
+     * Type of product.
+     */
+    @Nullable
+    private String type;
 
     /**
     * Name of product.
