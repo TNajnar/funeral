@@ -57,11 +57,29 @@ export class WarehouseGatewayService extends BaseGatewayService {
     );
   }
 
+  changeProductName(productId: number, name: string): Observable<TWarehouseItem> {
+    return this._httpClient.patch<TWarehouseItem>(`${BASE_URL}/products/${productId}/name`, { value: name }).pipe(
+      catchError((error) => {
+        this._errorService.showError('Chyba při změně názvu produktu: ' + error.message);
+        return throwError(() => new Error('Failed to change products name.', error));
+      })
+    );
+  }
+
   changeProductAmount(productId: number, amount: number): Observable<TWarehouseItem> {
     return this._httpClient.patch<TWarehouseItem>(`${BASE_URL}/products/${productId}/inStock/${amount}`, {}).pipe(
       catchError((error) => {
         this._errorService.showError('Chyba při změně množství produktu: ' + error.message);
         return throwError(() => new Error('Failed to change products amount.', error));
+      })
+    );
+  }
+
+  stockUpProduct(productId: number, quantity: number): Observable<TWarehouseItem> {
+    return this._httpClient.patch<TWarehouseItem>(`${BASE_URL}/products/${productId}/stock-up/${quantity}`, {}).pipe(
+      catchError((error) => {
+        this._errorService.showError('Chyba při naskladnění produktu: ' + error.message);
+        return throwError(() => new Error('Failed to stock up products amount.', error));
       })
     );
   }
