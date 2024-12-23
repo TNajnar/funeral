@@ -1,7 +1,7 @@
 import { ECategoryModalVariants } from './enums';
 import type { TCategoryMenuItem } from './warehouse-control.model';
 
-export const _DISPLAYED_COLUMNS = ['category', 'type', 'name', 'availableCount', 'flag', 'comment', 'delete'];
+export const _DISPLAYED_COLUMNS = ['category', 'type', 'name', 'availableAmount', 'flag', 'comment', 'delete'];
 
 export const _CATEGORY_COLUMNS = ['delete', 'category'];
 
