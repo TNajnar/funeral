@@ -50,7 +50,7 @@
   }
 }
 
-@layer components {
+@layer components {  
   dialog.cdk-custom-pane .cdk-overlay-container .cdk-overlay-pane {
     top: 132px !important;   /* TODO */
     left: 21.1px  !important;   /* TODO */
@@ -117,11 +117,10 @@
     border: 1px solid transparent;
     border-radius: 3.5px;
   }
-  
   .input-table:hover {
     border: 1px solid theme('colors.gray');
   }
-  
+
   .input-table:focus {
     border-color: theme('colors.blue-primary');
     box-shadow: 0 0 6px theme('colors.blue-primary');
@@ -152,6 +151,59 @@
   .mat-mdc-paginator.custom-pagination {
     margin-top: auto;
     background-color: inherit;
+  }
+
+  /* #endregion */
+
+  /* #region WarehouseTable stockMenu */
+
+  .input-table:hover,
+  .input-wrapper:hover .input-table,
+  .stock-count-menu:hover ~ .input-table {
+    border: 1px solid theme('colors.gray');
+  }
+  
+  .input-wrapper {
+    position: relative;
+  }
+  
+  .stock-count-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0px 4px 4px 4px;
+    height: 100%;
+    background-color: theme('colors.gray-muted');
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    color: theme('colors.blue-primary');
+    font-weight: 700;
+  }
+    
+  .input-table:focus + .stock-count-menu,
+  .input-wrapper:hover .stock-count-menu {
+    display: block;
+  }
+
+  /* Style for input when focused or activeCountMenu */
+  .input-wrapper.active .input-table,
+  .input-table:focus {
+    border: 1px solid theme('colors.gray');
+    outline: none;
+  }
+
+  /* Style for stock-count-menu when focused or activeCountMenu */
+  .input-wrapper.active .stock-count-menu,
+  .input-table:focus + .stock-count-menu {
+    display: block;
+    background-color: theme('colors.gray-muted');
+    color: theme('colors.blue-primary');
+  }
+
+  .mat-mdc-cell.cell-count {
+    border-bottom: none;
+    overflow: unset;
   }
 
   /* #endregion */
