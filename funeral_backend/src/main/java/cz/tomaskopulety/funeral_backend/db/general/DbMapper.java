@@ -106,6 +106,7 @@ public class DbMapper {
         productMovementEntity.setOldState(productMovement.getOldState());
         productMovementEntity.setRequested(productMovement.getRequested());
         productMovementEntity.setNewState(productMovement.getNewState());
+        productMovementEntity.setType(productMovement.getType());
         return productMovementEntity;
     }
 
@@ -117,12 +118,13 @@ public class DbMapper {
      * @return {@link ProductMovementEntity}
      */
     @Nonnull
-    public ProductMovementEntity map(int oldState, int requested, @Nullable OffsetDateTime created){
+    public ProductMovementEntity map(int oldState, int requested, @Nullable OffsetDateTime created, @Nonnull String type){
         final ProductMovementEntity productMovementEntity = new ProductMovementEntity();
         productMovementEntity.setCreated(created == null ? ZonedDateTime.now(this.clock) : created.toZonedDateTime());
         productMovementEntity.setOldState(oldState);
         productMovementEntity.setRequested(requested);
         productMovementEntity.setNewState(oldState + requested);
+        productMovementEntity.setType(type);
         return productMovementEntity;
     }
 
@@ -139,6 +141,7 @@ public class DbMapper {
                 .oldState(productMovementEntity.getOldState())
                 .requested(productMovementEntity.getRequested())
                 .newState(productMovementEntity.getNewState())
+                .type(productMovementEntity.getType())
                 .build();
 
     }

@@ -67,18 +67,6 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
     }
 
-    @Operation(summary = "Update an existing product.", operationId = "updateProduct", description = "Update data of existing product. All data in request must be filled.", responses = {
-            @ApiResponse(responseCode = "200", description = "Product updated successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
-            @ApiResponse(responseCode = "400", description = "Some of request parameters are wrong.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "Objects required for updating product were not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @PutMapping(path = "/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductGetResponse> updateProduct(@PathVariable long productId, @RequestBody @Valid @NotNull ProductRequest request) {
-        final Product product = this.productService.updateProduct(productId, this.apiMapper.map(request));
-        return ResponseEntity.ok(this.apiMapper.map(product));
-    }
-
     @Operation(summary = "Stock up product.", operationId = "stockUpProduct", description = "Stock up product by given value.", responses = {
             @ApiResponse(responseCode = "200", description = "Products stocked up successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
             @ApiResponse(responseCode = "400", description = "Some of request parameters are wrong.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

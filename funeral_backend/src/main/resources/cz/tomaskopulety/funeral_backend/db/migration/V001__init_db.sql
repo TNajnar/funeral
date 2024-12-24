@@ -24,5 +24,6 @@ CREATE TABLE funeral.product_movement(
     old_state INT NOT NULL,
     requested INT NOT NULL,
     new_state INT NOT NULL,
+    type VARCHAR NOT NULL,
     CONSTRAINT product_movement_product_fk FOREIGN KEY (id_product) REFERENCES funeral.product (id_product) ON UPDATE CASCADE ON DELETE CASCADE
 );

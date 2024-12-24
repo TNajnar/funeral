@@ -22,7 +22,7 @@ public class ProductGetMovementResponse {
      * Type of warehouse movement.
      */
     @Nonnull
-    @Schema(description = "Type of warehouse movement.", example = "SALE", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Type of warehouse movement. Possible values[SALE, PURCHASE, MANUAL_CHANGE]", example = "SALE", requiredMode = Schema.RequiredMode.REQUIRED)
     private final String productMovementType;
 
     /**

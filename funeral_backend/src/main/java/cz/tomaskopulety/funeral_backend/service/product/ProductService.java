@@ -29,6 +29,12 @@ import org.springframework.data.jpa.domain.Specification;
 @Slf4j
 public class ProductService {
 
+    private static final String MOVEMENT_PURCHASE = "PURCHASE";
+
+    private static final String MOVEMENT_SALE = "SALE";
+
+    private static final String MOVEMENT_MANUAL_CHANGE = "MANUAL_CHANGE";
+
     @Nonnull
     private final ProductRepository productRepository;
 
@@ -52,7 +58,7 @@ public class ProductService {
         final ProductCategoryEntity productCategory = this.productCategoryService.getProductCategoryEntity(product.getProductCategory().name());
 
         final ProductEntity productEntity = this.dbMapper.map(product, productCategory);
-        final ProductMovementEntity productMovementEntity = this.dbMapper.map(0, product.getInStock(), product.getCreated());
+        final ProductMovementEntity productMovementEntity = this.dbMapper.map(0, product.getInStock(), product.getCreated(), MOVEMENT_PURCHASE);
         productEntity.getProductMovements().add(productMovementEntity);
         this.productRepository.save(productEntity);
         return this.dbMapper.map(productEntity);
@@ -80,19 +86,23 @@ public class ProductService {
     }
 
     /**
-     * Increase number of products in database by given value.
+     * Update number of products in database by given value.
      *
      * @param productId warehouse identifier of product
-     * @param quantity amount of products to be stocked up, must be positive value
+     * @param amount new state of product in warehouse
      * @return {@link Product}
      */
     @Nonnull
-    public Product stockUpProduct(long productId, int quantity) {
+    public Product stockUpProduct(long productId, int amount) {
         final ProductEntity productEntity = getProductEntity(productId);
 
-        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null);
+        if (productEntity.getInStock() > amount) {
+            throw new IllegalArgumentException("Stocked amount of product can not be greater than the amount.");
+        }
 
-        productEntity.setInStock(productEntity.getInStock() + quantity);
+        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), amount, null, MOVEMENT_PURCHASE);
+
+        productEntity.setInStock(amount);
         productEntity.getProductMovements().add(productMovementEntity);
 
         this.productRepository.save(productEntity);
@@ -114,7 +124,7 @@ public class ProductService {
         if (productEntity.getInStock() + quantity < 0) {
             throw new IllegalArgumentException(String.format("Product: %s, %s is not stocked in requested amount. Stocked: %s.", productEntity.getProducer(),  productEntity.getName(), productEntity.getInStock()));
         } else {
-            final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null);
+            final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null, MOVEMENT_SALE);
             productEntity.setInStock(productEntity.getInStock() + quantity);
             productEntity.getProductMovements().add(productMovementEntity);
 
@@ -176,7 +186,7 @@ public class ProductService {
         final ProductEntity productEntity = getProductEntity(productId);
 
         final int quantity = value - productEntity.getInStock();
-        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null);
+        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null, MOVEMENT_MANUAL_CHANGE);
         productEntity.setInStock(productEntity.getInStock() + quantity);
         productEntity.getProductMovements().add(productMovementEntity);
         productEntity.setInStock(value);
@@ -247,24 +257,6 @@ public class ProductService {
         productFilter.getDataFilters()
                 .forEach(df -> df.apply(productEntity));
         return dbMapper.map(productEntity);
-    }
-
-    /**
-     * Update {@link ProductEntity} and save changes.
-     *
-     * @param productId identifier of product
-     * @param product product data
-     * @throws EntityNotFoundException when product not found
-     * @return {@link Product}
-     */
-    @Nonnull
-    public Product updateProduct(long productId, @Nonnull Product product) {
-        final ProductEntity productEntity = getProductEntity(productId);
-        productEntity.setComment(product.getComment());
-        productEntity.setFlagged(product.isFlagged());
-        productEntity.setName(product.getName());
-        productEntity.setInStock(product.getInStock());
-        return this.dbMapper.map(productRepository.save(productEntity));
     }
 
     /**

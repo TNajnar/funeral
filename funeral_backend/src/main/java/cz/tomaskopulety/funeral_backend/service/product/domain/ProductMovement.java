@@ -31,4 +31,10 @@ public class ProductMovement {
      */
     private final int newState;
 
+    /**
+     * Type of movement.
+     */
+    @Nonnull
+    private final String type;
+
 }
