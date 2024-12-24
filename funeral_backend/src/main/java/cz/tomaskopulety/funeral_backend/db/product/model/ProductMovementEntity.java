@@ -48,4 +48,10 @@ public class ProductMovementEntity {
      */
     private int newState;
 
+    /**
+     * Type of movement.
+     */
+    @Nonnull
+    private String type;
+
 }

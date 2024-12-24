@@ -99,7 +99,7 @@ public class ApiMapper {
     private ProductGetMovementResponse map(@Nonnull ProductMovement productMovement){
         return ProductGetMovementResponse.builder()
                 .created(productMovement.getCreated().toOffsetDateTime())
-                .productMovementType(productMovement.getRequested() < 0 ? "SALE" : "PURCHASE")
+                .productMovementType(productMovement.getType())
                 .oldState(productMovement.getOldState())
                 .requested(productMovement.getRequested())
                 .newState(productMovement.getNewState())
