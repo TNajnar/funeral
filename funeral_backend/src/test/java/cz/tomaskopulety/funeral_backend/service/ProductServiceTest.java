@@ -1,22 +1,17 @@
 package cz.tomaskopulety.funeral_backend.service;
 
 import java.time.Clock;
-import java.time.ZoneId;
 
 import cz.tomaskopulety.funeral_backend.db.general.DbMapper;
-import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
 import cz.tomaskopulety.funeral_backend.db.product.ProductRepository;
 import cz.tomaskopulety.funeral_backend.service.product.ProductService;
 
-import org.junit.jupiter.api.BeforeEach;
 import static org.mockito.Mockito.mock;
 
 class ProductServiceTest {
 
     private ProductRepository productRepository = mock(ProductRepository.class);
-
-    private ProducerRepository producerRepository = mock(ProducerRepository.class);
 
     private ProductCategoryRepository productCategoryRepository = mock(ProductCategoryRepository.class);
 

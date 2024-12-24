@@ -1,10 +1,13 @@
 package cz.tomaskopulety.funeral_backend.api.productcategory;
 
 import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import cz.tomaskopulety.funeral_backend.api.general.response.ErrorResponse;
 import cz.tomaskopulety.funeral_backend.api.general.response.SimpleInfoResponse;
+import cz.tomaskopulety.funeral_backend.api.product.request.ProductSetStringRequest;
 import cz.tomaskopulety.funeral_backend.api.productcategory.response.ProductCategoryResponses;
 import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 import cz.tomaskopulety.funeral_backend.service.productcategory.ProductCategoryService;
@@ -19,9 +22,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,6 +68,28 @@ public class ProductCategoryController {
                                 .toList()
                 )
         );
+    }
+
+    @Operation(summary = "Set category name.", operationId = "setProductName", description = "Set product name.", responses = {
+            @ApiResponse(responseCode = "200", description = "Product name set successfully.", content = {@Content(schema = @Schema(implementation = SimpleInfoResponse.class))}),
+            @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PatchMapping(path = "/{categoryId}/name", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SimpleInfoResponse> setCategoryName(@PathVariable long categoryId, @RequestBody @Valid @NotNull ProductSetStringRequest request) {
+        final ProductCategory productCategory = this.productCategoryService.setCategoryName(categoryId, request.getValue());
+        return ResponseEntity.ok(new SimpleInfoResponse(productCategory.productCategoryId(), productCategory.name()));
+    }
+
+    @Operation(summary = "Delete category.", operationId = "deleteCategory", description = "Delete category.", responses = {
+            @ApiResponse(responseCode = "204", description = "Category deleted successfully.", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "422", description = "Category not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @DeleteMapping(path = "/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deleteCategory(@PathVariable long categoryId) {
+        this.productCategoryService.deleteCategory(categoryId);
+        return ResponseEntity.noContent().build();
     }
 
 }

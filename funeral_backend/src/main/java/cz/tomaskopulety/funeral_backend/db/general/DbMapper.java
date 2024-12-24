@@ -8,13 +8,9 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
 
-import cz.tomaskopulety.funeral_backend.db.product.ProducerRepository;
-import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
-import cz.tomaskopulety.funeral_backend.db.product.model.ProducerEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductMovementEntity;
-import cz.tomaskopulety.funeral_backend.service.producer.domain.Producer;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
 import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 import cz.tomaskopulety.funeral_backend.service.product.domain.ProductMovement;
@@ -26,12 +22,6 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class DbMapper {
-
-    @Nonnull
-    private final ProducerRepository producerRepository;
-
-    @Nonnull
-    private final ProductCategoryRepository productCategoryRepository;
 
     @Nonnull
     private final Clock clock;
@@ -49,6 +39,8 @@ public class DbMapper {
         final ProductEntity productEntity = new ProductEntity();
         productEntity.setName(product.getName());
         productEntity.setComment(product.getComment());
+        productEntity.setType(product.getType());
+        productEntity.setProducer(product.getProducer());
         productEntity.setInStock(product.getInStock());
         productEntity.setProductId(product.getProductId());
         productEntity.setProductCategory(productCategoryEntity);
@@ -73,11 +65,13 @@ public class DbMapper {
     public Product map(@Nonnull ProductEntity productEntity){
         return Product.builder()
                 .name(productEntity.getName())
+                .type(productEntity.getType())
                 .comment(productEntity.getComment())
+                .type(productEntity.getType())
+                .producer(productEntity.getProducer())
                 .inStock(productEntity.getInStock())
                 .productId(productEntity.getProductId())
                 .productCategory(new ProductCategory(productEntity.getProductCategory().getProductCategoryId(), productEntity.getProductCategory().getName()))
-                .producer(null)
                 .productMovements(
                         productEntity.getProductMovements()
                         .stream()
@@ -147,17 +141,6 @@ public class DbMapper {
                 .newState(productMovementEntity.getNewState())
                 .build();
 
-    }
-
-    /**
-     * Maps {@link ProducerEntity} to {@link Producer}.
-     *
-     * @param producerEntity {@link ProducerEntity}
-     * @return {@link Producer}
-     */
-    @Nonnull
-    public Producer map(@Nonnull ProducerEntity producerEntity){
-        return new Producer(producerEntity.getProducerId(), producerEntity.getName());
     }
 
 }
