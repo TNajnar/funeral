@@ -11,25 +11,12 @@ import { resolveNewItemArgs } from '@pages/authorized/warehouse-control/utils/ut
 import type {
   TNewItemArgs, TWarehouseItem
 } from '@pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
-import { ETabVariants } from '@pages/authorized/warehouse-control/utils/enums';
 import { warehouseControl } from '@lib/staticTexts';
 
 interface ISelectItem {
-  value: string;
+  value: number;
   viewValue: string;
 }
-
-const enumToCs: Record<ETabVariants, string> = {
-  [ETabVariants.All]: 'Vše',
-  [ETabVariants.Coffin]: 'Rakve',
-  [ETabVariants.Urns]: 'Urna',
-  [ETabVariants.Flowers]: 'Kytky',
-};
-
-const selectItems: ISelectItem[] = Object.values(ETabVariants).map((value) => ({
-  value: value,
-  viewValue: enumToCs[value],
-}));
 
 @Component({
   selector: 'app-add-new-warehouse-item',
@@ -40,19 +27,26 @@ const selectItems: ISelectItem[] = Object.values(ETabVariants).map((value) => ({
 })
 export class AddNewWarehouseItemComponent {
   protected _texts = warehouseControl.newItemComponent;
-  selectItems: ISelectItem[] = selectItems;
+  selectItems: ISelectItem[];
 
   @Output() onCancel = new EventEmitter<void>();
 
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
   private _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
 
+  constructor() {
+    this.selectItems = this._warehouseServiceTable.categories().map((value) => ({
+      value: value.id,
+      viewValue: value.name,
+    }));
+  }
+
   protected _onSubmit(formData: NgForm): void {
     if (formData.form.invalid) {
       return;
     }
 
-    const resolvedItemArgs: TNewItemArgs = resolveNewItemArgs(formData.value, formData.value.availableCount);
+    const resolvedItemArgs: TNewItemArgs = resolveNewItemArgs(formData.value);
 
     this._gateway.addWarehouseItem(resolvedItemArgs).subscribe({
       next: (newWarehouseItem: TWarehouseItem): void => {

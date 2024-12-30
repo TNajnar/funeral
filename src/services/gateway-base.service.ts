@@ -6,7 +6,7 @@ import { ErrorService } from './error.service';
 @Injectable({
   providedIn: 'root',
 })
-export class BaseGatewayService {
+export abstract class BaseGatewayService {
   protected _httpClient: HttpClient = inject(HttpClient);
   protected _errorService: ErrorService = inject(ErrorService);
 }

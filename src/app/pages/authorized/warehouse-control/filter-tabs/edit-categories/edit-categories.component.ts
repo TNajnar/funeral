@@ -1,14 +1,20 @@
-import { Component, EventEmitter, inject, Output, Signal } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component, EventEmitter, inject, OnInit, Output, Signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { WarehouseTableService } from '@pages/authorized/warehouse-control/services/warehouse-table.service';
+import { WarehouseGatewayService } from '@pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
 import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
 import { ECategoryModalVariants } from '@pages/authorized/warehouse-control/utils/enums';
 import { _CATEGORY_COLUMNS } from '@pages/authorized/warehouse-control/utils/consts';
 import type { TCategory } from '@pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
+
+type TTempCategories = {
+  categories: Record<number, string>;
+  removed: Record<number, string>;
+}
 
 @Component({
   selector: 'app-edit-categories',
@@ -17,30 +23,101 @@ import { warehouseControl } from '@lib/staticTexts';
   templateUrl: './edit-categories.component.html',
   host: { class: 'flex flex-col gap-4' }
 })
-export class EditCategoriesComponent {
+export class EditCategoriesComponent implements OnInit {
   protected _texts = warehouseControl.filterTabs.editCategory;
   dataSource = new MatTableDataSource();
+  tempCategories!: TTempCategories;
 
   @Output() toggleModal = new EventEmitter<ECategoryModalVariants>();
 
   private _warehouseService: WarehouseTableService = inject(WarehouseTableService);
+  private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
 
   categories: Signal<TCategory[]> = this._warehouseService.categories;
+
+  ngOnInit(): void {
+    this._initializeTempCategories();
+  }
 
   get displayedColumns(): string[] {
     return _CATEGORY_COLUMNS;
   }
 
-  get tableData(): TCategory[] {
-    return this.dataSource.data = this.categories();
+  get editableCategories(): TCategory[] {
+    return this.categories().slice(1); // Return without All item
   }
 
-  onSubmit(formData: NgForm): void {
-    if (formData.invalid) {
-      return;
+  get tableData(): TCategory[] {
+    return this.dataSource.data = this.editableCategories.filter(category =>
+      !(category.id in this.tempCategories.removed)
+    );
+  }
+
+  private _initializeTempCategories(): void {
+    this.tempCategories = {
+      categories: {},
+      removed: {}
+    };
+
+    for (const category of this.editableCategories) {
+      this.tempCategories.categories[category.id] = category.name;
+    }
+  }
+
+  private _renameCategory(newCategoryName: string, category: TCategory): void {
+    this._gateway.renameCategory(category.id, newCategoryName).subscribe({
+      next: (responseCategory: TCategory): void => {
+        category.name = responseCategory.name;
+      },
+    });
+  }
+
+  private _deleteCategory(categoryId: number): void {
+    this._gateway.deleteCategory(categoryId).subscribe({
+      next: (): void => {
+        this._warehouseService.deleteCategory(categoryId);
+      },
+    });
+  }
+
+  updateTempCategory(newName: string, categoryId: number): void {
+    if (this.tempCategories.categories[categoryId]) {
+      this.tempCategories.categories[categoryId] = newName;
+    }
+  }
+
+  isChanged(): boolean {
+    const isRenamed = Object.entries(this.tempCategories.categories).some(([id, newName]) => {
+      const category = this.editableCategories.find(cat => cat.id === +id);
+      return category && category.name !== newName;
+    });
+
+    const isRemoved = Object.keys(this.tempCategories.removed).length > 0;
+
+    return isRenamed || isRemoved;
+  }
+
+  removeTempCategory(categoryId: number): void {
+    if (this.tempCategories.categories[categoryId]) {
+      this.tempCategories.removed[categoryId] = this.tempCategories.categories[categoryId];
+      delete this.tempCategories.categories[categoryId];
+    }
+  }
+
+  onSubmit(): void {
+    Object.entries(this.tempCategories.categories).forEach(([id, name]) => {
+      const category = this.categories().find(cat => cat.id === +id);
+      if (category && category.name !== name) {
+        this._renameCategory(name, category);
+      }
+    });
+
+    if (this.tempCategories.removed) {
+      Object.keys(this.tempCategories.removed).forEach(id =>
+        this._deleteCategory(+id)
+      );
     }
 
-    // TODO
     this.handleToggleModal();
   }
 

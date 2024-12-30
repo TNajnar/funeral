@@ -1,6 +1,6 @@
 export type TWarehouseItems = {
   products: TWarehouseItem[];
-}
+};
 
 export type TWarehouseItem = {
   comment?: string;
@@ -11,10 +11,11 @@ export type TWarehouseItem = {
   producer?: string;
   producerId?: number;
   productCategory: string;
-  productCategoryId?: number;
+  productCategoryId: number;
   productId: number;
   productMovements?: TProductMovement[];
-}
+  type: string;
+};
 
 type TProductMovement = {
   created: string;
@@ -22,7 +23,7 @@ type TProductMovement = {
   oldState: number;
   productMovementType: TProductMovementType;
   requested: number;
-}
+};
 
 type TProductMovementType = 'PURCHASE' | 'SALE';
 
@@ -31,14 +32,15 @@ export type TNewItemArgs = {
   inStock: number;
   isFlagged: boolean;
   name: string;
-  productCategory: string;
-}
+  productCategoryId: number;
+  type: string;
+};
 
 export type TCategories = {
   productCategories: TCategory[];
-}
+};
 
 export type TCategory = {
   id: number;
   name: string;
-}
+};

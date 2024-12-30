@@ -63,4 +63,8 @@ export class WarehouseTableService {
   createNewCategory(newCategory: TCategory): void {
     this._categories.set([...this._categories(), newCategory]);
   }
+
+  deleteCategory(categoryId: number): void {
+    this._categories.update(prevState => prevState.filter(category => category.id !== categoryId));
+  }
 }

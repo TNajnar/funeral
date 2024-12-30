@@ -1,14 +1,16 @@
-import { ETabVariants } from './enums';
+import { STATIC_CATEGORY_ITEM } from './consts';
 import type { TNewItemArgs } from './warehouse-control.gateway.model';
+import type { TNewItemForm } from './warehouse-control.model';
 
-export function resolveNewItemArgs(formData: TNewItemArgs, availableCount: number): TNewItemArgs {
+export function resolveNewItemArgs(formData: TNewItemForm): TNewItemArgs {
   const formattedDate = formData.created ? new Date(formData.created) : new Date();
 
   return {
     created: formattedDate.toISOString(),
-    productCategory: formData.productCategory || ETabVariants.All,
+    productCategoryId: formData.productCategory || STATIC_CATEGORY_ITEM.id,
     name: formData.name,
-    inStock: availableCount,
+    inStock: formData.availableAmount,
     isFlagged: false,
+    type: formData.type
   };
 }

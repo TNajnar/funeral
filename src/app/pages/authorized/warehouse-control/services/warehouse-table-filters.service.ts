@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ETabVariants } from '../utils/enums';
+import { STATIC_CATEGORY_ITEM } from '../utils/consts';
 import type { TFilterOptions  } from '../utils/warehouse-control.model';
 import type { TWarehouseItem } from '../utils/warehouse-control.gateway.model';
 
@@ -12,7 +12,7 @@ export class WarehouseTableFiltersService {
     hasComment: false,
     isFlagged: false,
     searchText: '',
-    productCategory: ETabVariants.All,
+    productCategory: STATIC_CATEGORY_ITEM.name,
   };
 
   _createFilterPredicate(): (warehouseItem: TWarehouseItem, filter: string) => boolean {
@@ -32,7 +32,7 @@ export class WarehouseTableFiltersService {
       const matchesComment = !parsedFilter.hasComment || !!warehouseItem.comment === parsedFilter.hasComment;
 
       // Filter based on select tab
-      const matchesTabType = parsedFilter.productCategory === ETabVariants.All ||
+      const matchesTabType = parsedFilter.productCategory === STATIC_CATEGORY_ITEM.name ||
         warehouseItem.productCategory === parsedFilter.productCategory;
 
       // Return true if all matches

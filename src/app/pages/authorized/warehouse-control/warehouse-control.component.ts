@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { WarehouseTableService } from './services/warehouse-table.service';
 import { WarehouseGatewayService } from './gateways/warehouse-gateway.service';
+import { WarehouseCacheService } from './services/warehouse-cache.service';
 import { WarehouseTableComponent } from './warehouse-table/warehouse-table.component';
 import {
   AddNewWarehouseItemComponent
@@ -13,7 +14,7 @@ import {
 import { FilterTabsComponent } from './filter-tabs/filter-tabs.component';
 import { ButtonSecondaryComponent, ModalComponent } from '@app/ui';
 import { GraphComponent } from '@app/shared/graph/graph.component';
-import type { TWarehouseItems } from './utils/warehouse-control.gateway.model';
+import type { TWarehouseItem, TWarehouseItems } from './utils/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
@@ -31,14 +32,33 @@ export class WarehouseControlComponent implements OnInit {
 
   private _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
+  private _cacheService: WarehouseCacheService = inject(WarehouseCacheService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
+    const cachedWarehouse = this._cacheService.getStorageData();
+
+    if (cachedWarehouse?.warehouseItems) {
+      const storedWarehouse: TWarehouseItem[] = cachedWarehouse.warehouseItems;
+      this._warehouseServiceTable.notifyWarehouseItemsChange$(storedWarehouse);
+      return;
+    }
+
+    this._loadData();
+  }
+
+  private _loadData(): void {
     this._warehouseServiceTable.isLoading.set(true);
 
     const subscription = this._gateway.fetchAllWarehouseItems().subscribe({
       next: (data: TWarehouseItems): void => {
-        this._warehouseServiceTable.notifyWarehouseItemsChange$(data.products);
+        const { products } = data;
+        this._warehouseServiceTable.notifyWarehouseItemsChange$(products);
+        // TODO
+        // this._cacheService.saveToStorage({
+        //   ...this._cacheService.warehouseCache,
+        //   warehouseItems: products,
+        // });
       },
       complete: (): void => this._warehouseServiceTable.isLoading.set(false),
     });

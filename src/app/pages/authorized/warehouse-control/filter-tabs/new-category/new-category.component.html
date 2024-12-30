@@ -1,31 +1,24 @@
-<form #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)">
-  <div class="flex items-center justify-between">
-    <span>{{ _texts.label }}</span>
+<div class="flex items-center justify-between">
+  <span>{{ _texts.label }}</span>
 
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        name="newCategory"
-        id="newCategory"
-        ngModel
-        required
-        #name="ngModel"
-      />
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      name="newCategory"
+      id="newCategory"
+      required
+      [(ngModel)]="newCategoryName"
+    />
+  </mat-form-field>
+</div>
 
-      @if (name.touched && name.dirty && name.invalid) {
-        <mat-error>{{ _texts.error }}</mat-error>
-      }
-    </mat-form-field>
-  </div>
+<div class="flex gap-4 justify-end">
+  <app-button-secondary class="w-24" [disabled]="!newCategoryName" (click)="onSubmit()">
+    {{ _texts.submit }}
+  </app-button-secondary>
 
-  <div class="flex gap-4 justify-end">
-    <app-button-secondary class="w-24" [disabled]="categoryForm.invalid ?? false" [fullWidth]="true" [type]="'submit'">
-      {{ _texts.submit }}
-    </app-button-secondary>
-
-    <app-button-primary (click)="handleToggleModal()" class="w-24" [fullWidth]="true">
-      {{ _texts.cancel }}
-    </app-button-primary>
-  </div>
-</form>
+  <app-button-primary (click)="handleToggleModal()" class="w-24">
+    {{ _texts.cancel }}
+  </app-button-primary>
+</div>

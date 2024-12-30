@@ -7,11 +7,12 @@ import { WarehouseGatewayService } from '../gateways/warehouse-gateway.service';
 import { NewCategoryComponent } from './new-category/new-category.component';
 import { EditCategoriesComponent } from './edit-categories/edit-categories.component';
 import { ModalComponent } from '@app/ui';
-import { CATEGORY_MENU_ITEMS } from '../utils/consts';
+import { CATEGORY_MENU_ITEMS, STATIC_CATEGORY_ITEM } from '../utils/consts';
 import type { TCategories, TCategory } from '../utils/warehouse-control.gateway.model';
 import type { TCategoryMenuItem, TCategoryModals } from '../utils/warehouse-control.model';
 import { ECategoryModalVariants } from '../utils/enums';
 import { warehouseControl } from '@lib/staticTexts';
+import { WarehouseCacheService } from '../services/warehouse-cache.service';
 
 @Component({
   selector: 'app-filter-tabs',
@@ -25,38 +26,56 @@ import { warehouseControl } from '@lib/staticTexts';
 })
 export class FilterTabsComponent implements OnInit {
   protected _texts = warehouseControl.filterTabs;
-  activeTab = signal<number>(4);
-  isMenuOpen = signal<boolean>(false);
   protected _EModalVariants = ECategoryModalVariants;
+  activeTab = signal<number>(STATIC_CATEGORY_ITEM.id);
+  isMenuOpen = signal<boolean>(false);
   isModalOpen = signal<TCategoryModals>({
     [ECategoryModalVariants.EditOrRemoveCategory]: false,
     [ECategoryModalVariants.NewCategory]: false,
   });
+  isLoading = signal<boolean>(false);
 
   private _warehouseService: WarehouseTableService = inject(WarehouseTableService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
+  private _cacheService: WarehouseCacheService = inject(WarehouseCacheService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    const subscription = this._gateway.fetchCategories().subscribe({
-      next: (categories: TCategories): void => {
-        this._warehouseService.setCategories([
-          categories.productCategories[3],
-          categories.productCategories[4],
-          categories.productCategories[5],
-        ]); // TODO
-      },
-    });
+    const cachedWarehouse = this._cacheService.getStorageData();
 
-    this._destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
+    if (cachedWarehouse?.categories) {
+      const storedCategories: TCategory[] = cachedWarehouse.categories;
+      this._warehouseService.setCategories(storedCategories);
+      return;
+    }
+
+    this._loadData();
   }
 
   categories: Signal<TCategory[]> = this._warehouseService.categories;
 
   get categoryMenuItems(): TCategoryMenuItem[] {
     return CATEGORY_MENU_ITEMS;
+  }
+
+  private _loadData(): void {
+    this.isLoading.set(true);
+
+    const subscription = this._gateway.fetchCategories().subscribe({
+      next: (categories: TCategories): void => {
+        this._warehouseService.setCategories(categories.productCategories);
+        // TODO
+        // this._cacheService.saveToStorage({
+        //   ...this._cacheService.warehouseCache,
+        //   categories: this.categories()
+        // });
+      },
+      complete: (): void => this.isLoading.set(false)
+    });
+
+    this._destroyRef.onDestroy((): void => {
+      subscription.unsubscribe();
+    });
   }
 
   onTabClick(productCategory: TCategory): void {
