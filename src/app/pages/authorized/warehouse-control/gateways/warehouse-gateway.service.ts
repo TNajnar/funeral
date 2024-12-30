@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, forkJoin, Observable, throwError } from 'rxjs';
 
 import { BaseGatewayService } from 'services/gateway-base.service';
 import type {
@@ -12,7 +12,16 @@ const BASE_URL = 'http://localhost:8080/api/v1';
   providedIn: 'root',
 })
 export class WarehouseGatewayService extends BaseGatewayService {
-  fetchAllWarehouseItems(): Observable<TWarehouseItems> {
+  loadCacheableData(): Observable<[TWarehouseItems, TCategories]> {
+    return forkJoin([this._fetchAllWarehouseItems(), this._fetchCategories()]).pipe(
+      catchError((error) => {
+        this._errorService.showError('Chyba při stahování všech položek na skladu a kategorii: ' + error.message);
+        return throwError(() => new Error('Failed to fetch all warehouse items and categories.', error));
+      })
+    );
+  }
+
+  private _fetchAllWarehouseItems(): Observable<TWarehouseItems> {
     return this._httpClient.get<TWarehouseItems>(`${BASE_URL}/products`).pipe(
       catchError((error) => {
         this._errorService.showError('Chyba při stahování všech dat na skladě: ' + error.message);
@@ -93,7 +102,7 @@ export class WarehouseGatewayService extends BaseGatewayService {
     );
   }
 
-  fetchCategories(): Observable<TCategories> {
+  private _fetchCategories(): Observable<TCategories> {
     return this._httpClient.get<TCategories>(`${BASE_URL}/product-categories`).pipe(
       catchError((error) => {
         this._errorService.showError('Chyba při stahování všech kategorií: ' + error.message);
