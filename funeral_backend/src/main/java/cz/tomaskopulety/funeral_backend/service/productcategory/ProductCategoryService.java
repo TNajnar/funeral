@@ -8,8 +8,11 @@ import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.db.general.DbMapper;
 import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
+import cz.tomaskopulety.funeral_backend.db.product.ProductRepository;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
+import cz.tomaskopulety.funeral_backend.db.product.model.ProductEntity;
 import cz.tomaskopulety.funeral_backend.service.general.IdGenerator;
+import cz.tomaskopulety.funeral_backend.service.product.ProductService;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
 import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 
@@ -22,6 +25,9 @@ public class ProductCategoryService {
 
     @Nonnull
     private final ProductCategoryRepository productCategoryRepository;
+
+    @Nonnull
+    private final ProductRepository productRepository;
 
     @Nonnull
     private final DbMapper dbMapper;
@@ -76,7 +82,7 @@ public class ProductCategoryService {
     }
 
     /**
-     * Delete category by given identifier.
+     * Delete category by given identifier and all products connected to this category.
      *
      * @param categoryId warehouse identifier of category
      * @throws EntityNotFoundException when category not found.
@@ -84,6 +90,8 @@ public class ProductCategoryService {
     public void deleteCategory(long categoryId) {
         final ProductCategoryEntity productCategoryEntity = this.productCategoryRepository.findByProductCategoryId(categoryId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Product category: %s not found.", categoryId)));
+        final List<ProductEntity> productEntities = this.productRepository.findAllByProductCategory(productCategoryEntity);
+        this.productRepository.deleteAll(productEntities);
         this.productCategoryRepository.delete(productCategoryEntity);
     }
 

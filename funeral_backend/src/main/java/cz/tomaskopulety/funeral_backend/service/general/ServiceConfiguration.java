@@ -22,8 +22,8 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public ProductCategoryService productCategoryService(@Nonnull ProductCategoryRepository productCategoryRepository, @Nonnull DbMapper dbMapper) {
-        return new ProductCategoryService(productCategoryRepository, dbMapper);
+    public ProductCategoryService productCategoryService(@Nonnull ProductCategoryRepository productCategoryRepository, @Nonnull DbMapper dbMapper, @Nonnull ProductRepository productRepository) {
+        return new ProductCategoryService(productCategoryRepository, productRepository, dbMapper);
     }
 
     @Bean

@@ -1,9 +1,12 @@
 package cz.tomaskopulety.funeral_backend.db.product;
 
+import java.util.List;
 import java.util.Optional;
 import jakarta.annotation.Nonnull;
 
+import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductEntity;
+import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -28,6 +31,15 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
      * @return true if exists, otherwise false
      */
     boolean existsByName(@Nonnull String name);
+
+    /**
+     * Get List of products.
+     *
+     * @param productCategory product category
+     * @return List of products
+     */
+    @Nonnull
+    List<ProductEntity> findAllByProductCategory(ProductCategoryEntity productCategory);
 
 
 }
