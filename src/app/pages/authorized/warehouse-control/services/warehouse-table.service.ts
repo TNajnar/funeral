@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { WarehouseTableFiltersService } from './warehouse-table-filters.service';
+import { WarehouseCacheService } from './warehouse-cache.service';
 import type { TFilterOptions } from '../utils/warehouse-control.model';
 import type { TCategory, TWarehouseItem } from '../utils/warehouse-control.gateway.model';
 
@@ -16,6 +17,7 @@ export class WarehouseTableService {
   isLoading = signal<boolean>(false);
 
   private _warehouseTableFilters: WarehouseTableFiltersService = inject(WarehouseTableFiltersService);
+  private _cacheService: WarehouseCacheService = inject(WarehouseCacheService);
 
   constructor() {
     this._tableDataSource.filterPredicate = this._warehouseTableFilters._createFilterPredicate();
@@ -35,14 +37,22 @@ export class WarehouseTableService {
 
   categories: Signal<TCategory[]> = this._categories.asReadonly();
 
-  notifyWarehouseItemsChange$(items: TWarehouseItem[]): void {
-    this._warehouseItems$.next(items);
+  updateWarehouseCache(): void {
+    this._cacheService.saveToStorage({
+      categories: this._categories(),
+      warehouseItems: this._warehouseItems$.getValue(),
+    });
+  }
+
+  notifyWarehouseItemsChange$(warehouseItems: TWarehouseItem[]): void {
+    this._warehouseItems$.next(warehouseItems);
     this._tableDataSource.data = this._warehouseItems$.getValue();
   }
 
   addWarehouseItem(warehouseItem: TWarehouseItem): void {
     const currentItems = this._warehouseItems$.getValue();
     this.notifyWarehouseItemsChange$([warehouseItem, ...currentItems]);
+    this.updateWarehouseCache();
   }
 
   deleteWarehouseItem(productId: number): void {
@@ -50,21 +60,25 @@ export class WarehouseTableService {
       warehouseItem.productId !== productId
     );
     this.notifyWarehouseItemsChange$(updatedItems);
+    this.updateWarehouseCache();
   }
 
   updateTableFilters(): void {
     this._tableDataSource.filter = JSON.stringify(this.filterOptions);
   }
 
-  setCategories(newCategory: TCategory[]): void {
-    this._categories.set(newCategory);
+  setCategories(newCategories: TCategory[]): void {
+    this._categories.set(newCategories);
+    this.updateWarehouseCache();
   }
 
   createNewCategory(newCategory: TCategory): void {
     this._categories.set([...this._categories(), newCategory]);
+    this.updateWarehouseCache();
   }
 
   deleteCategory(categoryId: number): void {
     this._categories.update(prevState => prevState.filter(category => category.id !== categoryId));
+    this.updateWarehouseCache();
   }
 }

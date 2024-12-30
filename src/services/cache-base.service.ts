@@ -17,9 +17,11 @@ export abstract class CacheServiceBase<T> {
 
   getStorageData(): T | null {
     const jsonData = localStorage.getItem(this.storageKey);
+
     if (jsonData) {
       return JSON.parse(jsonData) as T;
     }
+
     return null;
   }
 

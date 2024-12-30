@@ -86,6 +86,7 @@ export class WarehouseTableComponent {
     this._gateway.changeProductType(warehouseItem.productId, newType).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.type = responseWarehouseItem.type;
+        this._warehouseServiceTable.updateWarehouseCache();
       },
     });
   }
@@ -94,6 +95,7 @@ export class WarehouseTableComponent {
     this._gateway.changeProductName(warehouseItem.productId, newName).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.name = responseWarehouseItem.name;
+        this._warehouseServiceTable.updateWarehouseCache();
       },
     });
   }
@@ -109,6 +111,7 @@ export class WarehouseTableComponent {
     this._gateway.stockUpProduct(warehouseItem.productId, parsedValue).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.inStock = responseWarehouseItem.inStock;
+        this._warehouseServiceTable.updateWarehouseCache();
       },
     });
   }
@@ -122,6 +125,7 @@ export class WarehouseTableComponent {
     this._gateway.saveFlag(warehouseItem.productId).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.isFlagged = responseWarehouseItem.isFlagged;
+        this._warehouseServiceTable.updateWarehouseCache();
       }
     });
   }
@@ -130,6 +134,7 @@ export class WarehouseTableComponent {
     this._gateway.saveComment(warehouseItem.productId, comment).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.comment = responseWarehouseItem.comment;
+        this._warehouseServiceTable.updateWarehouseCache();
       }
     });
   }

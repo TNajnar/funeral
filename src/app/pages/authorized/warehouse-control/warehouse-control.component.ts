@@ -14,7 +14,7 @@ import {
 import { FilterTabsComponent } from './filter-tabs/filter-tabs.component';
 import { ButtonSecondaryComponent, ModalComponent } from '@app/ui';
 import { GraphComponent } from '@app/shared/graph/graph.component';
-import type { TWarehouseItem, TWarehouseItems } from './utils/warehouse-control.gateway.model';
+import type { TCategory, TWarehouseItem } from './utils/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
@@ -38,9 +38,12 @@ export class WarehouseControlComponent implements OnInit {
   ngOnInit(): void {
     const cachedWarehouse = this._cacheService.getStorageData();
 
-    if (cachedWarehouse?.warehouseItems) {
+    if (cachedWarehouse) {
       const storedWarehouse: TWarehouseItem[] = cachedWarehouse.warehouseItems;
+      const storedCategories: TCategory[] = cachedWarehouse.categories;
+
       this._warehouseServiceTable.notifyWarehouseItemsChange$(storedWarehouse);
+      this._warehouseServiceTable.setCategories(storedCategories);
       return;
     }
 
@@ -50,15 +53,14 @@ export class WarehouseControlComponent implements OnInit {
   private _loadData(): void {
     this._warehouseServiceTable.isLoading.set(true);
 
-    const subscription = this._gateway.fetchAllWarehouseItems().subscribe({
-      next: (data: TWarehouseItems): void => {
-        const { products } = data;
-        this._warehouseServiceTable.notifyWarehouseItemsChange$(products);
-        // TODO
-        // this._cacheService.saveToStorage({
-        //   ...this._cacheService.warehouseCache,
-        //   warehouseItems: products,
-        // });
+    const subscription = this._gateway.loadCacheableData().subscribe({
+      next: ([warehouseItems, categories]): void => {
+        this._warehouseServiceTable.notifyWarehouseItemsChange$(warehouseItems.products);
+        this._warehouseServiceTable.setCategories(categories.productCategories);
+        this._cacheService.saveToStorage({
+          categories: categories.productCategories,
+          warehouseItems: warehouseItems.products,
+        });
       },
       complete: (): void => this._warehouseServiceTable.isLoading.set(false),
     });

@@ -10,11 +10,9 @@
   }
   
   <div class="relative">
-    @if (!isLoading()) {
-      <button class="px-6 py-custom-6 h-full hover:bg-gray-material" (click)="toggleMenu()">
-        <mat-icon class="text-blue-primary mt-2" fontIcon="more_horiz" />
-      </button>
-    }
+    <button class="px-6 py-custom-6 h-full hover:bg-gray-material" (click)="toggleMenu()">
+      <mat-icon class="text-blue-primary mt-2" fontIcon="more_horiz" />
+    </button>
     
     <div
       class="absolute top-12 -right-104 z-10 py-3 w-165 text-sm bg-white rounded-md shadow-custom border border-gray-material2"

@@ -34,8 +34,7 @@ export class WarehouseCacheService extends CacheServiceBase<TWarehouseCache> {
 
   override saveToStorage(data: TWarehouseCache): void {
     this._warehouseCache = data;
-    const jsonData = JSON.stringify(data);
-    localStorage.setItem(this.storageKey, jsonData);
+    localStorage.setItem(this.storageKey, JSON.stringify(this._warehouseCache));
   }
 }
 
