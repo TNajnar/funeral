@@ -9,3 +9,6 @@ export const CATEGORY_MENU_ITEMS: TCategoryMenuItem[] = [
   { id: 6, name: 'Přidat kategorii', icon: 'add', variant: ECategoryModalVariants.NewCategory },
   { id: 7, name: 'Editovat kategorie' , icon: 'edit', variant: ECategoryModalVariants.EditOrRemoveCategory },
 ];
+
+export const STATIC_CATEGORY_ITEM = { id: 1, name: 'Vše' };
+

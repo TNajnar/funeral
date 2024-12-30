@@ -82,6 +82,22 @@ export class WarehouseTableComponent {
     this.activeCountMenu.set(productId);
   }
 
+  onTypeChange(newType: string, warehouseItem: TWarehouseItem): void {
+    this._gateway.changeProductType(warehouseItem.productId, newType).subscribe({
+      next: (responseWarehouseItem: TWarehouseItem): void => {
+        warehouseItem.type = responseWarehouseItem.type;
+      },
+    });
+  }
+
+  onNameChange(newName: string, warehouseItem: TWarehouseItem): void {
+    this._gateway.changeProductName(warehouseItem.productId, newName).subscribe({
+      next: (responseWarehouseItem: TWarehouseItem): void => {
+        warehouseItem.name = responseWarehouseItem.name;
+      },
+    });
+  }
+
   onAmountChange(newValue: string, warehouseItem: TWarehouseItem): void {
     const parsedValue = Number(newValue);
 
@@ -93,14 +109,6 @@ export class WarehouseTableComponent {
     this._gateway.stockUpProduct(warehouseItem.productId, parsedValue).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.inStock = responseWarehouseItem.inStock;
-      },
-    });
-  }
-
-  onNameChange(newName: string, warehouseItem: TWarehouseItem): void {
-    this._gateway.changeProductName(warehouseItem.productId, newName).subscribe({
-      next: (responseWarehouseItem: TWarehouseItem): void => {
-        warehouseItem.name = responseWarehouseItem.name;
       },
     });
   }

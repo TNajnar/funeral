@@ -52,6 +52,7 @@ module.exports = {
       },
       height: {
         320: '320px',
+        193: '193px',
         'table-5': '395px',
         'table-10': '619px',
         'table-20': '1070px',

@@ -1,4 +1,4 @@
-import { ECategoryModalVariants, ETabVariants } from './enums';
+import { ECategoryModalVariants } from './enums';
 
 export interface IDialogData {
   coffinType: string;
@@ -6,29 +6,32 @@ export interface IDialogData {
   name: string;
   outcome: number;
   profit: number;
-}
+};
 
 export type TFilterOptions = {
   hasComment: boolean;
   isFlagged: boolean;
   searchText: string,
   productCategory: string;
-}
-
-export type TTableTab = {
-  id: number;
-  text: string;
-  variant: ETabVariants;
-}
+};
 
 export type TCategoryMenuItem = {
   icon: string;
   id: number;
   name: string;
   variant: ECategoryModalVariants;
-}
+};
 
 export type TCategoryModals = {
   [ECategoryModalVariants.EditOrRemoveCategory]: boolean;
   [ECategoryModalVariants.NewCategory]: boolean;
-}
+};
+
+export type TNewItemForm = {
+  availableAmount: number;
+  created: string;
+  productCategory: number;
+  name: string;
+  isFlagged: boolean;
+  type: string;
+};
