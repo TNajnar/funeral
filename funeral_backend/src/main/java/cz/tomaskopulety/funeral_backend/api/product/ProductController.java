@@ -102,10 +102,9 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
     }
 
-    @Operation(summary = "Sell product.", operationId = "sellProduct", description = "Sell product by given value.", responses = {
-            @ApiResponse(responseCode = "200", description = "Products sold successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
-            @ApiResponse(responseCode = "400", description = "Some of request parameters are wrong.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+    @Operation(summary = "Set new product category.", operationId = "setNewProductCategory", description = "Set new product category.", responses = {
+            @ApiResponse(responseCode = "200", description = "New product category set successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
+            @ApiResponse(responseCode = "422", description = "Entities not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PatchMapping(path = "/{productId}/category/{productCategoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
