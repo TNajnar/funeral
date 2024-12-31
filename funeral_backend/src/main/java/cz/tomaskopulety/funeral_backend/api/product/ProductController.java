@@ -102,6 +102,18 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
     }
 
+    @Operation(summary = "Sell product.", operationId = "sellProduct", description = "Sell product by given value.", responses = {
+            @ApiResponse(responseCode = "200", description = "Products sold successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "Some of request parameters are wrong.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PatchMapping(path = "/{productId}/category/{productCategoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductGetResponse> setProductCategory(@PathVariable long productId, @PathVariable long productCategoryId) {
+        final Product product = this.productService.setProductCategory(productId, productCategoryId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
+    }
+
     @Operation(summary = "Flag product.", operationId = "flagProduct", description = "Set product as flagged.", responses = {
             @ApiResponse(responseCode = "200", description = "Product flagged successfully.", content = {@Content(schema = @Schema(implementation = ProductGetResponse.class))}),
             @ApiResponse(responseCode = "422", description = "Product not found.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

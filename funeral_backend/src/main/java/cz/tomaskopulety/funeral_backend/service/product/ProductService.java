@@ -175,6 +175,22 @@ public class ProductService {
     }
 
     /**
+     * Set product category.
+     *
+     * @param productId identifier of product
+     * @param productCategoryId identifier of category
+     * @return {@link Product}
+     */
+    @Nonnull
+    public Product setProductCategory(long productId, long productCategoryId) {
+        final ProductEntity productEntity = getProductEntity(productId);
+        final ProductCategoryEntity productCategoryEntity = this.productCategoryService.getProductCategoryEntity(productCategoryId);
+        productEntity.setProductCategory(productCategoryEntity);
+        this.productRepository.save(productEntity);
+        return this.dbMapper.map(productEntity);
+    }
+
+    /**
      * Set product inStock.
      *
      * @param productId identifier of product

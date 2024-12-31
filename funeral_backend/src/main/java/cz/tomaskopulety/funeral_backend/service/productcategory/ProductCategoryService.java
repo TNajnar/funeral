@@ -82,6 +82,19 @@ public class ProductCategoryService {
     }
 
     /**
+     * Get product category
+     *
+     * @param productCategoryId identifier of product category
+     * @throws EntityNotFoundException when category not found
+     * @return {@link ProductCategoryEntity}
+     */
+    @Nonnull
+    public ProductCategoryEntity getProductCategoryEntity(long productCategoryId) {
+        return this.productCategoryRepository.findByProductCategoryId(productCategoryId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product category id: %s not found.", productCategoryId)));
+    }
+
+    /**
      * Delete category by given identifier and all products connected to this category.
      *
      * @param categoryId warehouse identifier of category
