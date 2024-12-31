@@ -12,6 +12,7 @@ import type { TCategory, TWarehouseItem } from '../utils/warehouse-control.gatew
 })
 export class WarehouseTableService {
   private _warehouseItems$ = new BehaviorSubject<TWarehouseItem[]>([]);
+  private _onCategoryChange$ = new BehaviorSubject<boolean>(false);
   private _tableDataSource = new MatTableDataSource<TWarehouseItem>();
   private _categories = signal<TCategory[]>([]);
   isLoading = signal<boolean>(false);
@@ -37,6 +38,10 @@ export class WarehouseTableService {
 
   categories: Signal<TCategory[]> = this._categories.asReadonly();
 
+  get onCategoryChange$(): Observable<boolean> {
+    return this._onCategoryChange$.asObservable();
+  }
+
   updateWarehouseCache(): void {
     this._cacheService.saveToStorage({
       categories: this._categories(),
@@ -47,6 +52,10 @@ export class WarehouseTableService {
   notifyWarehouseItemsChange$(warehouseItems: TWarehouseItem[]): void {
     this._warehouseItems$.next(warehouseItems);
     this._tableDataSource.data = this._warehouseItems$.getValue();
+  }
+
+  notifyCategoryChange$(value: boolean): void {
+    return this._onCategoryChange$.next(value);
   }
 
   addWarehouseItem(warehouseItem: TWarehouseItem): void {

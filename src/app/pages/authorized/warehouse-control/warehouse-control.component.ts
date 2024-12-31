@@ -30,20 +30,28 @@ export class WarehouseControlComponent implements OnInit {
   protected _texts = warehouseControl;
   isModalOpen = signal<boolean>(false);
 
-  private _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
+  private _warehouseService: WarehouseTableService = inject(WarehouseTableService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
   private _cacheService: WarehouseCacheService = inject(WarehouseCacheService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
+    this._warehouseService.onCategoryChange$.subscribe((hasChanged) => {
+      if (hasChanged) {
+        this._loadData();
+        this._warehouseService.notifyCategoryChange$(false);
+        return;
+      }
+    });
+
     const cachedWarehouse = this._cacheService.getStorageData();
 
     if (cachedWarehouse) {
       const storedWarehouse: TWarehouseItem[] = cachedWarehouse.warehouseItems;
       const storedCategories: TCategory[] = cachedWarehouse.categories;
 
-      this._warehouseServiceTable.notifyWarehouseItemsChange$(storedWarehouse);
-      this._warehouseServiceTable.setCategories(storedCategories);
+      this._warehouseService.notifyWarehouseItemsChange$(storedWarehouse);
+      this._warehouseService.setCategories(storedCategories);
       return;
     }
 
@@ -51,18 +59,18 @@ export class WarehouseControlComponent implements OnInit {
   }
 
   private _loadData(): void {
-    this._warehouseServiceTable.isLoading.set(true);
+    this._warehouseService.isLoading.set(true);
 
     const subscription = this._gateway.loadCacheableData().subscribe({
       next: ([warehouseItems, categories]): void => {
-        this._warehouseServiceTable.notifyWarehouseItemsChange$(warehouseItems.products);
-        this._warehouseServiceTable.setCategories(categories.productCategories);
+        this._warehouseService.notifyWarehouseItemsChange$(warehouseItems.products);
+        this._warehouseService.setCategories(categories.productCategories);
         this._cacheService.saveToStorage({
           categories: categories.productCategories,
           warehouseItems: warehouseItems.products,
         });
       },
-      complete: (): void => this._warehouseServiceTable.isLoading.set(false),
+      complete: (): void => this._warehouseService.isLoading.set(false),
     });
 
     this._destroyRef.onDestroy((): void =>
@@ -75,7 +83,7 @@ export class WarehouseControlComponent implements OnInit {
   }
 
   onSearchQueryChange(value: string): void {
-    this._warehouseServiceTable.filterOptions.searchText = value.trim().toLowerCase();
-    this._warehouseServiceTable.updateTableFilters();
+    this._warehouseService.filterOptions.searchText = value.trim().toLowerCase();
+    this._warehouseService.updateTableFilters();
   }
 }

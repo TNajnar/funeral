@@ -69,6 +69,7 @@ export class EditCategoriesComponent implements OnInit {
       next: (responseCategory: TCategory): void => {
         category.name = responseCategory.name;
       },
+      complete: () => this._warehouseService.notifyCategoryChange$(true),
     });
   }
 
@@ -77,6 +78,7 @@ export class EditCategoriesComponent implements OnInit {
       next: (): void => {
         this._warehouseService.deleteCategory(categoryId);
       },
+      complete: () => this._warehouseService.notifyCategoryChange$(true),
     });
   }
 
