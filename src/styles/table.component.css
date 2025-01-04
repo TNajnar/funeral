@@ -89,7 +89,48 @@
 
   /* #endregion */
 
-  /* #region Extend WarehouseTable stockMenu styles */
+  /* #region Extend WarehouseTable category select and stockMenu styles */
+
+  /* Select */
+
+  .select-wrapper {
+    position: relative;
+    width: fit-content;
+  }
+
+  .custom-select {
+    width: 169px;
+    appearance: none;
+    -webkit-appearance: none; /* Safari and Chrome */
+    -moz-appearance: none; /* Firefox */
+    appearance: none; /* Standard */
+  }
+
+  .custom-select::-ms-expand {
+    display: none;
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    color: transparent;
+    width: 4px;
+    height: 4px;
+  }
+
+  .input-table:hover:not(:focus),
+  .select-wrapper:hover .input-table:not(:focus),
+  .select-arrow:hover ~ .input-table:not(:focus) {
+    border: 1px solid theme('colors.gray');
+  }
+
+  .input-table:focus + .select-arrow,
+  .select-wrapper:hover .select-arrow {
+    color: black;
+  }
+
+  /* endSelect */
 
   .input-table:hover:not(:focus),
   .input-wrapper:hover .input-table:not(:focus),

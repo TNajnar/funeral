@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { WarehouseTableService } from '@pages/authorized/warehouse-control/services/warehouse-table.service';
-import { WarehouseGatewayService } from '@pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
+import { WarehouseService } from '@app/pages/authorized/warehouse-control/services/warehouse.service';
+import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse.gateway.service';
 import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
 import type { TCategory } from '@pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
 import { ECategoryModalVariants } from '@pages/authorized/warehouse-control/utils/enums';
@@ -22,7 +22,7 @@ export class NewCategoryComponent {
 
   @Output() toggleModal = new EventEmitter<ECategoryModalVariants>();
 
-  private _warehouseService: WarehouseTableService = inject(WarehouseTableService);
+  private _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
 
   onSubmit(): void {

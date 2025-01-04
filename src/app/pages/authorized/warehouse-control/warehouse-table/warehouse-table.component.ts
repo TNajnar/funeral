@@ -1,5 +1,5 @@
 import { Component, computed, HostBinding, inject, signal, Signal, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
@@ -7,8 +7,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { WarehouseTableService } from '../services/warehouse-table.service';
-import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
+import { WarehouseService } from '../services/warehouse.service';
+import { WarehouseTableGatewayService } from '../gateways/warehouse-table.gateway.service';
 import { CustomPaginatorService } from 'services/custom-paginator.service';
 import { ErrorService } from 'services/error.service';
 import { ProductAmountChangeMenuComponent } from './product-amount-change-menu/product-amount-change-menu.component';
@@ -21,7 +21,7 @@ import { warehouseControl } from '@lib/staticTexts';
 @Component({
   selector: 'app-warehouse-table',
   standalone: true,
-  imports: [NgIf, FormsModule, FlagComponent, CommentComponent, ProductAmountChangeMenuComponent,
+  imports: [NgIf, NgFor, FormsModule, FlagComponent, CommentComponent, ProductAmountChangeMenuComponent,
     MatIconModule, MatTableModule, MatPaginatorModule, MatSlideToggleModule, MatProgressSpinnerModule,
   ],
   templateUrl: './warehouse-table.component.html',
@@ -49,8 +49,8 @@ export class WarehouseTableComponent {
     }
   }
 
-  protected _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
-  private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
+  protected _warehouseService: WarehouseService = inject(WarehouseService);
+  private _gateway: WarehouseTableGatewayService = inject(WarehouseTableGatewayService);
   private _errorService: ErrorService = inject(ErrorService);
 
   constructor() {
@@ -58,11 +58,11 @@ export class WarehouseTableComponent {
   }
 
   get tableDataSource(): MatTableDataSource<TWarehouseItem, MatPaginator> {
-    return this._warehouseServiceTable.tableDataSource;
+    return this._warehouseService.tableDataSource;
   }
 
   private get _tableFilterOptions(): TFilterOptions {
-    return this._warehouseServiceTable.filterOptions;
+    return this._warehouseService.filterOptions;
   }
 
   get tableColumns(): string[] {
@@ -70,7 +70,7 @@ export class WarehouseTableComponent {
   }
 
   isLoading: Signal<boolean> = computed(() => {
-    return this._warehouseServiceTable.isLoading();
+    return this._warehouseService.isLoading();
   });
 
   toggleCountMenu(productId: number): void {
@@ -82,20 +82,42 @@ export class WarehouseTableComponent {
     this.activeCountMenu.set(productId);
   }
 
+  onCategoryChange(newCategoryId: number, warehouseItem: TWarehouseItem): void {
+    if (!newCategoryId || newCategoryId === warehouseItem.productCategoryId) {
+      return;
+    }
+
+    this._gateway.changeProductCategory(warehouseItem.productId, newCategoryId).subscribe({
+      next: (responseWarehouseItem: TWarehouseItem): void => {
+        warehouseItem.productCategory = responseWarehouseItem.productCategory;
+        warehouseItem.productCategoryId = responseWarehouseItem.productCategoryId;
+        this._warehouseService.updateWarehouseCache();
+      },
+    });
+  }
+
   onTypeChange(newType: string, warehouseItem: TWarehouseItem): void {
+    if (!newType || newType === warehouseItem.type) {
+      return;
+    }
+
     this._gateway.changeProductType(warehouseItem.productId, newType).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.type = responseWarehouseItem.type;
-        this._warehouseServiceTable.updateWarehouseCache();
+        this._warehouseService.updateWarehouseCache();
       },
     });
   }
 
   onNameChange(newName: string, warehouseItem: TWarehouseItem): void {
+    if (!newName || newName === warehouseItem.name) {
+      return;
+    }
+
     this._gateway.changeProductName(warehouseItem.productId, newName).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.name = responseWarehouseItem.name;
-        this._warehouseServiceTable.updateWarehouseCache();
+        this._warehouseService.updateWarehouseCache();
       },
     });
   }
@@ -111,21 +133,21 @@ export class WarehouseTableComponent {
     this._gateway.stockUpProduct(warehouseItem.productId, parsedValue).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.inStock = responseWarehouseItem.inStock;
-        this._warehouseServiceTable.updateWarehouseCache();
+        this._warehouseService.updateWarehouseCache();
       },
     });
   }
 
   onChangeToggle(value: boolean, type: string): void {
     this._tableFilterOptions[type === 'Flag' ? 'isFlagged' : 'hasComment'] = value;
-    this._warehouseServiceTable.updateTableFilters();
+    this._warehouseService.updateTableFilters();
   }
 
   onFlagClick(warehouseItem: TWarehouseItem): void {
     this._gateway.saveFlag(warehouseItem.productId).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.isFlagged = responseWarehouseItem.isFlagged;
-        this._warehouseServiceTable.updateWarehouseCache();
+        this._warehouseService.updateWarehouseCache();
       }
     });
   }
@@ -134,7 +156,7 @@ export class WarehouseTableComponent {
     this._gateway.saveComment(warehouseItem.productId, comment).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.comment = responseWarehouseItem.comment;
-        this._warehouseServiceTable.updateWarehouseCache();
+        this._warehouseService.updateWarehouseCache();
       }
     });
   }
@@ -142,7 +164,7 @@ export class WarehouseTableComponent {
   deleteWarehouseItem(productId: number): void {
     this._gateway.deleteWarehouseItem(productId).subscribe({
       next: (): void => {
-        this._warehouseServiceTable.deleteWarehouseItem(productId);
+        this._warehouseService.deleteWarehouseItem(productId);
       }
     });
   }

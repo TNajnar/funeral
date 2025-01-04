@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
-import { WarehouseTableService } from '@pages/authorized/warehouse-control/services/warehouse-table.service';
-import { WarehouseGatewayService } from '@pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
+import { WarehouseService } from '@app/pages/authorized/warehouse-control/services/warehouse.service';
+import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse.gateway.service';
 import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
 import { ECategoryModalVariants } from '@pages/authorized/warehouse-control/utils/enums';
 import { _CATEGORY_COLUMNS } from '@pages/authorized/warehouse-control/utils/consts';
@@ -30,7 +30,7 @@ export class EditCategoriesComponent implements OnInit {
 
   @Output() toggleModal = new EventEmitter<ECategoryModalVariants>();
 
-  private _warehouseService: WarehouseTableService = inject(WarehouseTableService);
+  private _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
 
   categories: Signal<TCategory[]> = this._warehouseService.categories;

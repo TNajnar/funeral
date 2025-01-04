@@ -4,7 +4,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
+import {
+  WarehouseTableGatewayService,
+} from '@pages/authorized/warehouse-control/gateways/warehouse-table.gateway.service';
 import type { TWarehouseItem } from '@app/pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 
@@ -31,7 +33,7 @@ export class ProductAmountChangeMenuComponent {
     return this.isOpen() ? 'flex' : 'hidden';
   }
 
-  private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
+  private _gateway: WarehouseTableGatewayService = inject(WarehouseTableGatewayService);
 
   onSubmit(): void {
     if (!this.productAmount) {

@@ -25,13 +25,24 @@
   <ng-container matColumnDef="category">
     <th mat-header-cell *matHeaderCellDef class="header w-290.6">{{ _texts.categoryHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell">
-      <input
-        class="input-table"
-        name="category"
-        type="text"
-        [id]="'category' + element.productId"
-        [(ngModel)]="element.productCategory"
-      />
+      <div class="select-wrapper">
+        <select
+          class="input-table custom-select"
+          name="category"
+          [id]="'category' + element.productId"
+          [(ngModel)]="element.productCategoryId"
+          (change)="onCategoryChange(element.productCategoryId, element)"
+        >
+          <option
+            *ngFor="let category of _warehouseService.categories()"
+            [value]="category.id"
+          >
+            {{ category.name }}
+          </option>
+        </select>
+
+        <mat-icon class="select-arrow" fontIcon="keyboard_arrow_down" />
+      </div>
     </td>
   </ng-container>
 

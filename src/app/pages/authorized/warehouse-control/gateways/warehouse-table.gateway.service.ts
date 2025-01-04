@@ -1,27 +1,16 @@
 import { Injectable } from '@angular/core';
-import { catchError, forkJoin, Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 import { BaseGatewayService } from 'services/gateway-base.service';
-import type {
-  TCategories, TCategory, TNewItemArgs, TWarehouseItem, TWarehouseItems,
-} from '../utils/warehouse-control.gateway.model';
+import type { TNewItemArgs, TWarehouseItem, TWarehouseItems } from '../utils/warehouse-control.gateway.model';
 
 const BASE_URL = 'http://localhost:8080/api/v1';
 
 @Injectable({
   providedIn: 'root',
 })
-export class WarehouseGatewayService extends BaseGatewayService {
-  loadCacheableData(): Observable<[TWarehouseItems, TCategories]> {
-    return forkJoin([this._fetchAllWarehouseItems(), this._fetchCategories()]).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při stahování všech položek na skladu a kategorii: ' + error.message);
-        return throwError(() => new Error('Failed to fetch all warehouse items and categories.', error));
-      })
-    );
-  }
-
-  private _fetchAllWarehouseItems(): Observable<TWarehouseItems> {
+export class WarehouseTableGatewayService extends BaseGatewayService {
+  fetchAllWarehouseItems(): Observable<TWarehouseItems> {
     return this._httpClient.get<TWarehouseItems>(`${BASE_URL}/products`).pipe(
       catchError((error) => {
         this._errorService.showError('Chyba při stahování všech dat na skladě: ' + error.message);
@@ -46,6 +35,16 @@ export class WarehouseGatewayService extends BaseGatewayService {
         return throwError(() => new Error('Failed to delete item.', error));
       })
     );
+  }
+
+  changeProductCategory(productId: number, productCategoryId: number): Observable<TWarehouseItem> {
+    return this._httpClient.patch<TWarehouseItem>(`${BASE_URL}/products/${productId}/category/${productCategoryId}`, {})
+      .pipe(
+        catchError((error) => {
+          this._errorService.showError('Chyba při změně kategorie produktu: ' + error.message);
+          return throwError(() => new Error('Failed to change product category.', error));
+        })
+      );
   }
 
   changeProductType(productId: number, type: string): Observable<TWarehouseItem> {
@@ -98,44 +97,6 @@ export class WarehouseGatewayService extends BaseGatewayService {
       catchError((error) => {
         this._errorService.showError('Chyba při ukládání komentáře: ' + error.message);
         return throwError(() => new Error('Failed to save comment.', error));
-      })
-    );
-  }
-
-  private _fetchCategories(): Observable<TCategories> {
-    return this._httpClient.get<TCategories>(`${BASE_URL}/product-categories`).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při stahování všech kategorií: ' + error.message);
-        return throwError(() => new Error('Failed to fetch all categories.', error));
-      })
-    );
-  }
-
-  createNewCategory(newCategory: string): Observable<TCategory> {
-    return this._httpClient.post<TCategory>(`${BASE_URL}/product-categories/${newCategory}`, {}).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při vytvoření kategorie: ' + error.message);
-        return throwError(() => new Error('Failed to create new category', error));
-      })
-    );
-  }
-
-  renameCategory(categoryId: number, newName: string): Observable<TCategory> {
-    return this._httpClient.patch<TCategory>(`${BASE_URL}/product-categories/${categoryId}/name`,
-      { value: newName }
-    ).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při změně kategorie produktu: ' + error.message);
-        return throwError(() => new Error('Failed to change product category.', error));
-      })
-    );
-  }
-
-  deleteCategory(categoryId: number): Observable<void> {
-    return this._httpClient.delete<void>(`${BASE_URL}/product-categories/${categoryId}`).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při mazání kategorie: ' + error.message);
-        return throwError(() => new Error('Failed to remove category', error));
       })
     );
   }

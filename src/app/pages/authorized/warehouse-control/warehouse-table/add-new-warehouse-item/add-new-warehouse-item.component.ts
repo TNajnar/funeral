@@ -4,8 +4,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
-import { WarehouseTableService } from '@pages/authorized/warehouse-control/services/warehouse-table.service';
-import { WarehouseGatewayService } from '@pages/authorized/warehouse-control/gateways/warehouse-gateway.service';
+import { WarehouseService } from '@app/pages/authorized/warehouse-control/services/warehouse.service';
+import {
+  WarehouseTableGatewayService,
+} from '@pages/authorized/warehouse-control/gateways/warehouse-table.gateway.service';
 import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
 import { resolveNewItemArgs } from '@pages/authorized/warehouse-control/utils/utils';
 import type {
@@ -31,11 +33,11 @@ export class AddNewWarehouseItemComponent {
 
   @Output() onCancel = new EventEmitter<void>();
 
-  private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
-  private _warehouseServiceTable: WarehouseTableService = inject(WarehouseTableService);
+  private _gateway: WarehouseTableGatewayService = inject(WarehouseTableGatewayService);
+  private _warehouseService: WarehouseService = inject(WarehouseService);
 
   constructor() {
-    this.selectItems = this._warehouseServiceTable.categories().map((value) => ({
+    this.selectItems = this._warehouseService.categories().map((value) => ({
       value: value.id,
       viewValue: value.name,
     }));
@@ -50,7 +52,7 @@ export class AddNewWarehouseItemComponent {
 
     this._gateway.addWarehouseItem(resolvedItemArgs).subscribe({
       next: (newWarehouseItem: TWarehouseItem): void => {
-        this._warehouseServiceTable.addWarehouseItem(newWarehouseItem);
+        this._warehouseService.addWarehouseItem(newWarehouseItem);
       },
     });
 

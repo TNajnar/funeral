@@ -2,7 +2,7 @@ import { Component, inject, Signal, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
-import { WarehouseTableService } from '../services/warehouse-table.service';
+import { WarehouseService } from '../services/warehouse.service';
 import { NewCategoryComponent } from './new-category/new-category.component';
 import { EditCategoriesComponent } from './edit-categories/edit-categories.component';
 import { ModalComponent } from '@app/ui';
@@ -32,7 +32,7 @@ export class FilterTabsComponent {
     [ECategoryModalVariants.NewCategory]: false,
   });
 
-  private _warehouseService: WarehouseTableService = inject(WarehouseTableService);
+  private _warehouseService: WarehouseService = inject(WarehouseService);
 
   categories: Signal<TCategory[]> = this._warehouseService.categories;
 

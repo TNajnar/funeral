@@ -4,8 +4,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 
-import { WarehouseTableService } from './services/warehouse-table.service';
-import { WarehouseGatewayService } from './gateways/warehouse-gateway.service';
+import { WarehouseService } from './services/warehouse.service';
+import { WarehouseGatewayService } from './gateways/warehouse.gateway.service';
 import { WarehouseCacheService } from './services/warehouse-cache.service';
 import { WarehouseTableComponent } from './warehouse-table/warehouse-table.component';
 import {
@@ -30,7 +30,7 @@ export class WarehouseControlComponent implements OnInit {
   protected _texts = warehouseControl;
   isModalOpen = signal<boolean>(false);
 
-  private _warehouseService: WarehouseTableService = inject(WarehouseTableService);
+  private _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
   private _cacheService: WarehouseCacheService = inject(WarehouseCacheService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
