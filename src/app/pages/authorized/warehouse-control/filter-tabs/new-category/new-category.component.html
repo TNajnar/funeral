@@ -1,4 +1,4 @@
-<div class="flex items-center justify-between">
+<div class="relative flex items-center justify-between mb-2">
   <span>{{ _texts.label }}</span>
 
   <mat-form-field>
@@ -11,14 +11,24 @@
       [(ngModel)]="newCategoryName"
     />
   </mat-form-field>
+
+  @if (isMaxCategory) {
+    <mat-error class="absolute right-5 bottom-0 text-sm">
+      {{ _texts.error }}
+    </mat-error>
+  }
 </div>
 
 <div class="flex gap-4 justify-end">
-  <app-button-secondary class="w-24" [disabled]="!newCategoryName" (click)="onSubmit()">
+  <app-button-secondary
+    class="w-24"
+    [disabled]="!newCategoryName || isMaxCategory"
+    (click)="onSubmit()"
+  >
     {{ _texts.submit }}
   </app-button-secondary>
 
-  <app-button-primary (click)="handleToggleModal()" class="w-24">
+  <app-button-primary class="w-24" (click)="handleToggleModal()">
     {{ _texts.cancel }}
   </app-button-primary>
 </div>

@@ -25,8 +25,12 @@ export class NewCategoryComponent {
   private _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
 
+  get isMaxCategory(): boolean {
+    return this._warehouseService.categories().length >= 6;
+  }
+
   onSubmit(): void {
-    if (!this.newCategoryName) {
+    if (!this.newCategoryName || this.isMaxCategory) {
       return;
     }
 
@@ -34,7 +38,7 @@ export class NewCategoryComponent {
       next: (newCategory: TCategory): void => {
         this._warehouseService.createNewCategory(newCategory);
       },
-      complete: () => {
+      complete: (): void => {
         this.newCategoryName = undefined;
         this.handleToggleModal();
       },

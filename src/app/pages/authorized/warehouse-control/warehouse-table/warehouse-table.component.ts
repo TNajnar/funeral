@@ -83,10 +83,6 @@ export class WarehouseTableComponent {
   }
 
   onCategoryChange(newCategoryId: number, warehouseItem: TWarehouseItem): void {
-    if (!newCategoryId || newCategoryId === warehouseItem.productCategoryId) {
-      return;
-    }
-
     this._gateway.changeProductCategory(warehouseItem.productId, newCategoryId).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.productCategory = responseWarehouseItem.productCategory;
@@ -97,7 +93,7 @@ export class WarehouseTableComponent {
   }
 
   onTypeChange(newType: string, warehouseItem: TWarehouseItem): void {
-    if (!newType || newType === warehouseItem.type) {
+    if (!newType) {
       return;
     }
 
@@ -110,7 +106,7 @@ export class WarehouseTableComponent {
   }
 
   onNameChange(newName: string, warehouseItem: TWarehouseItem): void {
-    if (!newName || newName === warehouseItem.name) {
+    if (!newName) {
       return;
     }
 

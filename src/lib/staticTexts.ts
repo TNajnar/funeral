@@ -37,7 +37,7 @@ export const warehouseControl = {
 
     newCategory: {
       label: 'Název nové kategorie:',
-      error: 'Neplatný název kategorie.',
+      error: 'Maximální počet kategorii je 6.',
       submit: 'Potvrdit',
       cancel: 'Zrušit',
     },
