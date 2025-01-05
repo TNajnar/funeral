@@ -10,7 +10,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { WarehouseService } from '../services/warehouse.service';
 import { WarehouseTableGatewayService } from '../gateways/warehouse-table.gateway.service';
 import { CustomPaginatorService } from 'services/custom-paginator.service';
-import { ErrorService } from 'services/error.service';
 import { ProductAmountChangeMenuComponent } from './product-amount-change-menu/product-amount-change-menu.component';
 import { CommentComponent, FlagComponent } from '@app/ui';
 import type { TFilterOptions } from '../utils/warehouse-control.model';
@@ -51,7 +50,6 @@ export class WarehouseTableComponent {
 
   protected _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseTableGatewayService = inject(WarehouseTableGatewayService);
-  private _errorService: ErrorService = inject(ErrorService);
 
   constructor() {
     this.tableDataSource.paginator = this.paginator;
@@ -113,22 +111,6 @@ export class WarehouseTableComponent {
     this._gateway.changeProductName(warehouseItem.productId, newName).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.name = responseWarehouseItem.name;
-        this._warehouseService.updateWarehouseCache();
-      },
-    });
-  }
-
-  onAmountChange(newValue: string, warehouseItem: TWarehouseItem): void {
-    const parsedValue = Number(newValue);
-
-    if (isNaN(parsedValue)) {
-      this._errorService.showError('Vstup není číslo.');
-      return;
-    }
-
-    this._gateway.stockUpProduct(warehouseItem.productId, parsedValue).subscribe({
-      next: (responseWarehouseItem: TWarehouseItem): void => {
-        warehouseItem.inStock = responseWarehouseItem.inStock;
         this._warehouseService.updateWarehouseCache();
       },
     });

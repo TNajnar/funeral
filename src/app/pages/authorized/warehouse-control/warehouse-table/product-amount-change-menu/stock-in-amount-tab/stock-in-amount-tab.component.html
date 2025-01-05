@@ -1,0 +1,27 @@
+<label class="inline-flex items-center gap-2">
+  <mat-icon
+    class="text-blue-primary"
+    [fontIcon]="'info'"
+    [matTooltip]="_texts.tooltip"
+  />
+
+  <span>{{ _texts.title }}</span>
+
+  <input
+    class="w-40"
+    type="number"
+    name="count"
+    [id]="'count' + product.productId"
+    [(ngModel)]="productAmount"
+  />
+</label>
+
+<div class="flex justify-end gap-4 w-full">
+  <button mat-flat-button [disabled]="!productAmount" (click)="onSubmit()">
+    {{ _texts.submit }}
+  </button>
+
+  <button mat-raised-button (click)="handleClose()">
+    {{ _texts.cancel }}
+  </button>
+</div>

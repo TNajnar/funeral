@@ -1,29 +1,14 @@
-<label class="inline-flex items-center gap-2">
-  <mat-icon
-    class="text-blue-primary"
-    [fontIcon]="'info'"
-    [matTooltip]="_texts.tooltip"
-  />
+@if (isOpen()) {
+  <app-modal [title]="_texts.modalTitle" (onClose)="handleClose()">
+    <mat-tab-group>
+      <mat-tab [label]="_texts.tabStockIn">
+        <app-stock-in-amount-tab [product]="product" (onClose)="handleClose()" />
+      </mat-tab>
 
-  <span class="">{{ _texts.title }}</span>
+      <mat-tab [label]="_texts.tabChange">
+        <app-change-amount-tab [product]="product" (onClose)="handleClose()" />
+      </mat-tab>
+    </mat-tab-group>
+  </app-modal>
+}
 
-  <input
-    class="w-16"
-    type="number"
-    name="count"
-    [id]="'count' + product.productId"
-    [(ngModel)]="productAmount"
-  />
-</label>
-
-<div class="flex justify-end gap-4 w-full">
-  <button mat-flat-button [disabled]="!productAmount" (click)="onSubmit()">
-    {{ _texts.submit }}
-  </button>
-
-  <button mat-raised-button (click)="handleClose()">
-    {{ _texts.cancel }}
-  </button>
-</div>
-
-<span class="arrow"></span>

@@ -12,8 +12,7 @@ export abstract class CacheServiceBase<T> {
 
   protected _initializeCache(): void {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  saveToStorage(data: T): void {}
+  abstract saveToStorage(data: T): void;
 
   getStorageData(): T | null {
     const jsonData = localStorage.getItem(this.storageKey);
