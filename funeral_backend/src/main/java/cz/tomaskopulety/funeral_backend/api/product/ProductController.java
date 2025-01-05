@@ -97,7 +97,7 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Internal system error.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PatchMapping(path = "/{productId}/sell/{quantity}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductGetResponse> sellProduct(@PathVariable long productId, @Parameter(description = "Amount of product to be sold. Must be negative number.", example = "-3") @Negative @PathVariable int quantity) {
+    public ResponseEntity<ProductGetResponse> sellProduct(@PathVariable long productId, @Parameter(description = "Amount of product to be sold. Must be positive number.", example = "-3") @Positive @PathVariable int quantity) {
         final Product product = this.productService.sellProduct(productId, quantity);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.apiMapper.map(product));
     }

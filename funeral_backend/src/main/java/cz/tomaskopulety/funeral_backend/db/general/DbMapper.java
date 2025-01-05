@@ -123,7 +123,7 @@ public class DbMapper {
         productMovementEntity.setCreated(created == null ? ZonedDateTime.now(this.clock) : created.toZonedDateTime());
         productMovementEntity.setOldState(oldState);
         productMovementEntity.setRequested(requested);
-        productMovementEntity.setNewState(oldState + requested);
+        productMovementEntity.setNewState(type.equals(ProductMovementEntity.MOVEMENT_SALE) ? oldState - requested : oldState + requested);
         productMovementEntity.setType(type);
         return productMovementEntity;
     }

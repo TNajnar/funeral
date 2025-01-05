@@ -1,15 +1,16 @@
 package cz.tomaskopulety.funeral_backend.api.general;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.List;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.EntityNotFoundException;
 
 import cz.tomaskopulety.funeral_backend.api.product.request.ProductRequest;
-import cz.tomaskopulety.funeral_backend.api.product.response.ProductGetMovementResponse;
 import cz.tomaskopulety.funeral_backend.api.product.response.ProductGetResponse;
+import cz.tomaskopulety.funeral_backend.api.product.response.ProductStatisticsResponse;
 import cz.tomaskopulety.funeral_backend.db.product.ProductCategoryRepository;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
+import cz.tomaskopulety.funeral_backend.db.product.model.ProductMovementEntity;
 import cz.tomaskopulety.funeral_backend.service.general.IdGenerator;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
 import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
@@ -65,12 +66,7 @@ public class ApiMapper {
                 .inStock(product.getInStock())
                 .productCategoryId(product.getProductCategory().productCategoryId())
                 .type(product.getType())
-                .productMovements(
-                        product.getProductMovements()
-                                .stream()
-                                .map(this::map)
-                                .collect(Collectors.toList())
-                )
+                .productMovements(map(product.getProductMovements()))
                 .flagged(product.isFlagged())
                 .build();
     }
@@ -90,20 +86,24 @@ public class ApiMapper {
     }
 
     /**
-     * Maps {@link ProductMovement} to {@link ProductGetMovementResponse}
+     * Map List of {@link ProductMovement} to {@link ProductStatisticsResponse}
      *
-     * @param productMovement {@link ProductMovement}
-     * @return {@link ProductGetMovementResponse}
+     * @param productMovements list of {@link ProductMovement}
+     * @return {@link ProductStatisticsResponse}
      */
     @Nonnull
-    private ProductGetMovementResponse map(@Nonnull ProductMovement productMovement){
-        return ProductGetMovementResponse.builder()
-                .created(productMovement.getCreated().toOffsetDateTime())
-                .productMovementType(productMovement.getType())
-                .oldState(productMovement.getOldState())
-                .requested(productMovement.getRequested())
-                .newState(productMovement.getNewState())
-                .build();
+    private ProductStatisticsResponse map(@Nonnull List<ProductMovement> productMovements){
+        final int sold = productMovements.stream()
+                .filter(pm -> pm.getType().equals(ProductMovementEntity.MOVEMENT_SALE))
+                .mapToInt(ProductMovement::getRequested)
+                .sum();
+
+        final int purchased = productMovements.stream()
+                .filter(pm -> pm.getType().equals(ProductMovementEntity.MOVEMENT_PURCHASE))
+                .mapToInt(ProductMovement::getRequested)
+                .sum();
+
+        return new ProductStatisticsResponse(sold, purchased);
     }
 
 }

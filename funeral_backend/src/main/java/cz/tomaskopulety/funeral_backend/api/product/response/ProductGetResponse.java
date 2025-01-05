@@ -65,7 +65,7 @@ public class ProductGetResponse {
     /**
      * Amount of product stocked in warehouse.
      */
-    @Schema(description = "Amount of p0roduct stocked in warehouse.", example = "24", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Amount of product stocked in warehouse.", example = "24", requiredMode = Schema.RequiredMode.REQUIRED)
     private final int inStock;
 
     /**
@@ -79,7 +79,7 @@ public class ProductGetResponse {
      * Warehouse movements of product.
      */
     @Nonnull
-    @ArraySchema(schema = @Schema(implementation = ProductGetMovementResponse.class))
-    private final List<ProductGetMovementResponse> productMovements;
+    @Schema(description = "Warehouse movements of product.", requiredMode = Schema.RequiredMode.REQUIRED)
+    private final ProductStatisticsResponse productMovements;
 
 }

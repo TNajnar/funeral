@@ -29,12 +29,6 @@ import org.springframework.data.jpa.domain.Specification;
 @Slf4j
 public class ProductService {
 
-    private static final String MOVEMENT_PURCHASE = "PURCHASE";
-
-    private static final String MOVEMENT_SALE = "SALE";
-
-    private static final String MOVEMENT_MANUAL_CHANGE = "MANUAL_CHANGE";
-
     @Nonnull
     private final ProductRepository productRepository;
 
@@ -58,7 +52,7 @@ public class ProductService {
         final ProductCategoryEntity productCategory = this.productCategoryService.getProductCategoryEntity(product.getProductCategory().name());
 
         final ProductEntity productEntity = this.dbMapper.map(product, productCategory);
-        final ProductMovementEntity productMovementEntity = this.dbMapper.map(0, product.getInStock(), product.getCreated(), MOVEMENT_PURCHASE);
+        final ProductMovementEntity productMovementEntity = this.dbMapper.map(0, product.getInStock(), product.getCreated(), ProductMovementEntity.MOVEMENT_PURCHASE);
         productEntity.getProductMovements().add(productMovementEntity);
         this.productRepository.save(productEntity);
         return this.dbMapper.map(productEntity);
@@ -96,13 +90,9 @@ public class ProductService {
     public Product stockUpProduct(long productId, int amount) {
         final ProductEntity productEntity = getProductEntity(productId);
 
-        if (productEntity.getInStock() > amount) {
-            throw new IllegalArgumentException("Stocked amount of product can not be greater than the amount.");
-        }
+        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), amount, null, ProductMovementEntity.MOVEMENT_PURCHASE);
 
-        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), amount, null, MOVEMENT_PURCHASE);
-
-        productEntity.setInStock(amount);
+        productEntity.setInStock(productEntity.getInStock() + amount);
         productEntity.getProductMovements().add(productMovementEntity);
 
         this.productRepository.save(productEntity);
@@ -113,7 +103,7 @@ public class ProductService {
      * Decrease number of products in database by one.
      *
      * @param productId warehouse identifier of product
-     * @param quantity amount of sold products, must be negative value
+     * @param quantity amount of sold products, must be positive value
      * @throws IllegalArgumentException when product is out of stock but is required for sale.
      * @return {@link Product}
      */
@@ -121,11 +111,11 @@ public class ProductService {
     public Product sellProduct(long productId, int quantity) {
         final ProductEntity productEntity = getProductEntity(productId);
 
-        if (productEntity.getInStock() + quantity < 0) {
+        if (productEntity.getInStock() - quantity < 0) {
             throw new IllegalArgumentException(String.format("Product: %s, %s is not stocked in requested amount. Stocked: %s.", productEntity.getProducer(),  productEntity.getName(), productEntity.getInStock()));
         } else {
-            final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null, MOVEMENT_SALE);
-            productEntity.setInStock(productEntity.getInStock() + quantity);
+            final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null, ProductMovementEntity.MOVEMENT_SALE);
+            productEntity.setInStock(productEntity.getInStock() - quantity);
             productEntity.getProductMovements().add(productMovementEntity);
 
             this.productRepository.save(productEntity);
@@ -202,7 +192,7 @@ public class ProductService {
         final ProductEntity productEntity = getProductEntity(productId);
 
         final int quantity = value - productEntity.getInStock();
-        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null, MOVEMENT_MANUAL_CHANGE);
+        final ProductMovementEntity productMovementEntity = this.dbMapper.map(productEntity.getInStock(), quantity, null, ProductMovementEntity.MOVEMENT_MANUAL_CHANGE);
         productEntity.setInStock(productEntity.getInStock() + quantity);
         productEntity.getProductMovements().add(productMovementEntity);
         productEntity.setInStock(value);

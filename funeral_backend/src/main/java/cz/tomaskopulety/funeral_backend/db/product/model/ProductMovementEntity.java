@@ -18,6 +18,12 @@ import lombok.Setter;
 @Table(schema = "funeral", name = "product_movement")
 public class ProductMovementEntity {
 
+    public static final String MOVEMENT_PURCHASE = "PURCHASE";
+
+    public static final String MOVEMENT_SALE = "SALE";
+
+    public static final String MOVEMENT_MANUAL_CHANGE = "MANUAL_CHANGE";
+
     /**
      * Database identifier of product movement.
      */
