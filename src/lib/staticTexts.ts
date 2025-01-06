@@ -59,19 +59,19 @@ export const warehouseControl = {
       tabStockIn: 'Naskladnit',
       tabChange: 'Změnit množství',
 
+      submit: 'Potvrdit',
+      cancel: 'Zrušit',
+
       stockIn: {
         title: 'Počet produktu',
-        submit: 'Potvrdit',
-        cancel: 'Zrušit',
         tooltip: 'Zde napište počet produktů, které chcete přidat.',
         error: 'Vstup není číslo.',
       },
 
       change: {
         title: 'Změnit množství',
-        submit: 'Potvrdit',
-        cancel: 'Zrušit',
         tooltip: 'Nepoužívat pro naskladnění nových produktů',
+        error: 'Vstup není číslo.',
       },
     }
   },
