@@ -1,11 +1,12 @@
 package cz.tomaskopulety.funeral_backend.db.product;
 
 import java.text.Normalizer;
-import java.util.Set;
+import java.time.YearMonth;
 import java.util.regex.Pattern;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
 
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductEntity;
@@ -29,15 +30,19 @@ public class ProductSpecification {
     /**
      * Create database specification for selecting products with movements which were created in chosen months.
      *
-     * @param months selection of months
+     * @param yearMonth selection of month and year
      * @return {@link Specification}
      */
     @Nonnull
-    public static Specification<ProductEntity> byMonths(final Set<Integer> months) {
+    public static Specification<ProductEntity> byYearMonth(final YearMonth yearMonth) {
         return (root, criteriaQuery, criteriaBuilder) -> {
             final Join<ProductEntity, ProductMovementEntity> movementEntityJoin = root.joinList("productMovements");
-            final Expression<Double> monthExpression = criteriaBuilder.function("date_part", Double.class, criteriaBuilder.literal("month"), movementEntityJoin.get("created"));
-            return monthExpression.in(months);
+            final Expression<Integer> monthExpression = criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("month"), movementEntityJoin.get("created"));
+            final Expression<Integer> yearExpression = criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), movementEntityJoin.get("created"));
+            final Predicate yearPredicate = criteriaBuilder.equal(yearExpression, yearMonth.getYear());
+            final Predicate monthPredicate = criteriaBuilder.equal(monthExpression, yearMonth.getMonth().getValue());
+
+            return criteriaBuilder.and(monthPredicate, yearPredicate);
         };
     }
 

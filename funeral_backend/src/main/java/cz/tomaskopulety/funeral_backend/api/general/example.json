@@ -1,0 +1,19 @@
+{
+  "category": "Rakev",
+  "statistics": [
+    {
+      "type": "Dubova",
+      "sold": 5,
+      "purchased": 10,
+      "inStock": 5,
+      "products": [
+        {
+          "name": "jmeno",
+          "sold": 5,
+          "purchased": 10,
+          "inStock": 5
+        }
+      ]
+    }
+  ]
+}

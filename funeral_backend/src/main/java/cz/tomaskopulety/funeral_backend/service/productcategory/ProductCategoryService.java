@@ -12,7 +12,6 @@ import cz.tomaskopulety.funeral_backend.db.product.ProductRepository;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductEntity;
 import cz.tomaskopulety.funeral_backend.service.general.IdGenerator;
-import cz.tomaskopulety.funeral_backend.service.product.ProductService;
 import cz.tomaskopulety.funeral_backend.service.product.domain.Product;
 import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 

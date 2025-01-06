@@ -56,6 +56,16 @@ public class Product {
     private final int inStock;
 
     /**
+     * Amount of product sold.
+     */
+    private final int sold;
+
+    /**
+     * Amount of product purchased.
+     */
+    private final int purchased;
+
+    /**
      * If product is flagged.
      */
     private final boolean flagged;
