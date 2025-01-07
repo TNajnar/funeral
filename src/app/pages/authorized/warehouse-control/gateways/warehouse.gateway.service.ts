@@ -3,7 +3,7 @@ import { catchError, forkJoin, Observable, throwError } from 'rxjs';
 
 import { WarehouseTableGatewayService } from './warehouse-table.gateway.service';
 import { BaseGatewayService } from 'services/gateway-base.service';
-import type { TCategories, TCategory, TWarehouseItems } from '../utils/warehouse-control.gateway.model';
+import type { TCategories, TCategory, TStatistics, TWarehouseItems } from '../utils/warehouse-control.gateway.model';
 
 const BASE_URL = 'http://localhost:8080/api/v1';
 
@@ -56,6 +56,16 @@ export class WarehouseGatewayService extends BaseGatewayService {
       catchError((error) => {
         this._errorService.showError('Chyba při mazání kategorie: ' + error.message);
         return throwError(() => new Error('Failed to remove category', error));
+      })
+    );
+  }
+
+  fetchStatistics(categoryId: number, yearMonth: string): Observable<TStatistics> {
+    return this._httpClient.get<TStatistics>(`${BASE_URL}/statistics?categoryId=${categoryId}&yearMonth=${yearMonth}`)
+    .pipe(
+      catchError((error) => {
+        this._errorService.showError('Chyba při stahování statistik: ' + error.message);
+        return throwError(() => new Error('Failed to fetch statistics.', error));
       })
     );
   }

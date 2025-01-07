@@ -6,6 +6,7 @@ import { WarehouseTableFiltersService } from './warehouse-table-filters.service'
 import { WarehouseCacheService } from './warehouse-cache.service';
 import type { TFilterOptions } from '../utils/warehouse-control.model';
 import type { TCategory, TWarehouseItem } from '../utils/warehouse-control.gateway.model';
+import { STATIC_CATEGORY_ITEM } from '../utils/consts';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class WarehouseService {
   private _onCategoryChange$ = new BehaviorSubject<boolean>(false);
   private _tableDataSource = new MatTableDataSource<TWarehouseItem>();
   private _categories = signal<TCategory[]>([]);
+  private _activeTab = signal<number>(STATIC_CATEGORY_ITEM.id);
   isLoading = signal<boolean>(false);
 
   private _warehouseTableFilters: WarehouseTableFiltersService = inject(WarehouseTableFiltersService);
@@ -37,6 +39,8 @@ export class WarehouseService {
   }
 
   categories: Signal<TCategory[]> = this._categories.asReadonly();
+
+  activeTab: Signal<number> = this._activeTab.asReadonly();
 
   get onCategoryChange$(): Observable<boolean> {
     return this._onCategoryChange$.asObservable();
@@ -89,5 +93,9 @@ export class WarehouseService {
   deleteCategory(categoryId: number): void {
     this._categories.update(prevState => prevState.filter(category => category.id !== categoryId));
     this.updateWarehouseCache();
+  }
+
+  setActiveTab(tabId: number): void {
+    this._activeTab.set(tabId);
   }
 }

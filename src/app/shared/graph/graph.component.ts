@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, Input, OnDestroy, ViewChild,
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostBinding, inject, Input, OnDestroy, ViewChild,
 } from '@angular/core';
 
 import {
@@ -11,7 +11,6 @@ import {
   selector: 'app-graph',
   standalone: true,
   templateUrl: './graph.component.html',
-  styleUrl: './graph.component.css',
   host: {
     class: 'flex flex-col justify-center items-center'
   },
@@ -22,9 +21,18 @@ export class GraphComponent implements AfterViewInit, OnDestroy {
   @Input({ required: true }) label!: string;
   @Input({ required: false }) chartType: ChartType = 'bar';
   @Input({ required: false }) colors?: string[];
+  @Input({ required: false }) width?: string;
+  @Input({ required: false }) height?: string;
+
+  protected _chart!: Chart;
 
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
-  protected _chart!: Chart;
+  @HostBinding('style') get hostStyles(): { [key: string]: string | undefined } {
+    return {
+      width: this.width,
+      height: this.height,
+    };
+  }
 
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
@@ -37,14 +45,14 @@ export class GraphComponent implements AfterViewInit, OnDestroy {
     const canvas = this.chartCanvas.nativeElement;
     if (canvas) {
       this._chart = new Chart(canvas, {
-        type: this.chartType, // Typ grafu
+        type: this.chartType, // Graph type
         data: {
-          labels: this.labels, // Popisky pro osy
+          labels: this.labels, // Descriptions for axis
           datasets: [
             {
               label: this.label,
-              data: this.data, // Data pro graf
-              backgroundColor: this.colors, // Barvy pro sloupce ['#4a52b2', '#646cd6', '#ff6384', '#ff9f40']
+              data: this.data, // Data for the chart
+              backgroundColor: this.colors, // Colors for columns ['#4a52b2', '#646cd6', '#ff6384', '#ff9f40']
               borderWidth: 1,
             },
           ],

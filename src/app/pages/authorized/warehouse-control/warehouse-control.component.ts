@@ -12,8 +12,8 @@ import {
   AddNewWarehouseItemComponent
 } from './warehouse-table/add-new-warehouse-item/add-new-warehouse-item.component';
 import { FilterTabsComponent } from './filter-tabs/filter-tabs.component';
+import { WarehouseGraphComponent } from './warehouse-graph/warehouse-graph.component';
 import { ButtonSecondaryComponent, ModalComponent } from '@app/ui';
-import { GraphComponent } from '@app/shared/graph/graph.component';
 import type { TCategory, TWarehouseItem } from './utils/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 
@@ -21,9 +21,8 @@ import { warehouseControl } from '@lib/staticTexts';
   selector: 'app-warehouse-control',
   standalone: true,
   imports: [FormsModule,
-    AddNewWarehouseItemComponent, ModalComponent, ButtonSecondaryComponent, WarehouseTableComponent, GraphComponent,
-    MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent,
-  ],
+    AddNewWarehouseItemComponent, ModalComponent, ButtonSecondaryComponent, WarehouseTableComponent,
+    MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent, WarehouseGraphComponent],
   templateUrl: './warehouse-control.component.html',
 })
 export class WarehouseControlComponent implements OnInit {

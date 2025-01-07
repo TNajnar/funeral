@@ -6,7 +6,7 @@ import { WarehouseService } from '../services/warehouse.service';
 import { NewCategoryComponent } from './new-category/new-category.component';
 import { EditCategoriesComponent } from './edit-categories/edit-categories.component';
 import { ModalComponent } from '@app/ui';
-import { CATEGORY_MENU_ITEMS, STATIC_CATEGORY_ITEM } from '../utils/consts';
+import { CATEGORY_MENU_ITEMS } from '../utils/consts';
 import type { TCategory } from '../utils/warehouse-control.gateway.model';
 import type { TCategoryMenuItem, TCategoryModals } from '../utils/warehouse-control.model';
 import { ECategoryModalVariants } from '../utils/enums';
@@ -25,7 +25,6 @@ import { warehouseControl } from '@lib/staticTexts';
 export class FilterTabsComponent {
   protected _texts = warehouseControl.filterTabs;
   protected _EModalVariants = ECategoryModalVariants;
-  activeTab = signal<number>(STATIC_CATEGORY_ITEM.id);
   isMenuOpen = signal<boolean>(false);
   isModalOpen = signal<TCategoryModals>({
     [ECategoryModalVariants.EditOrRemoveCategory]: false,
@@ -36,6 +35,8 @@ export class FilterTabsComponent {
 
   categories: Signal<TCategory[]> = this._warehouseService.categories;
 
+  activeTab: Signal<number> = this._warehouseService.activeTab;
+
   get categoryMenuItems(): TCategoryMenuItem[] {
     return CATEGORY_MENU_ITEMS;
   }
@@ -45,7 +46,7 @@ export class FilterTabsComponent {
       this.isMenuOpen.set(false);
     }
 
-    this.activeTab.set(productCategory.id);
+    this._warehouseService.setActiveTab(productCategory.id);
     this._warehouseService.filterOptions.productCategory = productCategory.name;
     this._warehouseService.updateTableFilters();
   }

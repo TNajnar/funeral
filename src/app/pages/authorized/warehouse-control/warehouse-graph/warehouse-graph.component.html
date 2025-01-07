@@ -1,0 +1,57 @@
+<h2 class="mb-5 w-full text-start text-2xl font-medium text-blue-primary">
+  Statistiky kategorie {{ statistics().category }} za měsíc {{ currentMonthTitle.toLocaleLowerCase() }}
+</h2>
+
+<mat-tab-group>
+  <mat-tab class="w-1/2" [label]="'Měsíční statistiky'">
+    <div class="flex justify-center mt-10 mb-23">
+      @if (!isLoading) {
+        <app-graph
+          [data]="monthCategoryStatistics()"
+          [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']"
+          [label]="'# Počet kusů kategorie ' + statistics().category"
+          [chartType]="'bar'"
+          [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+          [width]="'700px'"
+          [height]="'320px'"
+        />
+      }
+    </div>
+  </mat-tab>
+
+  <mat-tab class="w-1/2" [label]="'Detailní měsíční statistiky'">
+    <div class="inline-flex gap-5 mt-10">
+      @if (!isLoading) {
+        <app-graph
+          [data]="monthCategoryStatistics()"
+          [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']" 
+          [label]="'# Počet kusů na skladě'"
+          [chartType]="'bar'"
+          [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+          [width]="'700px'"
+          [height]="'320px'"
+        />
+
+        <app-graph
+          [data]="monthCategoryStatistics()"
+          [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']"
+          [label]="'# Nakoupený počet kusů'"
+          [chartType]="'bar'"
+          [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+          [width]="'700px'"
+          [height]="'320px'"
+        />
+
+        <app-graph
+          [data]="monthCategoryStatistics()"
+          [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']"
+          [label]="'# Prodaný počet kusů'"
+          [chartType]="'bar'"
+          [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+          [width]="'700px'"
+          [height]="'320px'"
+        />
+      }
+    </div>
+  </mat-tab>
+</mat-tab-group>

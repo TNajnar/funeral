@@ -12,3 +12,7 @@ export const CATEGORY_MENU_ITEMS: TCategoryMenuItem[] = [
 
 export const STATIC_CATEGORY_ITEM = { id: 1, name: 'Vše' };
 
+export const MONTH_NAMES = [
+  'Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen',
+  'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'
+];
