@@ -1,11 +1,9 @@
 package cz.tomaskopulety.funeral_backend.api.product.response;
 
-import java.util.List;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;

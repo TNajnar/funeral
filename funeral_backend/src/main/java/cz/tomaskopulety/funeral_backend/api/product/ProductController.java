@@ -1,9 +1,9 @@
 package cz.tomaskopulety.funeral_backend.api.product;
 
+import java.time.YearMonth;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -175,14 +174,14 @@ public class ProductController {
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponses> getProducts(
-            @Parameter(description = "Name of product category. Select only products from given category.") @RequestParam(name = "productCategoryName", required = false) @Nullable String productCategoryName,
-            @Parameter(description = "Months as numbers connected with dash(range of months) or comma(one month).", example = "1-5,9,10") @RequestParam(required = false) @Nullable String months,
+            @Parameter(description = "Name of product category. Select only products from given category.") @RequestParam(name = "productCategoryId", required = false) @Nullable Long productCategoryId,
+            @Parameter(description = "Month and year.", example = "2025-1") @RequestParam(required = false) @Nullable YearMonth yearMonth,
             @Parameter(description = "Select only products which contain at least one sale.") @RequestParam(required = false) @Nullable Boolean sale,
             @Parameter(description = "Full text search for product name.") @RequestParam(required = false) @Nullable String productName
     ) {
         return ResponseEntity.ok(
                 new ProductResponses(
-                        this.productService.getProducts(productCategoryName, months, sale, productName)
+                        this.productService.getProducts(productCategoryId, yearMonth, sale, productName)
                                 .stream()
                                 .map(this.apiMapper::map)
                                 .toList()
@@ -198,10 +197,10 @@ public class ProductController {
     @GetMapping(path = "/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductGetResponse> getProduct(
             @PathVariable long productId,
-            @Parameter(description = "Months as numbers connected with dash(range of months) or comma(one month).", example = "1-5,9,10") @RequestParam(required = false) @Nullable String months,
+            @Parameter(description = "Month and year.", example = "2025-1") @RequestParam(required = false) @Nullable YearMonth yearMonth,
             @Parameter(description = "Select only products which contain at least one sale.") @RequestParam(required = false) @Nullable Boolean sale
     ) {
-        return ResponseEntity.ok(this.apiMapper.map(this.productService.getProduct(productId, months, sale)));
+        return ResponseEntity.ok(this.apiMapper.map(this.productService.getProduct(productId, yearMonth, sale)));
     }
 
     @Operation(summary = "Delete product.", operationId = "deleteProduct", description = "Delete selected product.", responses = {

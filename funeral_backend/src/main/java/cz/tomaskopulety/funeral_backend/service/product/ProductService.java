@@ -1,5 +1,6 @@
 package cz.tomaskopulety.funeral_backend.service.product;
 
+import java.time.YearMonth;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,15 +63,15 @@ public class ProductService {
     /**
      * Gets List of {@link Product} by given specification and filters.
      *
-     * @param productCategoryName name of product category
-     * @param months selection of months for filtering product movements
+     * @param productCategoryId identifier of product category
+     * @param yearMonth selection of months for filtering product movements
      * @param sale if sales from product movement should be selected only
      * @param productName full text for searching product by name
      * @return List of {@link Product}
      */
     @Nonnull
-    public List<Product> getProducts(@Nullable String productCategoryName, @Nullable String months, @Nullable Boolean sale, @Nullable String productName) {
-        final ProductFilter productFilter = setProductFilter(productCategoryName, months, sale, productName);
+    public List<Product> getProducts(@Nullable Long productCategoryId, @Nullable YearMonth yearMonth, @Nullable Boolean sale, @Nullable String productName) {
+        final ProductFilter productFilter = setProductFilter(productCategoryId, yearMonth, sale, productName);
         final List<ProductEntity> productEntities = this.productRepository.findAll(productFilter.getDatabaseFilter());
 
         productEntities.forEach(pe -> productFilter.getDataFilters().forEach(df -> df.apply(pe)));
@@ -253,12 +254,14 @@ public class ProductService {
      * Get product by given identifier.
      *
      * @param productId warehouse identifier
+     * @param yearMonth selected year and month
+     * @param sale select products with sales only
      * @throws EntityNotFoundException when product is not found.
      * @return {@link Product}
      */
     @Nonnull
-    public Product getProduct(long productId, @Nullable String months, @Nullable Boolean sale) {
-        final ProductFilter productFilter = setProductFilter(null, months, sale, null);
+    public Product getProduct(long productId, @Nullable YearMonth yearMonth, @Nullable Boolean sale) {
+        final ProductFilter productFilter = setProductFilter(null, yearMonth, sale, null);
         final ProductEntity productEntity = getProductEntity(productId);
         productFilter.getDataFilters()
                 .forEach(df -> df.apply(productEntity));
@@ -308,29 +311,29 @@ public class ProductService {
     /**
      * Set filters for product selection.
      *
-     * @param productCategoryName identifier of product category
-     * @param months selection of months for filtering product movements
+     * @param productCategoryId identifier of product category
+     * @param yearMonth selection of month for filtering product movements
      * @param sale if sales from product movement should be selected only
      * @param productName full text for searching product by name
      * @return {@link ProductFilter}
      */
     @Nonnull
-    private ProductFilter setProductFilter(@Nullable String productCategoryName, @Nullable String months, @Nullable Boolean sale, @Nullable String productName){
+    private ProductFilter setProductFilter(@Nullable Long productCategoryId, @Nullable YearMonth yearMonth, @Nullable Boolean sale, @Nullable String productName){
         final ProductFilter productFilter = new ProductFilter(Specification.where(null));
         ProductCategoryEntity productCategoryEntity;
 
-        if (productCategoryName != null) {
-            productCategoryEntity = this.productCategoryService.getProductCategoryEntity(productCategoryName);
+        if (productCategoryId != null) {
+            productCategoryEntity = this.productCategoryService.getProductCategoryEntity(productCategoryId);
             productFilter.setDatabaseFilter(ProductSpecification.byCategory(productCategoryEntity));
         }
 
 
-        if (months != null) {
-            final Set<Integer> formattedMonths = getMonths(months);
-            productFilter.setDatabaseFilter(ProductSpecification.byMonths(formattedMonths));
+        if (yearMonth != null) {
+            productFilter.setDatabaseFilter(ProductSpecification.byYearMonth(yearMonth));
             final Function<ProductEntity,ProductEntity> productMovementsSelectedMonths = pe -> {
-                final List<ProductMovementEntity> list = pe.getProductMovements().stream()
-                        .filter(pme -> formattedMonths.contains(pme.getCreated().getMonthValue()))
+                final List<ProductMovementEntity> list = pe.getProductMovements()
+                        .stream()
+                        .filter(pme -> yearMonth.getYear() == pme.getCreated().getYear() && yearMonth.getMonth().equals(pme.getCreated().getMonth()))
                         .toList();
                 pe.setProductMovements(list);
                 return pe;

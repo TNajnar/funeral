@@ -6,7 +6,6 @@ import jakarta.annotation.Nonnull;
 
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductCategoryEntity;
 import cz.tomaskopulety.funeral_backend.db.product.model.ProductEntity;
-import cz.tomaskopulety.funeral_backend.service.productcategory.domain.ProductCategory;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
