@@ -1,5 +1,5 @@
-import { Component, computed, inject, OnInit, signal, Signal } from '@angular/core';
-import { combineLatest, Observable, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { Component, computed, DestroyRef, inject, OnInit, signal, Signal } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -10,7 +10,7 @@ import {
   getStatisticsDate, getCurrentMonthName, getTotalMonthCategoryStats, detailMonthStats
 } from '../utils/utils';
 import type { TStatistics } from '../utils/warehouse-control.gateway.model';
-import { TInitialMonthDetail } from '../utils/warehouse-control.model';
+import type { TInitialMonthDetail } from '../utils/warehouse-control.model';
 
 @Component({
   selector: 'app-warehouse-graph',
@@ -19,13 +19,13 @@ import { TInitialMonthDetail } from '../utils/warehouse-control.model';
   templateUrl: './warehouse-graph.component.html',
 })
 export class WarehouseGraphComponent implements OnInit {
-  private _destroyed$ = new Subject<void>();
   statistics = signal<TStatistics>({} as TStatistics);
   currentMonthTitle: string = getCurrentMonthName();
   isLoading = false;
 
   private _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
+  private _destroyRef: DestroyRef = inject(DestroyRef);
 
   activeTab: Signal<number> = this._warehouseService.activeTab;
   activeTab$: Observable<number> = toObservable(this.activeTab);
@@ -47,35 +47,31 @@ export class WarehouseGraphComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    combineLatest([this.activeTab$, this._warehouseService.onWarehouseTableChange$])
-      .pipe(
-        takeUntil(this._destroyed$),
-        switchMap(([tabChange, warehouseChange]) => {
-          if (tabChange || warehouseChange) {
-            return this._fetchStatistics();
-          }
-
-          return of([]);
-        })
-      )
-      .subscribe();
+    combineLatest([this.activeTab$, this._warehouseService.onWarehouseTableChange$]).subscribe(
+      ([tabChange, warehouseChange]) => {
+        if (tabChange || warehouseChange) {
+          this._fetchStatistics();
+        }
+      }
+    );
   }
 
-  private _fetchStatistics(): Observable<TStatistics> {
+  private _fetchStatistics(): void {
     const currentYearMonth: string = getStatisticsDate();
 
     this.isLoading = true;
 
-    return this._gateway.fetchStatistics(this.activeTab(), currentYearMonth).pipe(
-      tap((statistics: TStatistics) => {
+    const subscription = this._gateway.fetchStatistics(this.activeTab(), currentYearMonth).subscribe({
+      next: (statistics: TStatistics): void => {
         this.statistics.set(statistics);
+      },
+      complete: (): void => {
         this.isLoading = false;
-      })
-    );
-  }
+      },
+    });
 
-  ngOnDestroy(): void {
-    this._destroyed$.next();
-    this._destroyed$.complete();
-}
+    this._destroyRef.onDestroy((): void => {
+      subscription.unsubscribe();
+    });
+  }
 }

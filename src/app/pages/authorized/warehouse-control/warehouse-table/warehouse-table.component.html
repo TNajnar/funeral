@@ -50,7 +50,7 @@
   </ng-container>
 </table>
 
-<table mat-table [dataSource]="tableDataSource" class="table">
+<table mat-table class="table" [dataSource]="tableDataSource">
   <tr mat-row *matRowDef="let row; columns: tableColumns" class="row"></tr>
 
   <ng-container matColumnDef="category">
