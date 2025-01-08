@@ -128,7 +128,7 @@ public class ApiMapper {
                 .name(product.getName())
                 .sold(product.getSold())
                 .purchased(product.getPurchased())
-                .inStock(product.getPurchased() - product.getSold())
+                .inStock(product.getInStock())
                 .build();
     }
 
