@@ -1,4 +1,4 @@
-import { inject, Injectable, Signal, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -13,21 +13,29 @@ import { STATIC_CATEGORY_ITEM } from '../utils/consts';
 })
 export class WarehouseService {
   private _warehouseItems$ = new BehaviorSubject<TWarehouseItem[]>([]);
+  private _onWarehouseTableChange$ = new BehaviorSubject<boolean>(false);
   private _onCategoryChange$ = new BehaviorSubject<boolean>(false);
   private _tableDataSource = new MatTableDataSource<TWarehouseItem>();
   private _categories = signal<TCategory[]>([]);
   private _activeTab = signal<number>(STATIC_CATEGORY_ITEM.id);
   isLoading = signal<boolean>(false);
 
-  private _warehouseTableFilters: WarehouseTableFiltersService = inject(WarehouseTableFiltersService);
-  private _cacheService: WarehouseCacheService = inject(WarehouseCacheService);
+  private _warehouseTableFilters = inject(WarehouseTableFiltersService);
+  private _cacheService = inject(WarehouseCacheService);
 
   constructor() {
-    this._tableDataSource.filterPredicate = this._warehouseTableFilters._createFilterPredicate();
+    this._initializeTable();
   }
+
+  categories = this._categories.asReadonly();
+  activeTab = this._activeTab.asReadonly();
 
   get warehouseItems$(): Observable<TWarehouseItem[]> {
     return this._warehouseItems$.asObservable();
+  }
+
+  get onWarehouseTableChange$(): Observable<boolean> {
+    return this._onWarehouseTableChange$.asObservable();
   }
 
   get tableDataSource(): MatTableDataSource<TWarehouseItem> {
@@ -38,64 +46,70 @@ export class WarehouseService {
     return this._warehouseTableFilters.filterOptions;
   }
 
-  categories: Signal<TCategory[]> = this._categories.asReadonly();
-
-  activeTab: Signal<number> = this._activeTab.asReadonly();
-
   get onCategoryChange$(): Observable<boolean> {
     return this._onCategoryChange$.asObservable();
   }
 
-  updateWarehouseCache(): void {
-    this._cacheService.saveToStorage({
-      categories: this._categories(),
-      warehouseItems: this._warehouseItems$.getValue(),
-    });
+  updateWarehouseData(): void {
+    this._notifyWarehouseItemsChange$();
+    this._updateCache();
   }
 
-  notifyWarehouseItemsChange$(warehouseItems: TWarehouseItem[]): void {
-    this._warehouseItems$.next(warehouseItems);
-    this._tableDataSource.data = this._warehouseItems$.getValue();
+  addWarehouseItem(item: TWarehouseItem): void {
+    this.updateWarehouseItems([item, ...this._warehouseItems$.getValue()]);
+  }
+
+  deleteWarehouseItem(productId: number): void {
+    const updatedItems = this._warehouseItems$.getValue().filter(item => item.productId !== productId);
+    this.updateWarehouseItems(updatedItems);
+  }
+
+  updateWarehouseItems(items: TWarehouseItem[]): void {
+    this._warehouseItems$.next(items);
+    this._tableDataSource.data = items;
+    this._notifyWarehouseItemsChange$();
+    this._updateCache();
+  }
+
+  setCategories(newCategories: TCategory[]): void {
+    this._categories.set(newCategories);
+    this._updateCache();
+  }
+
+  createNewCategory(newCategory: TCategory): void {
+    this._categories.set([...this._categories(), newCategory]);
+    this._updateCache();
   }
 
   notifyCategoryChange$(value: boolean): void {
     return this._onCategoryChange$.next(value);
   }
 
-  addWarehouseItem(warehouseItem: TWarehouseItem): void {
-    const currentItems = this._warehouseItems$.getValue();
-    this.notifyWarehouseItemsChange$([warehouseItem, ...currentItems]);
-    this.updateWarehouseCache();
+  deleteCategory(categoryId: number): void {
+    this._categories.update(categories => categories.filter(category => category.id !== categoryId));
+    this._updateCache();
   }
 
-  deleteWarehouseItem(productId: number): void {
-    const updatedItems = this._warehouseItems$.getValue().filter((warehouseItem) =>
-      warehouseItem.productId !== productId
-    );
-    this.notifyWarehouseItemsChange$(updatedItems);
-    this.updateWarehouseCache();
+  setActiveTab(tabId: number): void {
+    this._activeTab.set(tabId);
   }
 
   updateTableFilters(): void {
     this._tableDataSource.filter = JSON.stringify(this.filterOptions);
   }
 
-  setCategories(newCategories: TCategory[]): void {
-    this._categories.set(newCategories);
-    this.updateWarehouseCache();
+  private _initializeTable(): void {
+    this._tableDataSource.filterPredicate = this._warehouseTableFilters.createFilterPredicate();
   }
 
-  createNewCategory(newCategory: TCategory): void {
-    this._categories.set([...this._categories(), newCategory]);
-    this.updateWarehouseCache();
+  private _notifyWarehouseItemsChange$(): void {
+    this._onWarehouseTableChange$.next(true);
   }
 
-  deleteCategory(categoryId: number): void {
-    this._categories.update(prevState => prevState.filter(category => category.id !== categoryId));
-    this.updateWarehouseCache();
-  }
-
-  setActiveTab(tabId: number): void {
-    this._activeTab.set(tabId);
+  private _updateCache(): void {
+    this._cacheService.saveToStorage({
+      categories: this._categories(),
+      warehouseItems: this._warehouseItems$.getValue(),
+    });
   }
 }

@@ -50,7 +50,7 @@ export class WarehouseControlComponent implements OnInit {
       const storedWarehouse: TWarehouseItem[] = cachedWarehouse.warehouseItems;
       const storedCategories: TCategory[] = cachedWarehouse.categories;
 
-      this._warehouseService.notifyWarehouseItemsChange$(storedWarehouse);
+      this._warehouseService.updateWarehouseItems(storedWarehouse);
       this._warehouseService.setCategories(storedCategories);
       return;
     }
@@ -63,12 +63,12 @@ export class WarehouseControlComponent implements OnInit {
 
     const subscription = this._gateway.loadCacheableData().subscribe({
       next: ([warehouseItems, categories]): void => {
-        this._warehouseService.notifyWarehouseItemsChange$(warehouseItems.products);
         this._warehouseService.setCategories(categories.productCategories);
         this._cacheService.saveToStorage({
           categories: categories.productCategories,
           warehouseItems: warehouseItems.products,
         });
+        this._warehouseService.updateWarehouseData();
       },
       complete: (): void => this._warehouseService.isLoading.set(false),
     });

@@ -85,7 +85,7 @@ export class WarehouseTableComponent implements AfterViewInit {
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.productCategory = responseWarehouseItem.productCategory;
         warehouseItem.productCategoryId = responseWarehouseItem.productCategoryId;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       },
     });
   }
@@ -98,7 +98,7 @@ export class WarehouseTableComponent implements AfterViewInit {
     this._gateway.changeProductType(warehouseItem.productId, newType).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.type = responseWarehouseItem.type;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       },
     });
   }
@@ -111,7 +111,7 @@ export class WarehouseTableComponent implements AfterViewInit {
     this._gateway.changeProductName(warehouseItem.productId, newName).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.name = responseWarehouseItem.name;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       },
     });
   }
@@ -125,7 +125,7 @@ export class WarehouseTableComponent implements AfterViewInit {
     this._gateway.saveFlag(warehouseItem.productId).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.isFlagged = responseWarehouseItem.isFlagged;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       }
     });
   }
@@ -134,7 +134,7 @@ export class WarehouseTableComponent implements AfterViewInit {
     this._gateway.saveComment(warehouseItem.productId, comment).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.comment = responseWarehouseItem.comment;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       }
     });
   }

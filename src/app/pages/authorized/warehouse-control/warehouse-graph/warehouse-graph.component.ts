@@ -1,5 +1,5 @@
-import { Component, computed, DestroyRef, inject, OnInit, signal, Signal } from '@angular/core';
-import { combineLatest, Observable, of, switchMap, tap } from 'rxjs';
+import { Component, computed, inject, OnInit, signal, Signal } from '@angular/core';
+import { combineLatest, Observable, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -19,13 +19,13 @@ import { TInitialMonthDetail } from '../utils/warehouse-control.model';
   templateUrl: './warehouse-graph.component.html',
 })
 export class WarehouseGraphComponent implements OnInit {
+  private _destroyed$ = new Subject<void>();
   statistics = signal<TStatistics>({} as TStatistics);
   currentMonthTitle: string = getCurrentMonthName();
   isLoading = false;
 
   private _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
-  private _destroyRef: DestroyRef = inject(DestroyRef);
 
   activeTab: Signal<number> = this._warehouseService.activeTab;
   activeTab$: Observable<number> = toObservable(this.activeTab);
@@ -47,8 +47,9 @@ export class WarehouseGraphComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    combineLatest([this.activeTab$, this._warehouseService.warehouseItems$])
+    combineLatest([this.activeTab$, this._warehouseService.onWarehouseTableChange$])
       .pipe(
+        takeUntil(this._destroyed$),
         switchMap(([tabChange, warehouseChange]) => {
           if (tabChange || warehouseChange) {
             return this._fetchStatistics();
@@ -72,4 +73,9 @@ export class WarehouseGraphComponent implements OnInit {
       })
     );
   }
+
+  ngOnDestroy(): void {
+    this._destroyed$.next();
+    this._destroyed$.complete();
+}
 }
