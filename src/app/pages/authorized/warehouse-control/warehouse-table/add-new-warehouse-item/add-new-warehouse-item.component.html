@@ -1,5 +1,5 @@
-<form class="flex flex-col gap-4" #form="ngForm" (ngSubmit)="_onSubmit(form)">
-  <div class="grid grid-cols-2 gap-4">
+<form class="flex flex-col gap-4 h-[250px]" #form="ngForm" (ngSubmit)="_onSubmit(form)">
+  <div class="grid grid-cols-2 gap-6">
     <mat-form-field>
       <mat-label for="productCategory">{{ _texts.itemCategory }}</mat-label>
       <mat-select
@@ -66,7 +66,7 @@
     </mat-form-field>
   </div>
 
-  <div class="flex gap-4 justify-end">
+  <div class="flex justify-end gap-6 mt-auto">
     <app-button-secondary [disabled]="form.invalid ?? false" [variant]="'base'" [type]="'submit'">
       {{ _texts.submit }}
     </app-button-secondary>

@@ -18,12 +18,42 @@
   </mat-slide-toggle>
 </div>
 
-<table mat-table [dataSource]="tableDataSource" class="table">
+<table mat-table class="table">
   <tr mat-header-row *matHeaderRowDef="tableColumns" class="header row"></tr>
-  <tr mat-row *matRowDef="let row; columns: tableColumns" class="row"></tr>
 
   <ng-container matColumnDef="category">
     <th mat-header-cell *matHeaderCellDef class="header w-290.6">{{ _texts.categoryHeader }}</th>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef class="header w-290.6">{{ _texts.typeHeader }}</th>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef class="header w-290.6">{{ _texts.nameHeader }}</th>
+  </ng-container>
+
+  <ng-container matColumnDef="availableAmount">
+    <th mat-header-cell *matHeaderCellDef class="header w-100">{{ _texts.availableCountHeader }}</th>
+  </ng-container>
+
+  <ng-container matColumnDef="flag">
+    <th mat-header-cell *matHeaderCellDef class="header min-w-14 w-14"></th>
+  </ng-container>
+
+  <ng-container matColumnDef="comment">
+    <th mat-header-cell *matHeaderCellDef class="header min-w-14 w-14"></th>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef class="header min-w-14 w-14"></th>
+  </ng-container>
+</table>
+
+<table mat-table [dataSource]="tableDataSource" class="table">
+  <tr mat-row *matRowDef="let row; columns: tableColumns" class="row"></tr>
+
+  <ng-container matColumnDef="category">
     <td mat-cell *matCellDef="let element" class="cell">
       <div class="select-wrapper">
         <select
@@ -47,7 +77,6 @@
   </ng-container>
 
   <ng-container matColumnDef="type">
-    <th mat-header-cell *matHeaderCellDef class="header w-290.6">{{ _texts.typeHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
@@ -61,7 +90,6 @@
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef class="header w-290.6">{{ _texts.nameHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell">
       <input
         class="input-table"
@@ -75,7 +103,6 @@
   </ng-container>
 
   <ng-container matColumnDef="availableAmount">
-    <th mat-header-cell *matHeaderCellDef class="header w-100">{{ _texts.availableCountHeader }}</th>
     <td mat-cell *matCellDef="let element" class="cell-count">
       <div class="input-wrapper" [class.active]="activeCountMenu() === element.productId">
         <button class="input-table w-full text-start cursor-pointer" (click)="toggleCountMenu(element.productId)">
@@ -92,21 +119,18 @@
   </ng-container>
 
   <ng-container matColumnDef="flag">
-    <th mat-header-cell *matHeaderCellDef class="header min-w-14 w-14"> </th>
     <td mat-cell *matCellDef="let element" class="cell w-6">
       <app-flag [isFlagged]="element.isFlagged" (onClick)="onFlagClick(element)" />
     </td>
   </ng-container>
 
   <ng-container matColumnDef="comment">
-    <th mat-header-cell *matHeaderCellDef class="header min-w-14 w-14"></th>
     <td mat-cell *matCellDef="let element" class="cell w-6">
       <app-comment [comment]="element.comment" (onSaveComment)="onSaveComment(element, $event)" />
     </td>
   </ng-container>
 
   <ng-container matColumnDef="delete">
-    <th mat-header-cell *matHeaderCellDef class="header min-w-14 w-14"></th>
     <td mat-cell *matCellDef="let element" class="cell w-6">
       <mat-icon class="table-delete-icon" fontIcon="delete" (click)="deleteWarehouseItem(element.productId)" />
     </td>
