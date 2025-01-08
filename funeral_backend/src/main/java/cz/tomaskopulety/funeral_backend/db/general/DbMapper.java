@@ -197,7 +197,10 @@ public class DbMapper {
                 }
             }
 
-            int totalInStock = totalPurchased - totalSold;
+            int totalInStock =  entry.getValue()
+                    .stream()
+                    .mapToInt(Product::getInStock)
+                    .sum();
 
             itemList.add(
                     StatisticsItem.builder()
