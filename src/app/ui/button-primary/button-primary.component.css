@@ -5,6 +5,11 @@
   border-radius: 6px;
 }
 
+.mat-raised-button.base {
+  width: 120px;
+  height: 50px;
+}
+
 .mat-raised-button.is-full-width {
   width: 100%;
 }

@@ -67,11 +67,11 @@
   </div>
 
   <div class="flex gap-4 justify-end">
-    <app-button-secondary [disabled]="form.invalid ?? false" class="w-24" [fullWidth]="true" [type]="'submit'">
+    <app-button-secondary [disabled]="form.invalid ?? false" [variant]="'base'" [type]="'submit'">
       {{ _texts.submit }}
     </app-button-secondary>
 
-    <app-button-primary (click)="_onCancel()" class="w-24" [fullWidth]="true">
+    <app-button-primary (click)="_onCancel()" [variant]="'base'">
       {{ _texts.cancel }}
     </app-button-primary>
   </div>

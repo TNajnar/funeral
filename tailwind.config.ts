@@ -25,14 +25,14 @@ module.exports = {
         'purple': '#9B59B6',
 
         'button-primary': {
-          'background': '#E5E5E5',
+          'background': '#d4d4d4',
           'text': '#33363f',
-          'disabled-background': '#efefef',
+          'disabled-background': '#dcdcdc',
           'disabled-text': '#cccccc',
         },
         'button-secondary': {
           'background': '#2554bc',
-          'disabled-background': '#efefef',
+          'disabled-background': '#dcdcdc',
           'disabled-text': '#cccccc',
         }
       },
