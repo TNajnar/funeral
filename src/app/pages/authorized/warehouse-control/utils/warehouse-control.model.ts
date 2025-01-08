@@ -15,6 +15,21 @@ export type TFilterOptions = {
   productCategory: string;
 };
 
+/* #region Categories */
+
+export type TNewItemForm = {
+  availableAmount: number;
+  created: string;
+  productCategory: number;
+  name: string;
+  isFlagged: boolean;
+  type: string;
+};
+
+/* #endregion */
+
+/* #region Categories */
+
 export type TCategoryMenuItem = {
   icon: string;
   id: number;
@@ -27,11 +42,18 @@ export type TCategoryModals = {
   [ECategoryModalVariants.NewCategory]: boolean;
 };
 
-export type TNewItemForm = {
-  availableAmount: number;
-  created: string;
-  productCategory: number;
-  name: string;
-  isFlagged: boolean;
-  type: string;
-};
+/* #endregion */
+
+/* #region Statistics (Graph) */
+
+export type TInitialMonthDetail = {
+  inStock: TMonthDetailState;
+  purchased: TMonthDetailState;
+  sold: TMonthDetailState;
+}
+
+type TMonthDetailState = {
+  type: string[]; data: number[];
+}
+
+/* #endregion */

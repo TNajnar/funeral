@@ -27,10 +27,11 @@ export class GraphComponent implements AfterViewInit, OnDestroy {
   protected _chart!: Chart;
 
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
-  @HostBinding('style') get hostStyles(): { [key: string]: string | undefined } {
+  @HostBinding('style') get hostStyles(): Record<string, string | undefined> {
     return {
       width: this.width,
       height: this.height,
+      'max-height': this.height,
     };
   }
 
@@ -54,6 +55,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy {
               data: this.data, // Data for the chart
               backgroundColor: this.colors, // Colors for columns ['#4a52b2', '#646cd6', '#ff6384', '#ff9f40']
               borderWidth: 1,
+              maxBarThickness: 200,
             },
           ],
         },

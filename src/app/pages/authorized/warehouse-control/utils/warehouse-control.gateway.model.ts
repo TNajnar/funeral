@@ -53,7 +53,7 @@ export type TStatistics = {
   statistics: TStatisticsItem[];
 };
 
-type TStatisticsItem = {
+export type TStatisticsItem = {
   type: string;
   purchased: number;
   sold: number;

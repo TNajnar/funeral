@@ -1,4 +1,4 @@
-import { Component, computed, HostBinding, inject, signal, Signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, HostBinding, inject, signal, Signal, ViewChild } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,7 +29,7 @@ import { warehouseControl } from '@lib/staticTexts';
     class: 'flex flex-col mb-20 border border-gray rounded-md',
   }
 })
-export class WarehouseTableComponent {
+export class WarehouseTableComponent implements AfterViewInit {
   protected _texts = warehouseControl.table;
   activeCountMenu = signal<number | undefined>(undefined);
   selectedPagination: number = 5;
@@ -51,7 +51,7 @@ export class WarehouseTableComponent {
   protected _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseTableGatewayService = inject(WarehouseTableGatewayService);
 
-  constructor() {
+  ngAfterViewInit(): void {
     this.tableDataSource.paginator = this.paginator;
   }
 

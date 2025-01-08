@@ -1,5 +1,5 @@
 import { ECategoryModalVariants } from './enums';
-import type { TCategoryMenuItem } from './warehouse-control.model';
+import type { TCategoryMenuItem, TInitialMonthDetail } from './warehouse-control.model';
 
 export const _DISPLAYED_COLUMNS = ['category', 'type', 'name', 'availableAmount', 'flag', 'comment', 'delete'];
 
@@ -15,4 +15,10 @@ export const STATIC_CATEGORY_ITEM = { id: 1, name: 'Vše' };
 export const MONTH_NAMES = [
   'Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen',
   'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'
-];
+] as const;
+
+export const INITIAL_PURCHASED_STATE: TInitialMonthDetail = {
+  inStock: { type: [], data: [] },
+  purchased: { type: [], data: [] },
+  sold: { type: [], data: [] },
+};

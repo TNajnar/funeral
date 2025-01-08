@@ -22,7 +22,8 @@ import { warehouseControl } from '@lib/staticTexts';
   standalone: true,
   imports: [FormsModule,
     AddNewWarehouseItemComponent, ModalComponent, ButtonSecondaryComponent, WarehouseTableComponent,
-    MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent, WarehouseGraphComponent],
+    MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent, WarehouseGraphComponent,
+  ],
   templateUrl: './warehouse-control.component.html',
 })
 export class WarehouseControlComponent implements OnInit {

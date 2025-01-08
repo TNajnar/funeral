@@ -23,8 +23,8 @@
     <div class="inline-flex gap-5 mt-10">
       @if (!isLoading) {
         <app-graph
-          [data]="monthCategoryStatistics()"
-          [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']" 
+          [data]="detailPurchasedStats().inStock.data"
+          [labels]="detailPurchasedStats().inStock.type" 
           [label]="'# Počet kusů na skladě'"
           [chartType]="'bar'"
           [colors]="['#646cd6', '#ff6384', '#ff9f40']"
@@ -33,8 +33,8 @@
         />
 
         <app-graph
-          [data]="monthCategoryStatistics()"
-          [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']"
+          [data]="detailPurchasedStats().purchased.data"
+          [labels]="detailPurchasedStats().purchased.type" 
           [label]="'# Nakoupený počet kusů'"
           [chartType]="'bar'"
           [colors]="['#646cd6', '#ff6384', '#ff9f40']"
@@ -43,8 +43,8 @@
         />
 
         <app-graph
-          [data]="monthCategoryStatistics()"
-          [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']"
+          [data]="detailPurchasedStats().sold.data"
+          [labels]="detailPurchasedStats().sold.type"
           [label]="'# Prodaný počet kusů'"
           [chartType]="'bar'"
           [colors]="['#646cd6', '#ff6384', '#ff9f40']"
