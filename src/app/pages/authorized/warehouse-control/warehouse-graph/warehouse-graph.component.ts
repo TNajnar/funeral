@@ -1,5 +1,5 @@
 import { Component, computed, DestroyRef, inject, OnInit, signal, Signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable, of, switchMap, tap } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -47,31 +47,29 @@ export class WarehouseGraphComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.activeTab$.subscribe((changeTab) => {
-      if (changeTab) {
-        this._fetchStatistics();
-      }
-    });
+    combineLatest([this.activeTab$, this._warehouseService.warehouseItems$])
+      .pipe(
+        switchMap(([tabChange, warehouseChange]) => {
+          if (tabChange || warehouseChange) {
+            return this._fetchStatistics();
+          }
+
+          return of([]);
+        })
+      )
+      .subscribe();
   }
 
-  private _fetchStatistics(): void {
+  private _fetchStatistics(): Observable<TStatistics> {
     const currentYearMonth: string = getStatisticsDate();
 
     this.isLoading = true;
 
-    const subscription = this._gateway.fetchStatistics(this.activeTab(), currentYearMonth).subscribe({
-      next: (statistics: TStatistics): void => {
-        console.log('🚀 ~ WarehouseGraphComponent ~ subscription ~ statistics:', statistics);
+    return this._gateway.fetchStatistics(this.activeTab(), currentYearMonth).pipe(
+      tap((statistics: TStatistics) => {
         this.statistics.set(statistics);
-        console.log('🚀 ~ WarehouseGraphComponent ~ subscription ~  this.statistics:',  this.statistics());
-      },
-      complete: (): void => {
         this.isLoading = false;
-      },
-    });
-
-    this._destroyRef.onDestroy((): void => {
-      subscription.unsubscribe();
-    });
+      })
+    );
   }
 }
