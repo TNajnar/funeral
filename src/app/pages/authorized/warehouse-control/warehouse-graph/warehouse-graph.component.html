@@ -8,7 +8,7 @@
   <mat-tab-group>
     <mat-tab class="w-1/2" [label]="_texts.monthStatsTab">
       <ng-template matTabContent>
-        <div class="flex justify-center mt-10 mb-23">
+        <div class="flex justify-center mt-10 mb-6">
           @if (!isLoading) {
             <app-graph
               [data]="monthCategoryStatistics()"
@@ -26,7 +26,7 @@
   
     <mat-tab class="w-1/2" [label]="_texts.monthDetailStatsTab">
       <ng-template matTabContent>
-        <div class="inline-flex gap-5 mt-10">
+        <div class="inline-flex gap-10 mt-10">
           @if (!isLoading) {
             <app-graph
               [data]="detailPurchasedStats().inStock.data"
