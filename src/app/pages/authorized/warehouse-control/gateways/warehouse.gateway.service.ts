@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { catchError, forkJoin, Observable, throwError } from 'rxjs';
+import { catchError, forkJoin, Observable } from 'rxjs';
 
 import { WarehouseTableGatewayService } from './warehouse-table.gateway.service';
 import { BaseGatewayService } from 'services/gateway-base.service';
@@ -15,58 +15,39 @@ export class WarehouseGatewayService extends BaseGatewayService {
 
   loadCacheableData(): Observable<[TWarehouseItems, TCategories]> {
     return forkJoin([this._warehouseTableGateway.fetchAllWarehouseItems(), this._fetchCategories()]).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při stahování všech položek na skladu a kategorii: ' + error.message);
-        return throwError(() => new Error('Failed to fetch all warehouse items and categories.', error));
-      })
+      catchError((error) => this._handleError(error, 'Chyba při stahování všech položek na skladu a kategorii'))
     );
   }
 
   private _fetchCategories(): Observable<TCategories> {
     return this._httpClient.get<TCategories>(`${BASE_URL}/product-categories`).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při stahování všech kategorií: ' + error.message);
-        return throwError(() => new Error('Failed to fetch all categories.', error));
-      })
+      catchError((error) => this._handleError(error, 'Chyba při stahování všech kategorií'))
     );
   }
 
   createNewCategory(newCategory: string): Observable<TCategory> {
     return this._httpClient.post<TCategory>(`${BASE_URL}/product-categories/${newCategory}`, {}).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při vytvoření kategorie: ' + error.message);
-        return throwError(() => new Error('Failed to create new category', error));
-      })
+      catchError((error) => this._handleError(error, 'Chyba při vytvoření kategorie'))
     );
   }
 
   renameCategory(categoryId: number, newName: string): Observable<TCategory> {
-    return this._httpClient.patch<TCategory>(`${BASE_URL}/product-categories/${categoryId}/name`,
-      { value: newName }
-    ).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při změně kategorie produktu: ' + error.message);
-        return throwError(() => new Error('Failed to change product category.', error));
-      })
-    );
+    return this._httpClient.patch<TCategory>(`${BASE_URL}/product-categories/${categoryId}/name`, { value: newName })
+      .pipe(
+        catchError((error) => this._handleError(error, 'Chyba při změně kategorie produktu'))
+      );
   }
 
   deleteCategory(categoryId: number): Observable<void> {
     return this._httpClient.delete<void>(`${BASE_URL}/product-categories/${categoryId}`).pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při mazání kategorie: ' + error.message);
-        return throwError(() => new Error('Failed to remove category', error));
-      })
+      catchError((error) => this._handleError(error, 'Chyba při mazání kategorie'))
     );
   }
 
   fetchStatistics(categoryId: number, yearMonth: string): Observable<TStatistics> {
     return this._httpClient.get<TStatistics>(`${BASE_URL}/statistics?categoryId=${categoryId}&yearMonth=${yearMonth}`)
-    .pipe(
-      catchError((error) => {
-        this._errorService.showError('Chyba při stahování statistik: ' + error.message);
-        return throwError(() => new Error('Failed to fetch statistics.', error));
-      })
-    );
+      .pipe(
+        catchError((error) => this._handleError(error, 'Chyba při stahování statistik'))
+      );
   }
 }
