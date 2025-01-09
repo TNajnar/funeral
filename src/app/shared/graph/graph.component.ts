@@ -45,6 +45,13 @@ export class GraphComponent implements AfterViewInit, OnDestroy {
 
     const canvas = this.chartCanvas.nativeElement;
     if (canvas) {
+      if (this.width) {
+        canvas.style.width = this.width;
+      }
+      if (this.height) {
+        canvas.style.height = this.height;
+      }
+
       this._chart = new Chart(canvas, {
         type: this.chartType, // Graph type
         data: {
@@ -60,7 +67,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy {
           ],
         },
         options: {
-          responsive: true,
+          responsive: false,
           plugins: {
             legend: {
               labels: {

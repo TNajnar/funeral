@@ -61,6 +61,9 @@ module.exports = {
         'table-10': '619px',
         'table-20': '1070px',
       },
+      minHeight: {
+        400: '400px',
+      },
       inset: {
         '104': '104px',
         '139': '139px',

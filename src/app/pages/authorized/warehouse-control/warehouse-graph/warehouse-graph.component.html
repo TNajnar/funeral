@@ -1,57 +1,65 @@
 <h2 class="mb-5 w-full text-start text-2xl font-medium text-blue-primary">
   {{ statisticsTitle }}
+  <span>{{ statistics().category }}</span>
 </h2>
 
-<mat-tab-group>
-  <mat-tab class="w-1/2" [label]="_texts.monthStatsTab">
-    <div class="flex justify-center mt-10 mb-23">
-      @if (!isLoading) {
-        <app-graph
-          [data]="monthCategoryStatistics()"
-          [labels]="_texts.monthStatsLabels"
-          [label]="_texts.monthStatsLabel + statistics().category"
-          [chartType]="'bar'"
-          [colors]="graphColors"
-          [width]="'700px'"
-          [height]="'320px'"
-        />
-      }
-    </div>
-  </mat-tab>
-
-  <mat-tab class="w-1/2" [label]="_texts.monthDetailStatsTab">
-    <div class="inline-flex gap-5 mt-10">
-      @if (!isLoading) {
-        <app-graph
-          [data]="detailPurchasedStats().inStock.data"
-          [labels]="detailPurchasedStats().inStock.type" 
-          [label]="_texts.monthDetailStatsInStock"
-          [chartType]="'bar'"
-          [colors]="graphColors"
-          [width]="'700px'"
-          [height]="'320px'"
-        />
-
-        <app-graph
-          [data]="detailPurchasedStats().purchased.data"
-          [labels]="detailPurchasedStats().purchased.type" 
-          [label]="_texts.monthDetailStatsPurchased"
-          [chartType]="'bar'"
-          [colors]="graphColors"
-          [width]="'700px'"
-          [height]="'320px'"
-        />
-
-        <app-graph
-          [data]="detailPurchasedStats().sold.data"
-          [labels]="detailPurchasedStats().sold.type"
-          [label]="_texts.monthDetailStatsSold"
-          [chartType]="'bar'"
-          [colors]="graphColors"
-          [width]="'700px'"
-          [height]="'320px'"
-        />
-      }
-    </div>
-  </mat-tab>
-</mat-tab-group>
+<!-- This div is because of bug in Library, this fix it -->
+<div class="min-h-400">
+  <mat-tab-group>
+    <mat-tab class="w-1/2" [label]="_texts.monthStatsTab">
+      <ng-template matTabContent>
+        <div class="flex justify-center mt-10 mb-23">
+          @if (!isLoading) {
+            <app-graph
+              [data]="monthCategoryStatistics()"
+              [labels]="_texts.monthStatsLabels"
+              [label]="_texts.monthStatsLabel + statistics().category"
+              [chartType]="'bar'"
+              [colors]="graphColors"
+              [width]="'700px'"
+              [height]="'320px'"
+            />
+          }
+        </div>
+      </ng-template>
+    </mat-tab>
+  
+    <mat-tab class="w-1/2" [label]="_texts.monthDetailStatsTab">
+      <ng-template matTabContent>
+        <div class="inline-flex gap-5 mt-10">
+          @if (!isLoading) {
+            <app-graph
+              [data]="detailPurchasedStats().inStock.data"
+              [labels]="detailPurchasedStats().inStock.type" 
+              [label]="_texts.monthDetailStatsInStock"
+              [chartType]="'bar'"
+              [colors]="graphColors"
+              [width]="'700px'"
+              [height]="'320px'"
+            />
+    
+            <app-graph
+              [data]="detailPurchasedStats().purchased.data"
+              [labels]="detailPurchasedStats().purchased.type" 
+              [label]="_texts.monthDetailStatsPurchased"
+              [chartType]="'bar'"
+              [colors]="graphColors"
+              [width]="'700px'"
+              [height]="'320px'"
+            />
+    
+            <app-graph
+              [data]="detailPurchasedStats().sold.data"
+              [labels]="detailPurchasedStats().sold.type"
+              [label]="_texts.monthDetailStatsSold"
+              [chartType]="'bar'"
+              [colors]="graphColors"
+              [width]="'700px'"
+              [height]="'320px'"
+            />
+          }
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

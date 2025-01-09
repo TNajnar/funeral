@@ -23,7 +23,7 @@ import { warehouseControl } from '@lib/staticTexts';
 export class WarehouseGraphComponent implements OnInit {
   protected _texts = warehouseControl.graph;
   statistics = signal<TStatistics>({} as TStatistics);
-  isLoading = false;
+  isLoading: boolean = false;
 
   private _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseGatewayService = inject(WarehouseGatewayService);
@@ -59,7 +59,7 @@ export class WarehouseGraphComponent implements OnInit {
   }
 
   get statisticsTitle(): string {
-    return getStatisticsTitle(this.statistics().category);
+    return getStatisticsTitle();
   }
 
   get graphColors(): string[] {

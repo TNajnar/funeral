@@ -90,6 +90,8 @@ export const warehouseControl = {
   },
 
   graph: {
+    title: 'Statistiky kategorie ',
+
     monthStatsTab: 'Měsíční statistiky',
     monthStatsLabels: ['Na skladě', 'Nakoupeno', 'Prodáno'],
     monthStatsLabel: '# Počet kusů kategorie ',
