@@ -63,7 +63,7 @@ export class WarehouseTableComponent implements AfterViewInit {
     return this._warehouseService.filterOptions;
   }
 
-  get tableColumns(): string[] {
+  get tableColumns(): readonly string[] {
     return _DISPLAYED_COLUMNS;
   }
 

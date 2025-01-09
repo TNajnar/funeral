@@ -32,6 +32,11 @@ export function getCurrentMonthName(): string {
   return MONTH_NAMES[date.getMonth()];
 }
 
+export function getStatisticsTitle(category: string): string {
+  const currentMonth = getCurrentMonthName();
+  return `Statistiky kategorie ${category} za měsíc ${currentMonth.toLocaleLowerCase()}`;
+}
+
 export function getTotalMonthCategoryStats(statistics: TStatisticsItem[]): number[] {
   if (!statistics) {
     return [];

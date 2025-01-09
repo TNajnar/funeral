@@ -39,7 +39,7 @@ export class EditCategoriesComponent implements OnInit {
     this._initializeTempCategories();
   }
 
-  get displayedColumns(): string[] {
+  get displayedColumns(): readonly string[] {
     return _CATEGORY_COLUMNS;
   }
 

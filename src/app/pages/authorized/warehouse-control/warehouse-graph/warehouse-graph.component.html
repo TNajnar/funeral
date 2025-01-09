@@ -1,17 +1,17 @@
 <h2 class="mb-5 w-full text-start text-2xl font-medium text-blue-primary">
-  Statistiky kategorie {{ statistics().category }} za měsíc {{ currentMonthTitle.toLocaleLowerCase() }}
+  {{ statisticsTitle }}
 </h2>
 
 <mat-tab-group>
-  <mat-tab class="w-1/2" [label]="'Měsíční statistiky'">
+  <mat-tab class="w-1/2" [label]="_texts.monthStatsTab">
     <div class="flex justify-center mt-10 mb-23">
       @if (!isLoading) {
         <app-graph
           [data]="monthCategoryStatistics()"
-          [labels]="['Na skladě', 'Nakoupeno', 'Prodáno']"
-          [label]="'# Počet kusů kategorie ' + statistics().category"
+          [labels]="_texts.monthStatsLabels"
+          [label]="_texts.monthStatsLabel + statistics().category"
           [chartType]="'bar'"
-          [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+          [colors]="graphColors"
           [width]="'700px'"
           [height]="'320px'"
         />
@@ -19,15 +19,15 @@
     </div>
   </mat-tab>
 
-  <mat-tab class="w-1/2" [label]="'Detailní měsíční statistiky'">
+  <mat-tab class="w-1/2" [label]="_texts.monthDetailStatsTab">
     <div class="inline-flex gap-5 mt-10">
       @if (!isLoading) {
         <app-graph
           [data]="detailPurchasedStats().inStock.data"
           [labels]="detailPurchasedStats().inStock.type" 
-          [label]="'# Počet kusů na skladě'"
+          [label]="_texts.monthDetailStatsInStock"
           [chartType]="'bar'"
-          [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+          [colors]="graphColors"
           [width]="'700px'"
           [height]="'320px'"
         />
@@ -35,9 +35,9 @@
         <app-graph
           [data]="detailPurchasedStats().purchased.data"
           [labels]="detailPurchasedStats().purchased.type" 
-          [label]="'# Nakoupený počet kusů'"
+          [label]="_texts.monthDetailStatsPurchased"
           [chartType]="'bar'"
-          [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+          [colors]="graphColors"
           [width]="'700px'"
           [height]="'320px'"
         />
@@ -45,9 +45,9 @@
         <app-graph
           [data]="detailPurchasedStats().sold.data"
           [labels]="detailPurchasedStats().sold.type"
-          [label]="'# Prodaný počet kusů'"
+          [label]="_texts.monthDetailStatsSold"
           [chartType]="'bar'"
-          [colors]="['#646cd6', '#ff6384', '#ff9f40']"
+          [colors]="graphColors"
           [width]="'700px'"
           [height]="'320px'"
         />

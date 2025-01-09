@@ -7,10 +7,12 @@ import { GraphComponent } from '@app/shared/graph/graph.component';
 import { WarehouseGatewayService } from '../gateways/warehouse.gateway.service';
 import { WarehouseService } from '../services/warehouse.service';
 import {
-  getStatisticsDate, getCurrentMonthName, getTotalMonthCategoryStats, detailMonthStats
+  getStatisticsDate, getTotalMonthCategoryStats, detailMonthStats, getStatisticsTitle,
 } from '../utils/utils';
 import type { TStatistics } from '../utils/warehouse-control.gateway.model';
 import type { TInitialMonthDetail } from '../utils/warehouse-control.model';
+import { GRAPH_COLORS } from '../utils/consts';
+import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
   selector: 'app-warehouse-graph',
@@ -19,8 +21,8 @@ import type { TInitialMonthDetail } from '../utils/warehouse-control.model';
   templateUrl: './warehouse-graph.component.html',
 })
 export class WarehouseGraphComponent implements OnInit {
+  protected _texts = warehouseControl.graph;
   statistics = signal<TStatistics>({} as TStatistics);
-  currentMonthTitle: string = getCurrentMonthName();
   isLoading = false;
 
   private _warehouseService: WarehouseService = inject(WarehouseService);
@@ -54,6 +56,14 @@ export class WarehouseGraphComponent implements OnInit {
         }
       }
     );
+  }
+
+  get statisticsTitle(): string {
+    return getStatisticsTitle(this.statistics().category);
+  }
+
+  get graphColors(): string[] {
+    return GRAPH_COLORS;
   }
 
   private _fetchStatistics(): void {
