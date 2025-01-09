@@ -78,6 +78,10 @@
   .mat-mdc-slide-toggle.toggle-slide-label.toggle-slide-enabled .mdc-switch:enabled:focus:not(:active) .mdc-switch__track::after {
     background-color: theme('colors.blue-secondary');
   }
+
+  .my-custom-tabs .mat-mdc-tab-body { 
+    height: 384px;
+  }
   
   /* #endregion */
 }

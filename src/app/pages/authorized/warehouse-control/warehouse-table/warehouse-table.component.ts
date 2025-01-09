@@ -31,6 +31,7 @@ import { warehouseControl } from '@lib/staticTexts';
 })
 export class WarehouseTableComponent implements AfterViewInit {
   protected _texts = warehouseControl.table;
+  protected _previousValue: string = '';
   activeCountMenu = signal<number | undefined>(undefined);
   selectedPagination: number = 5;
 
@@ -91,7 +92,7 @@ export class WarehouseTableComponent implements AfterViewInit {
   }
 
   onTypeChange(newType: string, warehouseItem: TWarehouseItem): void {
-    if (!newType) {
+    if (!newType || newType === this._previousValue) {
       return;
     }
 
@@ -104,7 +105,7 @@ export class WarehouseTableComponent implements AfterViewInit {
   }
 
   onNameChange(newName: string, warehouseItem: TWarehouseItem): void {
-    if (!newName) {
+    if (!newName || newName === this._previousValue) {
       return;
     }
 
@@ -145,5 +146,11 @@ export class WarehouseTableComponent implements AfterViewInit {
         this._warehouseService.deleteWarehouseItem(productId);
       }
     });
+  }
+
+  protected _storePreviousValue(event: FocusEvent): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    this._previousValue = inputElement.value;
   }
 }

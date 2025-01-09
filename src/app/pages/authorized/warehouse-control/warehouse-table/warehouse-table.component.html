@@ -55,6 +55,7 @@
         type="text"
         [id]="'type' + element.productId"
         [(ngModel)]="element.type"
+        (focus)="_storePreviousValue($event)"
         (blur)="onTypeChange(element.type, element)"
       />
     </td>
@@ -69,6 +70,7 @@
         type="text"
         [id]="'name-' + element.productId"
         [(ngModel)]="element.name"
+        (focus)="_storePreviousValue($event)"
         (blur)="onNameChange(element.name, element)"
       />
     </td>
