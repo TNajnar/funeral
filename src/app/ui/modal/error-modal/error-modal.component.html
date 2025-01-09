@@ -1,12 +1,9 @@
-<app-modal>
+<app-modal [title]="title()" (onClose)="onClearError()">
   <div class="p-4 m-auto max-w-[40rem]">
-    <h2>{{ title() }}</h2>
     <p>{{ message() }}</p>
 
-    <div class="flex justify-end gap-4 mt-4">
-      <button (click)="onClearError()" mat-button>
-        {{ texts.ok }}
-      </button>
-    </div>
+    <app-button-secondary class="flex justify-end gap-4 mt-4" [variant]="'base'" (click)="onClearError()">
+      {{ texts.ok }}
+    </app-button-secondary>
   </div>
 </app-modal>

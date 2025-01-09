@@ -1,4 +1,4 @@
-import { Component, inject, Signal, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Signal, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -32,6 +32,7 @@ export class FilterTabsComponent {
   });
 
   private _warehouseService: WarehouseService = inject(WarehouseService);
+  private _elementRef: ElementRef = inject(ElementRef);
 
   categories: Signal<TCategory[]> = this._warehouseService.categories;
 
@@ -70,5 +71,14 @@ export class FilterTabsComponent {
 
   handleModalVariantOpen(modalVariant: ECategoryModalVariants): boolean {
     return this.isModalOpen()[modalVariant];
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleOutsideClick(event: MouseEvent): void {
+    const targetElement = event.target as HTMLElement;
+
+    if (this.isMenuOpen && !this._elementRef.nativeElement.contains(targetElement)) {
+      this.isMenuOpen.set(false);
+    }
   }
 }

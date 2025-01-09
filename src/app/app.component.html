@@ -1,5 +1,5 @@
 @if (error()) {
-  <app-error-modal title="Chyba!" [message]="error()" />
+  <app-error-modal [title]="_texts.errorModalTitle" [message]="error()" />
 }
 
 @if (isAuthorized) {

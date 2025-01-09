@@ -1,3 +1,7 @@
+export const app = {
+  errorModalTitle: 'Chyba!',
+};
+
 /* region Pages */
 
 export const dashboard = {
