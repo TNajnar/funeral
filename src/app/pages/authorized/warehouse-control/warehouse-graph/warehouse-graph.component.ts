@@ -8,10 +8,10 @@ import { WarehouseGatewayService } from '../gateways/warehouse.gateway.service';
 import { WarehouseService } from '../services/warehouse.service';
 import {
   getStatisticsDate, getTotalMonthCategoryStats, detailMonthStats, getStatisticsTitle,
-} from '../utils/utils';
-import type { TStatistics } from '../utils/warehouse-control.gateway.model';
-import type { TInitialMonthDetail } from '../utils/warehouse-control.model';
-import { GRAPH_COLORS } from '../utils/consts';
+} from '../lib/utils';
+import type { TStatistics } from '../lib/warehouse-control.gateway.model';
+import type { TInitialMonthDetail } from '../lib/warehouse-control.model';
+import { GRAPH_COLORS } from '../lib/consts';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({

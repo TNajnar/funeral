@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
 
 import { BaseGatewayService } from 'services/gateway-base.service';
-import type { TNewItemArgs, TWarehouseItem, TWarehouseItems } from '../utils/warehouse-control.gateway.model';
+import type { TNewItemArgs, TWarehouseItem, TWarehouseItems } from '../lib/warehouse-control.gateway.model';
 
-const BASE_URL = 'http://localhost:8080/api/v1';
+const BASE_URL = 'api/v1';
 
 @Injectable({
   providedIn: 'root',

@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import type { TWarehouseItem } from '@app/pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
+import type { TWarehouseItem } from '@app/pages/authorized/warehouse-control/lib/warehouse-control.gateway.model';
 import { AmountTabBaseComponent } from '../amount-tab-base/amount-tab-base.component';
 import { AmountTabBaseTemplateComponent } from '../amount-tab-base/amount-tab-base-template.component';
 import { warehouseControl } from '@lib/staticTexts';

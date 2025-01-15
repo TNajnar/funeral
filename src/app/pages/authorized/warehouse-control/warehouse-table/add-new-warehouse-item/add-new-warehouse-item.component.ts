@@ -9,10 +9,10 @@ import {
   WarehouseTableGatewayService,
 } from '@pages/authorized/warehouse-control/gateways/warehouse-table.gateway.service';
 import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
-import { resolveNewItemArgs } from '@pages/authorized/warehouse-control/utils/utils';
+import { resolveNewItemArgs } from '@app/pages/authorized/warehouse-control/lib/utils';
 import type {
   TNewItemArgs, TWarehouseItem
-} from '@pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
+} from '@app/pages/authorized/warehouse-control/lib/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 
 interface ISelectItem {

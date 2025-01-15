@@ -6,8 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { WarehouseService } from '@app/pages/authorized/warehouse-control/services/warehouse.service';
 import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse.gateway.service';
 import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
-import type { TCategory } from '@pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
-import { ECategoryModalVariants } from '@pages/authorized/warehouse-control/utils/enums';
+import type { TCategory } from '@app/pages/authorized/warehouse-control/lib/warehouse-control.gateway.model';
+import { ECategoryModalVariants } from '@app/pages/authorized/warehouse-control/lib/enums';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({

@@ -5,7 +5,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { StockInAmountTabComponent } from './stock-in-amount-tab/stock-in-amount-tab.component';
 import { ChangeAmountTabComponent } from './change-amount-tab/change-amount-tab.component';
-import type { TWarehouseItem } from '@app/pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
+import type { TWarehouseItem } from '@app/pages/authorized/warehouse-control/lib/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({

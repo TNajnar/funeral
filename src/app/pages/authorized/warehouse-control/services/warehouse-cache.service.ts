@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { CacheServiceBase } from 'services/cache-base.service';
-import type { TCategory, TWarehouseItem } from '../utils/warehouse-control.gateway.model';
-import { DEFAULT_PAGINATION_SIZE } from '../utils/consts';
+import type { TCategory, TWarehouseItem } from '../lib/warehouse-control.gateway.model';
+import { DEFAULT_PAGINATION_SIZE } from '../lib/consts';
 
 type TWarehouseCache = {
   categories: TCategory[];

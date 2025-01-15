@@ -5,9 +5,9 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import { WarehouseTableFiltersService } from './warehouse-table-filters.service';
 import { WarehouseCacheService } from './warehouse-cache.service';
-import type { TFilterOptions } from '../utils/warehouse-control.model';
-import type { TCategory, TWarehouseItem } from '../utils/warehouse-control.gateway.model';
-import { DEFAULT_PAGINATION_SIZE, STATIC_CATEGORY_ITEM } from '../utils/consts';
+import type { TFilterOptions } from '../lib/warehouse-control.model';
+import type { TCategory, TWarehouseItem } from '../lib/warehouse-control.gateway.model';
+import { DEFAULT_PAGINATION_SIZE, STATIC_CATEGORY_ITEM } from '../lib/consts';
 
 @Injectable({
   providedIn: 'root'

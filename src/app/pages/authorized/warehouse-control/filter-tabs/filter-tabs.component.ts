@@ -6,10 +6,10 @@ import { WarehouseService } from '../services/warehouse.service';
 import { NewCategoryComponent } from './new-category/new-category.component';
 import { EditCategoriesComponent } from './edit-categories/edit-categories.component';
 import { ModalComponent } from '@app/ui';
-import { CATEGORY_MENU_ITEMS } from '../utils/consts';
-import type { TCategory } from '../utils/warehouse-control.gateway.model';
-import type { TCategoryMenuItem, TCategoryModals } from '../utils/warehouse-control.model';
-import { ECategoryModalVariants } from '../utils/enums';
+import { CATEGORY_MENU_ITEMS } from '../lib/consts';
+import type { TCategory } from '../lib/warehouse-control.gateway.model';
+import type { TCategoryMenuItem, TCategoryModals } from '../lib/warehouse-control.model';
+import { ECategoryModalVariants } from '../lib/enums';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({

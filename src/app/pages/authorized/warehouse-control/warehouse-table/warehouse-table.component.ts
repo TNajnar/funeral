@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { WarehouseService } from '../services/warehouse.service';
 import { WarehouseTableGatewayService } from '../gateways/warehouse-table.gateway.service';
@@ -13,16 +12,16 @@ import { WarehouseCacheService } from '../services/warehouse-cache.service';
 import { CustomPaginatorService } from 'services/custom-paginator.service';
 import { ProductAmountChangeMenuComponent } from './product-amount-change-menu/product-amount-change-menu.component';
 import { CommentComponent, FlagComponent } from '@app/ui';
-import type { TFilterOptions } from '../utils/warehouse-control.model';
-import type { TWarehouseItem } from '../utils/warehouse-control.gateway.model';
-import { _DISPLAYED_COLUMNS, DEFAULT_PAGINATION_SIZE } from '../utils/consts';
+import type { TFilterOptions } from '../lib/warehouse-control.model';
+import type { TWarehouseItem } from '../lib/warehouse-control.gateway.model';
+import { _DISPLAYED_COLUMNS, DEFAULT_PAGINATION_SIZE } from '../lib/consts';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
   selector: 'app-warehouse-table',
   standalone: true,
   imports: [NgIf, NgFor, FormsModule, FlagComponent, CommentComponent, ProductAmountChangeMenuComponent,
-    MatIconModule, MatTableModule, MatPaginatorModule, MatSlideToggleModule, MatProgressSpinnerModule,
+    MatIconModule, MatTableModule, MatPaginatorModule, MatSlideToggleModule,
   ],
   templateUrl: './warehouse-table.component.html',
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorService }],
