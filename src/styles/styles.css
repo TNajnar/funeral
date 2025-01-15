@@ -61,6 +61,7 @@
   .custom-select-panel.mat-mdc-select-panel {
     position: absolute;
     left: 4px;
+    max-height: 190px;
   }
 
   /* #region Slide Toggle */

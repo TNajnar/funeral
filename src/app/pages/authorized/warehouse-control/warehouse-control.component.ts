@@ -25,6 +25,7 @@ import { warehouseControl } from '@lib/staticTexts';
     MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent, WarehouseGraphComponent,
   ],
   templateUrl: './warehouse-control.component.html',
+  host: { class: 'min-w-1192 whitespace-nowrap' }
 })
 export class WarehouseControlComponent implements OnInit {
   protected _texts = warehouseControl;
