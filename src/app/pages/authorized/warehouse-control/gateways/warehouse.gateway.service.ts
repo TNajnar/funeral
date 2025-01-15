@@ -3,9 +3,9 @@ import { catchError, forkJoin, Observable } from 'rxjs';
 
 import { WarehouseTableGatewayService } from './warehouse-table.gateway.service';
 import { BaseGatewayService } from 'services/gateway-base.service';
-import type { TCategories, TCategory, TStatistics, TWarehouseItems } from '../utils/warehouse-control.gateway.model';
+import type { TCategories, TCategory, TStatistics, TWarehouseItems } from '../lib/warehouse-control.gateway.model';
 
-const BASE_URL = 'http://localhost:8080/api/v1';
+const BASE_URL = 'api/v1';
 
 @Injectable({
   providedIn: 'root',

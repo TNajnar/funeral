@@ -6,9 +6,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { WarehouseService } from '@app/pages/authorized/warehouse-control/services/warehouse.service';
 import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse.gateway.service';
 import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
-import { ECategoryModalVariants } from '@pages/authorized/warehouse-control/utils/enums';
-import { _CATEGORY_COLUMNS } from '@pages/authorized/warehouse-control/utils/consts';
-import type { TCategory } from '@pages/authorized/warehouse-control/utils/warehouse-control.gateway.model';
+import { ECategoryModalVariants } from '@app/pages/authorized/warehouse-control/lib/enums';
+import { _CATEGORY_COLUMNS } from '@app/pages/authorized/warehouse-control/lib/consts';
+import type { TCategory } from '@app/pages/authorized/warehouse-control/lib/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 
 type TTempCategories = {

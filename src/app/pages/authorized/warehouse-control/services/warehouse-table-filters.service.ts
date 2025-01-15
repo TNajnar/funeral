@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { STATIC_CATEGORY_ITEM } from '../utils/consts';
-import type { TFilterOptions  } from '../utils/warehouse-control.model';
-import type { TWarehouseItem } from '../utils/warehouse-control.gateway.model';
+import { STATIC_CATEGORY_ITEM } from '../lib/consts';
+import type { TFilterOptions  } from '../lib/warehouse-control.model';
+import type { TWarehouseItem } from '../lib/warehouse-control.gateway.model';
 
 @Injectable({
   providedIn: 'root'
