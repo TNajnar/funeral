@@ -1,15 +1,15 @@
+/* #region Warehouse items */
+
 export type TWarehouseItems = {
   products: TWarehouseItem[];
 };
 
 export type TWarehouseItem = {
   comment?: string;
-  created: string;
   inStock: number;
   isFlagged: boolean;
   name: string;
   producer?: string;
-  producerId?: number;
   productCategory: string;
   productCategoryId: number;
   productId: number;
@@ -18,14 +18,9 @@ export type TWarehouseItem = {
 };
 
 type TProductMovement = {
-  created: string;
-  newState: number;
-  oldState: number;
-  productMovementType: TProductMovementType;
-  requested: number;
+  sold: number;
+  purchased: number;
 };
-
-type TProductMovementType = 'PURCHASE' | 'SALE';
 
 export type TNewItemArgs = {
   created: string;
@@ -36,6 +31,10 @@ export type TNewItemArgs = {
   type: string;
 };
 
+/* #endregion */
+
+/* #region Categories */
+
 export type TCategories = {
   productCategories: TCategory[];
 };
@@ -44,3 +43,29 @@ export type TCategory = {
   id: number;
   name: string;
 };
+
+/* #endregion */
+
+/* #region Statistics (Graph) */
+
+export type TStatistics = {
+  category: string;
+  statistics: TStatisticsItem[];
+};
+
+export type TStatisticsItem = {
+  type: string;
+  purchased: number;
+  sold: number;
+  inStock: number;
+  products: TProductStatistics[];
+};
+
+type TProductStatistics = {
+  name: string;
+  purchased: number;
+  sold: number;
+  inStock: number;
+};
+
+/* #endregion */

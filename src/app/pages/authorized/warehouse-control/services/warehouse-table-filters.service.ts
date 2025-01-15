@@ -15,7 +15,7 @@ export class WarehouseTableFiltersService {
     productCategory: STATIC_CATEGORY_ITEM.name,
   };
 
-  _createFilterPredicate(): (warehouseItem: TWarehouseItem, filter: string) => boolean {
+  createFilterPredicate(): (warehouseItem: TWarehouseItem, filter: string) => boolean {
     return (warehouseItem: TWarehouseItem, filter: string): boolean => {
       const parsedFilter = JSON.parse(filter);
 

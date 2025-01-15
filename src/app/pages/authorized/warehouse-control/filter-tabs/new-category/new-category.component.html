@@ -1,4 +1,4 @@
-<div class="relative flex items-center justify-between mb-2">
+<div class="relative flex items-center justify-between mb-5">
   <span>{{ _texts.label }}</span>
 
   <mat-form-field>
@@ -21,14 +21,14 @@
 
 <div class="flex gap-4 justify-end">
   <app-button-secondary
-    class="w-24"
     [disabled]="!newCategoryName || isMaxCategory"
+    [variant]="'base'"
     (click)="onSubmit()"
   >
     {{ _texts.submit }}
   </app-button-secondary>
 
-  <app-button-primary class="w-24" (click)="handleToggleModal()">
+  <app-button-primary (click)="handleToggleModal()" [variant]="'base'">
     {{ _texts.cancel }}
   </app-button-primary>
 </div>

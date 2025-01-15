@@ -1,4 +1,4 @@
-import { Component, computed, HostBinding, inject, signal, Signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, HostBinding, inject, signal, Signal, ViewChild } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,8 +29,9 @@ import { warehouseControl } from '@lib/staticTexts';
     class: 'flex flex-col mb-20 border border-gray rounded-md',
   }
 })
-export class WarehouseTableComponent {
+export class WarehouseTableComponent implements AfterViewInit {
   protected _texts = warehouseControl.table;
+  protected _previousValue: string = '';
   activeCountMenu = signal<number | undefined>(undefined);
   selectedPagination: number = 5;
 
@@ -51,7 +52,7 @@ export class WarehouseTableComponent {
   protected _warehouseService: WarehouseService = inject(WarehouseService);
   private _gateway: WarehouseTableGatewayService = inject(WarehouseTableGatewayService);
 
-  constructor() {
+  ngAfterViewInit(): void {
     this.tableDataSource.paginator = this.paginator;
   }
 
@@ -63,7 +64,7 @@ export class WarehouseTableComponent {
     return this._warehouseService.filterOptions;
   }
 
-  get tableColumns(): string[] {
+  get tableColumns(): readonly string[] {
     return _DISPLAYED_COLUMNS;
   }
 
@@ -85,33 +86,33 @@ export class WarehouseTableComponent {
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.productCategory = responseWarehouseItem.productCategory;
         warehouseItem.productCategoryId = responseWarehouseItem.productCategoryId;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       },
     });
   }
 
   onTypeChange(newType: string, warehouseItem: TWarehouseItem): void {
-    if (!newType) {
+    if (!newType || newType === this._previousValue) {
       return;
     }
 
     this._gateway.changeProductType(warehouseItem.productId, newType).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.type = responseWarehouseItem.type;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       },
     });
   }
 
   onNameChange(newName: string, warehouseItem: TWarehouseItem): void {
-    if (!newName) {
+    if (!newName || newName === this._previousValue) {
       return;
     }
 
     this._gateway.changeProductName(warehouseItem.productId, newName).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.name = responseWarehouseItem.name;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       },
     });
   }
@@ -125,7 +126,7 @@ export class WarehouseTableComponent {
     this._gateway.saveFlag(warehouseItem.productId).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.isFlagged = responseWarehouseItem.isFlagged;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       }
     });
   }
@@ -134,7 +135,7 @@ export class WarehouseTableComponent {
     this._gateway.saveComment(warehouseItem.productId, comment).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.comment = responseWarehouseItem.comment;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       }
     });
   }
@@ -145,5 +146,11 @@ export class WarehouseTableComponent {
         this._warehouseService.deleteWarehouseItem(productId);
       }
     });
+  }
+
+  protected _storePreviousValue(event: FocusEvent): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    this._previousValue = inputElement.value;
   }
 }

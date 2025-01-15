@@ -7,6 +7,7 @@ import { ErrorModalComponent } from './ui/modal/error-modal/error-modal.componen
 import { HeaderComponent } from './shared/header/header.component';
 import { ROLE_KEY } from '@lib/consts';
 import { ERoles, ERoutes } from '@lib/enums';
+import { app } from '@lib/staticTexts';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,8 @@ import { ERoles, ERoutes } from '@lib/enums';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
+  protected _texts = app;
+
   private _authService: AuthService = inject(AuthService);
   private _router: Router = inject(Router);
   private _errorService: ErrorService = inject(ErrorService);

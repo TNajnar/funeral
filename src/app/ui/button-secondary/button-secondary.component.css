@@ -4,8 +4,21 @@
   border-radius: 6px;
 }
 
+.mat-raised-button.base {
+  width: 120px;
+  height: 50px;
+}
+
 .mat-raised-button.is-full-width {
   width: 100%;
+}
+
+.mat-raised-button.custom-secondary-button:focus {
+  transition: box-shadow 0.3s ease;
+  --shadow-blur-big: 6px;
+  --control-focus-shadow-color: rgba(0, 93, 228, 0.665);
+  box-shadow: 0 0 var(--shadow-blur-big) 2px var(--control-focus-shadow-color);
+  outline: none;
 }
 
 .mat-raised-button.custom-secondary-button:disabled {

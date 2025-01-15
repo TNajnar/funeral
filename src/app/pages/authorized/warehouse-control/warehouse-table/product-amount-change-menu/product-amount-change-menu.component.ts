@@ -1,6 +1,5 @@
 import { Component, Input, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { ModalComponent } from '@app/ui/modal/modal.component';

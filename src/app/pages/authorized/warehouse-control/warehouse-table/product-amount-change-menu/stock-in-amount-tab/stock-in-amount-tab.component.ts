@@ -40,7 +40,7 @@ export class StockInAmountTabComponent extends AmountTabBaseComponent {
     this._gateway.stockUpProduct(this.product.productId, parsedValue).subscribe({
       next: (responseWarehouseItem: TWarehouseItem): void => {
         this.product.inStock = responseWarehouseItem.inStock;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       },
       complete: () => {
         this._handleClose();

@@ -33,7 +33,7 @@ export class ChangeAmountTabComponent extends AmountTabBaseComponent {
     this._gateway.changeProductAmount(this.product.productId, this._productAmount).subscribe({
       next: (responseProduct: TWarehouseItem) => {
         this.product.inStock = responseProduct.inStock;
-        this._warehouseService.updateWarehouseCache();
+        this._warehouseService.updateWarehouseData();
       },
       complete: () => {
         this._handleClose();

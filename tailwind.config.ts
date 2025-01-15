@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,ts}",
+    './src/**/*.{html,ts}',
   ],
   theme: {
     extend: {
@@ -21,23 +21,26 @@ module.exports = {
         'gray-muted': '#b1b4ba', // Tlumená šedá
         'gray-material': '#f1f0f4',
         'gray-material2': '#e0e2ec',
-        
+
         'purple': '#9B59B6',
 
         'button-primary': {
-          'background': '#E5E5E5',
+          'background': '#d4d4d4',
           'text': '#33363f',
-          'disabled-background': '#efefef',
+          'disabled-background': '#dcdcdc',
           'disabled-text': '#cccccc',
         },
         'button-secondary': {
           'background': '#2554bc',
-          'disabled-background': '#efefef',
+          'disabled-background': '#dcdcdc',
           'disabled-text': '#cccccc',
         }
       },
       padding: {
         'custom-6': '6px',
+      },
+      margin: {
+        23: '23px',
       },
       width: {
         'percent-55': '55%',
@@ -58,6 +61,12 @@ module.exports = {
         'table-10': '619px',
         'table-20': '1070px',
       },
+      minWidth: {
+        1192: '1192px',
+      },
+      minHeight: {
+        400: '400px',
+      },
       inset: {
         '104': '104px',
         '139': '139px',
@@ -77,4 +86,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};

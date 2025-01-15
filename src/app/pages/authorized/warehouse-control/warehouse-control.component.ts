@@ -12,8 +12,8 @@ import {
   AddNewWarehouseItemComponent
 } from './warehouse-table/add-new-warehouse-item/add-new-warehouse-item.component';
 import { FilterTabsComponent } from './filter-tabs/filter-tabs.component';
+import { WarehouseGraphComponent } from './warehouse-graph/warehouse-graph.component';
 import { ButtonSecondaryComponent, ModalComponent } from '@app/ui';
-import { GraphComponent } from '@app/shared/graph/graph.component';
 import type { TCategory, TWarehouseItem } from './utils/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 
@@ -21,10 +21,11 @@ import { warehouseControl } from '@lib/staticTexts';
   selector: 'app-warehouse-control',
   standalone: true,
   imports: [FormsModule,
-    AddNewWarehouseItemComponent, ModalComponent, ButtonSecondaryComponent, WarehouseTableComponent, GraphComponent,
-    MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent,
+    AddNewWarehouseItemComponent, ModalComponent, ButtonSecondaryComponent, WarehouseTableComponent,
+    MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent, WarehouseGraphComponent,
   ],
   templateUrl: './warehouse-control.component.html',
+  host: { class: 'min-w-1192 whitespace-nowrap' }
 })
 export class WarehouseControlComponent implements OnInit {
   protected _texts = warehouseControl;
@@ -50,7 +51,7 @@ export class WarehouseControlComponent implements OnInit {
       const storedWarehouse: TWarehouseItem[] = cachedWarehouse.warehouseItems;
       const storedCategories: TCategory[] = cachedWarehouse.categories;
 
-      this._warehouseService.notifyWarehouseItemsChange$(storedWarehouse);
+      this._warehouseService.updateWarehouseItems(storedWarehouse);
       this._warehouseService.setCategories(storedCategories);
       return;
     }
@@ -63,12 +64,12 @@ export class WarehouseControlComponent implements OnInit {
 
     const subscription = this._gateway.loadCacheableData().subscribe({
       next: ([warehouseItems, categories]): void => {
-        this._warehouseService.notifyWarehouseItemsChange$(warehouseItems.products);
         this._warehouseService.setCategories(categories.productCategories);
         this._cacheService.saveToStorage({
           categories: categories.productCategories,
           warehouseItems: warehouseItems.products,
         });
+        this._warehouseService.updateWarehouseData();
       },
       complete: (): void => this._warehouseService.isLoading.set(false),
     });

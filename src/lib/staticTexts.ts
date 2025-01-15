@@ -1,3 +1,7 @@
+export const app = {
+  errorModalTitle: 'Chyba!',
+};
+
 /* region Pages */
 
 export const dashboard = {
@@ -87,7 +91,20 @@ export const warehouseControl = {
     availableCountError: 'Prosím vložte počet.',
     submit: 'Potvrdit',
     cancel: 'Zrušit',
-  }
+  },
+
+  graph: {
+    title: 'Statistiky kategorie ',
+
+    monthStatsTab: 'Měsíční statistiky',
+    monthStatsLabels: ['Na skladě', 'Nakoupeno', 'Prodáno'],
+    monthStatsLabel: '# Počet kusů kategorie ',
+
+    monthDetailStatsTab: 'Detailní měsíční statistiky',
+    monthDetailStatsInStock: '# Počet kusů na skladě',
+    monthDetailStatsPurchased: '# Nakoupený počet kusů',
+    monthDetailStatsSold: '# Prodaný počet kusů',
+  },
 };
 
 /* #endregion */

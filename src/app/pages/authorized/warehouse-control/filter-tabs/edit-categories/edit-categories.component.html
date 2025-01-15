@@ -1,4 +1,4 @@
-<div class="base-table-border h-193 overflow-y-auto">
+<div class="base-table-border h-400">
   <table mat-table class="table" [dataSource]="tableData">
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef class="header"></th>
@@ -31,11 +31,11 @@
 </div>
 
 <div class="flex gap-4 justify-end">
-  <app-button-secondary class="w-24" [disabled]="!isChanged()" [fullWidth]="true" (click)="onSubmit()">
+  <app-button-secondary [disabled]="!isChanged()" [variant]="'base'" (click)="onSubmit()">
     {{ _texts.submit }}
   </app-button-secondary>
 
-  <app-button-primary (click)="handleToggleModal()" class="w-24" [fullWidth]="true">
+  <app-button-primary (click)="handleToggleModal()" [variant]="'base'">
     {{ _texts.cancel }}
   </app-button-primary>
 </div>
