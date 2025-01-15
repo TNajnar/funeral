@@ -129,5 +129,5 @@
   class="custom-pagination"
   showFirstLastButtons
   [pageSizeOptions]="[5, 10, 20]"
-  (page)="selectedPagination = $event.pageSize"
+  (page)="_warehouseService.setPaginationSize($event.pageSize)"
 />

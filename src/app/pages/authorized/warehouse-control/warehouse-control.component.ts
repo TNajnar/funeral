@@ -14,7 +14,6 @@ import {
 import { FilterTabsComponent } from './filter-tabs/filter-tabs.component';
 import { WarehouseGraphComponent } from './warehouse-graph/warehouse-graph.component';
 import { ButtonSecondaryComponent, ModalComponent } from '@app/ui';
-import type { TCategory, TWarehouseItem } from './utils/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
@@ -47,12 +46,10 @@ export class WarehouseControlComponent implements OnInit {
 
     const cachedWarehouse = this._cacheService.getStorageData();
 
-    if (cachedWarehouse) {
-      const storedWarehouse: TWarehouseItem[] = cachedWarehouse.warehouseItems;
-      const storedCategories: TCategory[] = cachedWarehouse.categories;
+    if (cachedWarehouse?.categories.length && cachedWarehouse?.warehouseItems.length) {
+      const { categories, warehouseItems, tablePagination } = cachedWarehouse;
 
-      this._warehouseService.updateWarehouseItems(storedWarehouse);
-      this._warehouseService.setCategories(storedCategories);
+      this._warehouseService.setWarehouseData(categories, warehouseItems, tablePagination);
       return;
     }
 
@@ -64,12 +61,7 @@ export class WarehouseControlComponent implements OnInit {
 
     const subscription = this._gateway.loadCacheableData().subscribe({
       next: ([warehouseItems, categories]): void => {
-        this._warehouseService.setCategories(categories.productCategories);
-        this._cacheService.saveToStorage({
-          categories: categories.productCategories,
-          warehouseItems: warehouseItems.products,
-        });
-        this._warehouseService.updateWarehouseData();
+        this._warehouseService.setWarehouseData(categories.productCategories, warehouseItems.products);
       },
       complete: (): void => this._warehouseService.isLoading.set(false),
     });

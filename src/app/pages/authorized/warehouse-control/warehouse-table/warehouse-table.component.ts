@@ -9,12 +9,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { WarehouseService } from '../services/warehouse.service';
 import { WarehouseTableGatewayService } from '../gateways/warehouse-table.gateway.service';
+import { WarehouseCacheService } from '../services/warehouse-cache.service';
 import { CustomPaginatorService } from 'services/custom-paginator.service';
 import { ProductAmountChangeMenuComponent } from './product-amount-change-menu/product-amount-change-menu.component';
 import { CommentComponent, FlagComponent } from '@app/ui';
 import type { TFilterOptions } from '../utils/warehouse-control.model';
 import type { TWarehouseItem } from '../utils/warehouse-control.gateway.model';
-import { _DISPLAYED_COLUMNS } from '../utils/consts';
+import { _DISPLAYED_COLUMNS, DEFAULT_PAGINATION_SIZE } from '../utils/consts';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
@@ -33,11 +34,10 @@ export class WarehouseTableComponent implements AfterViewInit {
   protected _texts = warehouseControl.table;
   protected _previousValue: string = '';
   activeCountMenu = signal<number | undefined>(undefined);
-  selectedPagination: number = 5;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @HostBinding('class') get hostClasses(): string {
-    switch (this.selectedPagination) {
+    switch (this._warehouseService.selectedPagination) {
       case 5:
         return 'h-table-5';
       case 10:
@@ -50,13 +50,24 @@ export class WarehouseTableComponent implements AfterViewInit {
   }
 
   protected _warehouseService: WarehouseService = inject(WarehouseService);
+  private _cacheService: WarehouseCacheService = inject(WarehouseCacheService);
   private _gateway: WarehouseTableGatewayService = inject(WarehouseTableGatewayService);
 
   ngAfterViewInit(): void {
-    this.tableDataSource.paginator = this.paginator;
+    const cachedWarehouse = this._cacheService.getStorageData();
+
+    if (cachedWarehouse) {
+      const { tablePagination } = cachedWarehouse;
+      this.paginator.pageSize = tablePagination || DEFAULT_PAGINATION_SIZE;
+
+      this._warehouseService.setTableDataPaginator(this.paginator);
+      return;
+    }
+
+    this._warehouseService.setTableDataPaginator(this.paginator);
   }
 
-  get tableDataSource(): MatTableDataSource<TWarehouseItem, MatPaginator> {
+  get tableDataSource(): Readonly<MatTableDataSource<TWarehouseItem, MatPaginator>> {
     return this._warehouseService.tableDataSource;
   }
 

@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { CacheServiceBase } from 'services/cache-base.service';
-import { TCategory, TWarehouseItem } from '../utils/warehouse-control.gateway.model';
+import type { TCategory, TWarehouseItem } from '../utils/warehouse-control.gateway.model';
+import { DEFAULT_PAGINATION_SIZE } from '../utils/consts';
 
 type TWarehouseCache = {
   categories: TCategory[];
+  tablePagination?: number;
   warehouseItems: TWarehouseItem[];
 };
 
 const INIT_STORAGE: TWarehouseCache = {
   categories: [],
+  tablePagination: DEFAULT_PAGINATION_SIZE,
   warehouseItems: [],
 };
 

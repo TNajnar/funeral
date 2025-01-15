@@ -53,35 +53,6 @@ export class EditCategoriesComponent implements OnInit {
     );
   }
 
-  private _initializeTempCategories(): void {
-    this.tempCategories = {
-      categories: {},
-      removed: {}
-    };
-
-    for (const category of this.editableCategories) {
-      this.tempCategories.categories[category.id] = category.name;
-    }
-  }
-
-  private _renameCategory(newCategoryName: string, category: TCategory): void {
-    this._gateway.renameCategory(category.id, newCategoryName).subscribe({
-      next: (responseCategory: TCategory): void => {
-        category.name = responseCategory.name;
-      },
-      complete: () => this._warehouseService.notifyCategoryChange$(true),
-    });
-  }
-
-  private _deleteCategory(categoryId: number): void {
-    this._gateway.deleteCategory(categoryId).subscribe({
-      next: (): void => {
-        this._warehouseService.deleteCategory(categoryId);
-      },
-      complete: () => this._warehouseService.notifyCategoryChange$(true),
-    });
-  }
-
   updateTempCategory(newName: string, categoryId: number): void {
     if (this.tempCategories.categories[categoryId]) {
       this.tempCategories.categories[categoryId] = newName;
@@ -125,5 +96,34 @@ export class EditCategoriesComponent implements OnInit {
 
   handleToggleModal(): void {
     this.toggleModal.emit(ECategoryModalVariants.EditOrRemoveCategory);
+  }
+
+  private _initializeTempCategories(): void {
+    this.tempCategories = {
+      categories: {},
+      removed: {}
+    };
+
+    for (const category of this.editableCategories) {
+      this.tempCategories.categories[category.id] = category.name;
+    }
+  }
+
+  private _renameCategory(newCategoryName: string, category: TCategory): void {
+    this._gateway.renameCategory(category.id, newCategoryName).subscribe({
+      next: (responseCategory: TCategory): void => {
+        category.name = responseCategory.name;
+      },
+      complete: () => this._warehouseService.notifyCategoryChange$(true),
+    });
+  }
+
+  private _deleteCategory(categoryId: number): void {
+    this._gateway.deleteCategory(categoryId).subscribe({
+      next: (): void => {
+        this._warehouseService.deleteCategory(categoryId);
+      },
+      complete: () => this._warehouseService.notifyCategoryChange$(true),
+    });
   }
 }
