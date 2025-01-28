@@ -1,8 +1,9 @@
 import { formatDate } from '@angular/common';
 
-import { INITIAL_PURCHASED_STATE, MONTH_NAMES, STATIC_CATEGORY_ITEM } from './consts';
+import { INITIAL_PURCHASED_STATE, STATIC_CATEGORY_ITEM } from './consts';
 import type { TNewItemArgs, TStatisticsItem } from './warehouse-control.gateway.model';
 import type { TNewItemForm, TInitialMonthDetail } from './warehouse-control.model';
+import { getCurrentMonthName } from '@lib/utils';
 
 export function resolveNewItemArgs(formData: TNewItemForm): TNewItemArgs {
   const formattedDate = formData.created ? new Date(formData.created) : new Date();
@@ -24,12 +25,6 @@ export function getStatisticsDate(): string {
   const formattedDate = formatDate(currentDate, 'yyyy-MM', 'cs-CZ');
 
   return formattedDate;
-}
-
-export function getCurrentMonthName(): string {
-  const date = new Date();
-
-  return MONTH_NAMES[date.getMonth()];
 }
 
 export function getStatisticsTitle(): string {

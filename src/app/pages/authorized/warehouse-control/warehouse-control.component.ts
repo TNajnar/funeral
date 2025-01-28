@@ -9,7 +9,7 @@ import { WarehouseGatewayService } from './gateways/warehouse.gateway.service';
 import { WarehouseCacheService } from './services/warehouse-cache.service';
 import { WarehouseTableComponent } from './warehouse-table/warehouse-table.component';
 import {
-  AddNewWarehouseItemComponent
+  AddNewWarehouseItemComponent,
 } from './warehouse-table/add-new-warehouse-item/add-new-warehouse-item.component';
 import { FilterTabsComponent } from './filter-tabs/filter-tabs.component';
 import { WarehouseGraphComponent } from './warehouse-graph/warehouse-graph.component';
@@ -24,7 +24,7 @@ import { warehouseControl } from '@lib/staticTexts';
     MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent, WarehouseGraphComponent,
   ],
   templateUrl: './warehouse-control.component.html',
-  host: { class: 'min-w-1192 whitespace-nowrap' }
+  host: { class: 'min-w-1192 whitespace-nowrap' },
 })
 export class WarehouseControlComponent implements OnInit {
   protected _texts = warehouseControl;

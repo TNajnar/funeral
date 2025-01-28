@@ -13,3 +13,27 @@
   color: white;
   border-radius: 6px;
 }
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: start;
+  font-size: 1.5rem;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+h2:hover {
+  color: theme('colors.blue-primary');
+  cursor: pointer;
+}
+
+.link-icon {
+  color: transparent;
+  transition: color 0.2s ease-in-out;
+}
+
+h2:hover .link-icon {
+  color: theme('colors.blue-primary');
+}

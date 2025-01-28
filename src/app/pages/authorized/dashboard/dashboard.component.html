@@ -1,13 +1,13 @@
 <div class="flex flex-col justify-between gap-10 md:flex-row">
   <div class="relative flex items-center w-percent-55">
     <span class="w-full text-gray-dark text-lg font-se">
-      {{ _texts.graphText }} <br/> {{ _texts.in }} {{ _currentMonth }}
+      {{ _texts.graphText }} {{ _currentMonth.toLocaleLowerCase() }}
     </span>
 
     <app-graph
       [data]="[10, 15]"
-      [labels]="['Pohřby', 'Služby']"
-      label="# počet naplanovanych"
+      [labels]="['Realizované pohřby', 'Nadcházející pohřby']"
+      label="# počet"
       chartType="doughnut"
       [colors]="['#3498DB', '#9B59B6']"
     />
@@ -23,7 +23,7 @@
         [matTooltip]="_texts.funeralTooltip"
         [matTooltipShowDelay]="1000"
       >
-        <mat-icon>add</mat-icon>
+        <mat-icon fontIcon="add" />
         {{ _texts.newFuneral }}
       </button>
       
@@ -33,27 +33,18 @@
         [matTooltip]="_texts.serviceTooltip"
         [matTooltipShowDelay]="1000"
       >
-        <mat-icon>add</mat-icon>
-          {{ _texts.newService }}
+        <mat-icon fontIcon="add" />
+        {{ _texts.newService }}
       </button>
     </div>
   </div>
 </div>
 
-<div class="flex self-center gap-8 w-full">
-  <div class="w-1/2">
-    <h2 class="mb-5 w-max text-start text-2xl font-medium hover:text-blue-primary transition-colors ease-in-out">
-      <a [routerLink]="['/' + planningRoute]">{{ _texts.funerals }}</a>
-    </h2>
-
-    <app-dashboard-table-funeral />
-  </div>
+<div class="flex flex-col gap-4 w-full">
+  <h2>
+    <a [routerLink]="['/' + planningRoute]">{{ _texts.services }}</a>
+    <mat-icon class="link-icon mt-1"  fontIcon="link"/>
+  </h2>
   
-  <div class="w-1/2">
-    <h2 class="mb-5 w-max text-start text-2xl font-medium hover:text-blue-primary transition-colors ease-in-out">
-      <a [routerLink]="['/' + planningRoute]">{{ _texts.services }}</a>
-    </h2>
-    
-    <app-dashboard-table-service />
-  </div>
+  <app-dashboard-table-upcoming />
 </div>

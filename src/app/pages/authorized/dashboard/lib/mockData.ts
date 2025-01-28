@@ -1,44 +1,54 @@
-import { TPlannedFuneralTable } from './dashboard.model';
+import { TPlannedFuneralTable } from './dashboard.types';
 
 export const MOCK_FUNERAL_DATA: TPlannedFuneralTable[] = [
   {
-    id: 1,
+    companyId: 1,
+    contact: '777 888 999',
+    customer: 'Petr Novák',
     dateOfNegotiation: '2023-01-01',
+    deceased: 'Jan Novák',
+    id: 1,
     placeCeremony: 'Kostel sv. Jana',
     timeCeremony: '2023-01-05 10:00',
-    deceased: 'Jan Novák',
-    customer: 'Petr Novák'
   },
   {
-    id: 2,
+    companyId: 1,
+    contact: '777 888 999',
+    customer: 'Jana Svobodová',
     dateOfNegotiation: '2023-02-15',
+    deceased: 'Marie Svobodová',
+    id: 2,
     placeCeremony: 'Krematorium Praha',
     timeCeremony: '2023-02-20 14:00',
-    deceased: 'Marie Svobodová',
-    customer: 'Jana Svobodová'
   },
   {
-    id: 3,
+    companyId: 1,
+    contact: '777 888 999',
+    customer: 'Eva Dvořáková',
     dateOfNegotiation: '2023-03-10',
+    deceased: 'Karel Dvořák',
+    id: 3,
     placeCeremony: 'Hřbitov Olšany',
     timeCeremony: '2023-03-15 11:00',
-    deceased: 'Karel Dvořák',
-    customer: 'Eva Dvořáková'
   },
   {
-    id: 4,
+    companyId: 1,
+    contact: '777 888 999',
+    customer: 'Tomáš Novotný',
     dateOfNegotiation: '2023-04-05',
+    deceased: 'Anna Novotná',
+    id: 4,
     placeCeremony: 'Kostel sv. Václava',
     timeCeremony: '2023-04-10 09:00',
-    deceased: 'Anna Novotná',
-    customer: 'Tomáš Novotný'
   },
   {
-    id: 5,
+    companyId: 1,
+    contact: '777 888 999',
+    customer: 'Lucie Černá',
     dateOfNegotiation: '2023-05-20',
+    deceased: 'Josef Černý',
+    id: 5,
     placeCeremony: 'Krematorium Brno',
     timeCeremony: '2023-05-25 13:00',
-    deceased: 'Josef Černý',
-    customer: 'Lucie Černá'
-  }
+  },
 ];

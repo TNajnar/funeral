@@ -5,7 +5,7 @@ import type { TFilterOptions  } from '../lib/warehouse-control.model';
 import type { TWarehouseItem } from '../lib/warehouse-control.gateway.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WarehouseTableFiltersService {
   filterOptions: TFilterOptions = {

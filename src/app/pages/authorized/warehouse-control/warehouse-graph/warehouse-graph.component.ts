@@ -11,8 +11,8 @@ import {
 } from '../lib/utils';
 import type { TStatistics } from '../lib/warehouse-control.gateway.model';
 import type { TInitialMonthDetail } from '../lib/warehouse-control.model';
-import { GRAPH_COLORS } from '../lib/consts';
 import { warehouseControl } from '@lib/staticTexts';
+import { GRAPH_COLORS } from '@lib/consts';
 
 @Component({
   selector: 'app-warehouse-graph',

@@ -34,6 +34,15 @@ const config = [
       'no-multiple-empty-lines': ['error', { 'max': 1 }],
       'max-len': ['error', { 'code': 120 }],
       'quotes': ['error', 'single'],
+      "comma-dangle": [
+        "warn", {
+          "arrays": "always-multiline",
+          "objects": "always-multiline",
+          "imports": "always-multiline",
+          "exports": "always-multiline",
+          "functions": "never"
+        }
+      ],
     },
     settings: {
       angular: {

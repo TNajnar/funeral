@@ -10,7 +10,7 @@ import type { TCategory, TWarehouseItem } from '../lib/warehouse-control.gateway
 import { DEFAULT_PAGINATION_SIZE, STATIC_CATEGORY_ITEM } from '../lib/consts';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WarehouseService {
   private _warehouseItems$ = new BehaviorSubject<TWarehouseItem[]>([]);

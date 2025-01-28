@@ -21,7 +21,7 @@ type TTempCategories = {
   standalone: true,
   imports: [FormsModule, MatIconModule, MatTableModule, ButtonSecondaryComponent, ButtonPrimaryComponent],
   templateUrl: './edit-categories.component.html',
-  host: { class: 'flex flex-col gap-4' }
+  host: { class: 'flex flex-col gap-4' },
 })
 export class EditCategoriesComponent implements OnInit {
   protected _texts = warehouseControl.filterTabs.editCategory;
@@ -101,7 +101,7 @@ export class EditCategoriesComponent implements OnInit {
   private _initializeTempCategories(): void {
     this.tempCategories = {
       categories: {},
-      removed: {}
+      removed: {},
     };
 
     for (const category of this.editableCategories) {

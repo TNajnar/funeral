@@ -25,6 +25,19 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="deceased">
+    <th mat-header-cell *matHeaderCellDef>Zemrely</th>
+    <td mat-cell *matCellDef="let element" class="cell">
+      <input
+        class="input-table w-full"
+        [id]="'deceased' + element.id"
+        name="deceased"
+        type="text"
+        [(ngModel)]="element.deceased"
+      />
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="customer">
     <th mat-header-cell *matHeaderCellDef>Objednatel</th>
     <td mat-cell *matCellDef="let element" class="cell">
@@ -37,6 +50,20 @@
       />
     </td>
   </ng-container>
+
+  <ng-container matColumnDef="contact">
+    <th mat-header-cell *matHeaderCellDef>Kontakt</th>
+    <td mat-cell *matCellDef="let element" class="cell">
+      <input
+        class="input-table w-full"
+        [id]="'contact' + element.id"
+        name="contact"
+        type="text"
+        [(ngModel)]="element.contact"
+      />
+    </td>
+  </ng-container>
+
   <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns" class="row"></tr>
 </table>

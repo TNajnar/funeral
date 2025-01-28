@@ -11,7 +11,7 @@ import {
 import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
 import { resolveNewItemArgs } from '@app/pages/authorized/warehouse-control/lib/utils';
 import type {
-  TNewItemArgs, TWarehouseItem
+  TNewItemArgs, TWarehouseItem,
 } from '@app/pages/authorized/warehouse-control/lib/warehouse-control.gateway.model';
 import { warehouseControl } from '@lib/staticTexts';
 

@@ -27,7 +27,7 @@ import { warehouseControl } from '@lib/staticTexts';
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorService }],
   host: {
     class: 'flex flex-col mb-20 border border-gray rounded-md',
-  }
+  },
 })
 export class WarehouseTableComponent implements AfterViewInit {
   protected _texts = warehouseControl.table;
@@ -137,7 +137,7 @@ export class WarehouseTableComponent implements AfterViewInit {
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.isFlagged = responseWarehouseItem.isFlagged;
         this._warehouseService.updateWarehouseData();
-      }
+      },
     });
   }
 
@@ -146,7 +146,7 @@ export class WarehouseTableComponent implements AfterViewInit {
       next: (responseWarehouseItem: TWarehouseItem): void => {
         warehouseItem.comment = responseWarehouseItem.comment;
         this._warehouseService.updateWarehouseData();
-      }
+      },
     });
   }
 
@@ -154,7 +154,7 @@ export class WarehouseTableComponent implements AfterViewInit {
     this._gateway.deleteWarehouseItem(productId).subscribe({
       next: (): void => {
         this._warehouseService.deleteWarehouseItem(productId);
-      }
+      },
     });
   }
 

@@ -5,8 +5,7 @@ export const app = {
 /* region Pages */
 
 export const dashboard = {
-  graphText: 'Graf o sjednaných službách a pohřbech ',
-  in: 'v',
+  graphText: 'Graf o nadchazejících a realizovaných pohřbech za měsíc ',
   newFuneral: 'Nový pohřeb',
   newService: 'Nová služba',
   funerals: 'Naplánované pohřby',
