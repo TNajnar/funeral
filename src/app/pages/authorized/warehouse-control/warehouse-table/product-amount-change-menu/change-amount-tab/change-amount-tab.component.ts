@@ -1,18 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import type { TWarehouseItem } from '@app/pages/authorized/warehouse-control/lib/warehouse-control.gateway.model';
-import { AmountTabBaseComponent } from '../amount-tab-base/amount-tab-base.component';
-import { AmountTabBaseTemplateComponent } from '../amount-tab-base/amount-tab-base-template.component';
+import { AmountTabBaseComponent } from '../base/amount-tab-base.component';
+import { AmountTabBaseTemplateComponent } from '../base/template/amount-tab-base-template.component';
+import { IconComponent } from '@app/ui';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
   selector: 'app-change-amount-tab',
   standalone: true,
-  imports: [FormsModule, MatButtonModule, MatIconModule, MatTooltipModule, AmountTabBaseTemplateComponent],
+  imports: [FormsModule, MatButtonModule, MatTooltipModule, AmountTabBaseTemplateComponent, IconComponent],
   templateUrl: './change-amount-tab.component.html',
   styleUrl: './change-amount-tab.component.css',
 })

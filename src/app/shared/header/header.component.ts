@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { MatIcon } from '@angular/material/icon';
 
 import { AuthService } from 'services/auth.service';
+import { IconComponent } from '@app/ui/icon/icon.component';
 import { ERoutes } from '@lib/enums';
 
 type THeaderItem = {
@@ -19,9 +19,9 @@ const headerItems: THeaderItem[] = [
 ];
 
 @Component({
-  selector: 'app-header',
+  selector: 'shared-header',
   standalone: true,
-  imports: [RouterModule, MatIcon],
+  imports: [RouterModule, IconComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })

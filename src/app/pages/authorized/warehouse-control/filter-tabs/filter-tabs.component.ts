@@ -1,11 +1,10 @@
 import { Component, ElementRef, HostListener, inject, Signal, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 
 import { WarehouseService } from '../services/warehouse.service';
 import { NewCategoryComponent } from './new-category/new-category.component';
 import { EditCategoriesComponent } from './edit-categories/edit-categories.component';
-import { ModalComponent } from '@app/ui';
+import { ModalComponent, IconComponent } from '@app/ui';
 import { CATEGORY_MENU_ITEMS } from '../lib/consts';
 import type { TCategory } from '../lib/warehouse-control.gateway.model';
 import type { TCategoryMenuItem, TCategoryModals } from '../lib/warehouse-control.model';
@@ -15,7 +14,7 @@ import { warehouseControl } from '@lib/staticTexts';
 @Component({
   selector: 'app-filter-tabs',
   standalone: true,
-  imports: [NgClass, ModalComponent, MatIconModule, NewCategoryComponent, EditCategoriesComponent],
+  imports: [NgClass, ModalComponent, NewCategoryComponent, EditCategoriesComponent, IconComponent],
   styleUrls: ['./filter-tabs.component.css'],
   templateUrl: './filter-tabs.component.html',
   host: {

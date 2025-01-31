@@ -7,7 +7,7 @@ import { ButtonSecondaryComponent } from '@app/ui/button-secondary/button-second
 import { modalComponent } from '@lib/staticTexts';
 
 @Component({
-  selector: 'app-error-modal',
+  selector: 'ui-error-modal',
   standalone: true,
   imports: [ModalComponent, MatButtonModule, ButtonSecondaryComponent],
   templateUrl: './error-modal.component.html',

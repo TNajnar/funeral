@@ -3,10 +3,12 @@ import { NgIf } from '@angular/common';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatIconModule } from '@angular/material/icon';
 
+import { IconComponent } from '../icon/icon.component';
+
 @Component({
-  selector: 'app-modal',
+  selector: 'ui-modal',
   standalone: true,
-  imports: [NgIf, MatIconModule],
+  imports: [NgIf, MatIconModule, IconComponent],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css'],
 })

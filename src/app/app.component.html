@@ -1,9 +1,9 @@
 @if (error()) {
-  <app-error-modal [title]="_texts.errorModalTitle" [message]="error()" />
+  <ui-error-modal [title]="_texts.errorModalTitle" [message]="error()" />
 }
 
 @if (isAuthorized) {
-  <app-header />
+  <shared-header />
 }
 
 <main class="page-layout pb-5">

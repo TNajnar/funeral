@@ -8,11 +8,11 @@ import {
 } from 'chart.js';
 
 @Component({
-  selector: 'app-graph',
+  selector: 'shared-graph',
   standalone: true,
   templateUrl: './graph.component.html',
   host: {
-    class: 'flex flex-col justify-center items-center'
+    class: 'flex flex-col justify-center items-center',
   },
 })
 export class GraphComponent implements AfterViewInit, OnDestroy {

@@ -1,9 +1,15 @@
 <dialog class="cdk-custom-pane flex flex-col gap-4" (keydown)="_onKeyDown($event)" #dialog>
-  <div class="header flex justify-between items-center px-6 py-3 bg-[#f5f9ff] text-[#0343ab]" *ngIf="title()">
+  <div
+    *ngIf="title()"
+    class="header flex justify-between items-center px-6 py-custom-12 bg-[#f5f9ff] text-[#0343ab]"
+  >
     <h4 class="text-center font-semibold">{{ title() }}</h4>
 
-    <button class="right-5 top-1" (click)="_onClose()">
-      <mat-icon fontIcon="close" />
+    <button
+      class="right-5 top-1 flex items-center justify-center h-fit rounded-sm hover:bg-blue-bgm"
+      (click)="_onClose()"
+    >
+      <ui-icon [iconVariant]="'close'" [width]="24" [height]="25" />
     </button>
   </div>
 

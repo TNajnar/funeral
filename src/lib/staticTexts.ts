@@ -5,7 +5,7 @@ export const app = {
 /* region Pages */
 
 export const dashboard = {
-  graphText: 'Graf o nadchazejících a realizovaných pohřbech za měsíc ',
+  graphText: 'Graf o realizovaných a nadchazejících pohřbech za měsíc ',
   newFuneral: 'Nový pohřeb',
   newService: 'Nová služba',
   funerals: 'Naplánované pohřby',
@@ -76,7 +76,7 @@ export const warehouseControl = {
         tooltip: 'Nepoužívat pro naskladnění nových produktů',
         error: 'Vstup není číslo.',
       },
-    }
+    },
   },
 
   newItemComponent: {

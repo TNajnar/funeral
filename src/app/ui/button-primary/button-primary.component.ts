@@ -4,11 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 type TVariants = 'base' | 'extended';
 
 @Component({
-  selector: 'app-button-primary',
+  selector: 'ui-button-primary',
   standalone: true,
   imports: [MatButtonModule],
   templateUrl: './button-primary.component.html',
-  styleUrl: './button-primary.component.css'
+  styleUrl: './button-primary.component.css',
 })
 export class ButtonPrimaryComponent {
   protected _variant!: TVariants;

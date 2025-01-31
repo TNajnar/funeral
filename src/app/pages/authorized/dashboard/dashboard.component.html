@@ -4,7 +4,7 @@
       {{ _texts.graphText }} {{ _currentMonth.toLocaleLowerCase() }}
     </span>
 
-    <app-graph
+    <shared-graph
       [data]="[10, 15]"
       [labels]="['Realizované pohřby', 'Nadcházející pohřby']"
       label="# počet"
@@ -16,34 +16,14 @@
   <div class="flex flex-col gap-5 w-percent-45">
     <app-reminder />
 
-    <div class="flex flex-row items-center gap-5 mt-auto">
-      <button
-        mat-fab extended
-        class="mat-raised-button custom-button-funeral"
-        [matTooltip]="_texts.funeralTooltip"
-        [matTooltipShowDelay]="1000"
-      >
-        <mat-icon fontIcon="add" />
-        {{ _texts.newFuneral }}
-      </button>
-      
-      <button
-        mat-fab extended
-        class="mat-raised-button custom-button-service"
-        [matTooltip]="_texts.serviceTooltip"
-        [matTooltipShowDelay]="1000"
-      >
-        <mat-icon fontIcon="add" />
-        {{ _texts.newService }}
-      </button>
-    </div>
+    <app-dashboard-add-buttons />
   </div>
 </div>
 
 <div class="flex flex-col gap-4 w-full">
   <h2>
     <a [routerLink]="['/' + planningRoute]">{{ _texts.services }}</a>
-    <mat-icon class="link-icon mt-1"  fontIcon="link"/>
+    <ui-icon class="icon" className="pt-1" [iconVariant]="'link'"/>
   </h2>
   
   <app-dashboard-table-upcoming />

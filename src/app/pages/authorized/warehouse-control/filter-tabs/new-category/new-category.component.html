@@ -20,15 +20,15 @@
 </div>
 
 <div class="flex gap-4 justify-end">
-  <app-button-secondary
+  <ui-button-secondary
     [disabled]="!newCategoryName || isMaxCategory"
     [variant]="'base'"
     (click)="onSubmit()"
   >
     {{ _texts.submit }}
-  </app-button-secondary>
+  </ui-button-secondary>
 
-  <app-button-primary (click)="handleToggleModal()" [variant]="'base'">
+  <ui-button-primary (click)="handleToggleModal()" [variant]="'base'">
     {{ _texts.cancel }}
-  </app-button-primary>
+  </ui-button-primary>
 </div>

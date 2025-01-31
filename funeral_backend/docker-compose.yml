@@ -4,11 +4,14 @@ services:
   flyway:
     container_name: flyway
     image: 'flyway/flyway'
+    platform: linux/amd64
     command: -url=jdbc:postgresql://db:5432/funeral -defaultSchema=funeral -user=developer -password=tomastomas -connectRetries=60 migrate
     depends_on:
       - db
+
   db:
     image: 'postgres:latest'
+    platform: linux/amd64
     restart: on-failure
     container_name: db
     environment:
@@ -17,10 +20,12 @@ services:
       - POSTGRES_PASSWORD=tomastomas
     ports:
       - '5433:5432'
+
   app:
     image: 'tomaskopulety/funeral:latest'
+    platform: linux/amd64
     build:
-        context: .
+      context: .
     container_name: app
     ports:
       - '8080:8080'

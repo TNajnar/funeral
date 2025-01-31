@@ -1,5 +1,5 @@
 @if (isOpen()) {
-  <app-modal [title]="_texts.modalTitle" (onClose)="handleClose()">
+  <ui-modal [title]="_texts.modalTitle" (onClose)="handleClose()">
     <mat-tab-group>
       <mat-tab [label]="_texts.tabStockIn">
         <app-stock-in-amount-tab [product]="product" (onClose)="handleClose()" />
@@ -9,6 +9,6 @@
         <app-change-amount-tab [product]="product" (onClose)="handleClose()" />
       </mat-tab>
     </mat-tab-group>
-  </app-modal>
+  </ui-modal>
 }
 

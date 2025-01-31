@@ -1,0 +1,11 @@
+@if (!_matSuffix) {
+  <mat-icon class="w-full h-full" [class]="_className" [fontIcon]="_iconVariant" (click)="_handleClick()" />
+} @else {
+  <mat-icon
+    matSuffix
+    class="mr-3"
+    [class]="_className" 
+    [fontIcon]="_iconVariant"
+    (click)="_handleClick()"
+  />
+}

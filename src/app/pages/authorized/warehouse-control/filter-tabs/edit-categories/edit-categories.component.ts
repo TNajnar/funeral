@@ -1,11 +1,10 @@
 import { Component, EventEmitter, inject, OnInit, Output, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { WarehouseService } from '@app/pages/authorized/warehouse-control/services/warehouse.service';
 import { WarehouseGatewayService } from '@app/pages/authorized/warehouse-control/gateways/warehouse.gateway.service';
-import { ButtonPrimaryComponent, ButtonSecondaryComponent } from '@app/ui';
+import { ButtonPrimaryComponent, ButtonSecondaryComponent, IconComponent } from '@app/ui';
 import { ECategoryModalVariants } from '@app/pages/authorized/warehouse-control/lib/enums';
 import { _CATEGORY_COLUMNS } from '@app/pages/authorized/warehouse-control/lib/consts';
 import type { TCategory } from '@app/pages/authorized/warehouse-control/lib/warehouse-control.gateway.model';
@@ -19,7 +18,7 @@ type TTempCategories = {
 @Component({
   selector: 'app-edit-categories',
   standalone: true,
-  imports: [FormsModule, MatIconModule, MatTableModule, ButtonSecondaryComponent, ButtonPrimaryComponent],
+  imports: [FormsModule, MatTableModule, ButtonSecondaryComponent, ButtonPrimaryComponent, IconComponent],
   templateUrl: './edit-categories.component.html',
   host: { class: 'flex flex-col gap-4' },
 })

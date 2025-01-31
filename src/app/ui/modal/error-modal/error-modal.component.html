@@ -1,9 +1,9 @@
-<app-modal [title]="title()" (onClose)="onClearError()">
+<ui-modal [title]="title()" (onClose)="onClearError()">
   <div class="p-4 m-auto max-w-[40rem]">
     <p>{{ message() }}</p>
 
-    <app-button-secondary class="flex justify-end gap-4 mt-4" [variant]="'base'" (click)="onClearError()">
+    <ui-button-secondary class="flex justify-end gap-4 mt-4" [variant]="'base'" (click)="onClearError()">
       {{ texts.ok }}
-    </app-button-secondary>
+    </ui-button-secondary>
   </div>
-</app-modal>
+</ui-modal>

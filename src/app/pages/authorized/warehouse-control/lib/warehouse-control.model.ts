@@ -1,3 +1,4 @@
+import { TIconType } from '@app/ui/icon/icon.component';
 import { ECategoryModalVariants } from './enums';
 
 export interface IDialogData {
@@ -31,7 +32,7 @@ export type TNewItemForm = {
 /* #region Categories */
 
 export type TCategoryMenuItem = {
-  icon: string;
+  icon: TIconType;
   id: number;
   name: string;
   variant: ECategoryModalVariants;

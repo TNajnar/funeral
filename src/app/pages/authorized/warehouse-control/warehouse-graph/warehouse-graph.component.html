@@ -10,7 +10,7 @@
       <ng-template matTabContent>
         <div class="flex justify-center mt-10 mb-6">
           @if (!isLoading) {
-            <app-graph
+            <shared-graph
               [data]="monthCategoryStatistics()"
               [labels]="_texts.monthStatsLabels"
               [label]="_texts.monthStatsLabel + statistics().category"
@@ -28,7 +28,7 @@
       <ng-template matTabContent>
         <div class="inline-flex gap-10 mt-10">
           @if (!isLoading) {
-            <app-graph
+            <shared-graph
               [data]="detailPurchasedStats().inStock.data"
               [labels]="detailPurchasedStats().inStock.type" 
               [label]="_texts.monthDetailStatsInStock"
@@ -38,7 +38,7 @@
               [height]="'320px'"
             />
     
-            <app-graph
+            <shared-graph
               [data]="detailPurchasedStats().purchased.data"
               [labels]="detailPurchasedStats().purchased.type" 
               [label]="_texts.monthDetailStatsPurchased"
@@ -48,7 +48,7 @@
               [height]="'320px'"
             />
     
-            <app-graph
+            <shared-graph
               [data]="detailPurchasedStats().sold.data"
               [labels]="detailPurchasedStats().sold.type"
               [label]="_texts.monthDetailStatsSold"

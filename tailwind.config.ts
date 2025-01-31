@@ -34,9 +34,13 @@ module.exports = {
           'background': '#2554bc',
           'disabled-background': '#dcdcdc',
           'disabled-text': '#cccccc',
-        }
+        },
       },
       padding: {
+        0.1: '1px',
+        0.2: '2px',
+        0.3: '3px',
+        'custom-12': '12px',
         'custom-6': '6px',
       },
       margin: {
@@ -52,7 +56,7 @@ module.exports = {
         290.6: '290.66px',
         340: '340px',
         374: '374px',
-        400: '400px'
+        400: '400px',
       },
       height: {
         320: '320px',

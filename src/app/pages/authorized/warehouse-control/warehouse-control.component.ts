@@ -2,7 +2,6 @@ import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
 
 import { WarehouseService } from './services/warehouse.service';
 import { WarehouseGatewayService } from './gateways/warehouse.gateway.service';
@@ -13,7 +12,7 @@ import {
 } from './warehouse-table/add-new-warehouse-item/add-new-warehouse-item.component';
 import { FilterTabsComponent } from './filter-tabs/filter-tabs.component';
 import { WarehouseGraphComponent } from './warehouse-graph/warehouse-graph.component';
-import { ButtonSecondaryComponent, ModalComponent } from '@app/ui';
+import { ButtonSecondaryComponent, ModalComponent, IconComponent } from '@app/ui';
 import { warehouseControl } from '@lib/staticTexts';
 
 @Component({
@@ -21,7 +20,7 @@ import { warehouseControl } from '@lib/staticTexts';
   standalone: true,
   imports: [FormsModule,
     AddNewWarehouseItemComponent, ModalComponent, ButtonSecondaryComponent, WarehouseTableComponent,
-    MatIconModule, MatFormFieldModule, MatInputModule, FilterTabsComponent, WarehouseGraphComponent,
+    IconComponent, MatFormFieldModule, MatInputModule, FilterTabsComponent, WarehouseGraphComponent,
   ],
   templateUrl: './warehouse-control.component.html',
   host: { class: 'min-w-1192 whitespace-nowrap' },

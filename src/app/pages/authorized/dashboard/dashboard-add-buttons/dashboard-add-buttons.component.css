@@ -1,0 +1,15 @@
+.mat-raised-button.custom-button-funeral {
+  width: 200px;
+  height: 70px;
+  background-color: theme('colors.blue-fresh');
+  color: white;
+  border-radius: 6px;
+}
+  
+.mat-raised-button.custom-button-service {
+  width: 200px;
+  height: 70px;
+  background-color: theme('colors.purple');
+  color: white;
+  border-radius: 6px;
+}

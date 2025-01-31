@@ -11,7 +11,7 @@ import { ButtonPrimaryComponent } from '../button-primary/button-primary.compone
 import { commentComponent } from '@lib/staticTexts';
 
 @Component({
-  selector: 'app-comment',
+  selector: 'ui-comment',
   standalone: true,
   imports: [
     NgClass,
@@ -21,10 +21,10 @@ import { commentComponent } from '@lib/staticTexts';
     MatFormFieldModule,
     MatInputModule,
     ButtonSecondaryComponent,
-    ButtonPrimaryComponent
+    ButtonPrimaryComponent,
   ],
   templateUrl: './comment.component.html',
-  styleUrl: './comment.component.css'
+  styleUrl: './comment.component.css',
 })
 export class CommentComponent implements OnInit {
   @Input() comment?: string;

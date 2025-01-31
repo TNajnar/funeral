@@ -67,12 +67,12 @@
   </div>
 
   <div class="flex justify-end gap-6 mt-auto">
-    <app-button-secondary [disabled]="form.invalid ?? false" [variant]="'base'" [type]="'submit'">
+    <ui-button-secondary [disabled]="form.invalid ?? false" [variant]="'base'" [type]="'submit'">
       {{ _texts.submit }}
-    </app-button-secondary>
+    </ui-button-secondary>
 
-    <app-button-primary (click)="_onCancel()" [variant]="'base'">
+    <ui-button-primary (click)="_onCancel()" [variant]="'base'">
       {{ _texts.cancel }}
-    </app-button-primary>
+    </ui-button-primary>
   </div>
 </form>

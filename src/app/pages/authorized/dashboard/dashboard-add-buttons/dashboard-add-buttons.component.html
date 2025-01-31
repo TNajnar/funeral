@@ -1,0 +1,33 @@
+<button
+  mat-fab extended
+  class="mat-raised-button custom-button-funeral"
+  [matTooltip]="_texts.funeralTooltip"
+  [matTooltipShowDelay]="1000"
+  (click)="toggleModal(_EModalVariant.NewFuneral)"
+>
+  <ui-icon [iconVariant]="'add'" />
+  {{ _texts.newFuneral }}
+</button>
+
+<button
+  mat-fab extended
+  class="mat-raised-button custom-button-service"
+  [matTooltip]="_texts.serviceTooltip"
+  [matTooltipShowDelay]="1000"
+  (click)="toggleModal(_EModalVariant.NewCompany)"
+>
+  <ui-icon [iconVariant]="'add'" />
+  {{ _texts.newService }}
+</button>
+
+@if (handleModalVariantOpen(_EModalVariant.NewCompany)) {
+  <ui-modal (onClose)="toggleModal(_EModalVariant.NewCompany)">
+    <shared-add-new-company />
+  </ui-modal>
+}
+
+@if (handleModalVariantOpen(_EModalVariant.NewFuneral)) {
+  <ui-modal (onClose)="toggleModal(_EModalVariant.NewFuneral)">
+    <shared-add-new-funeral />
+  </ui-modal>
+}

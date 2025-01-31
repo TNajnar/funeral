@@ -11,7 +11,7 @@
   
   <div class="relative">
     <button class="px-6 py-custom-6 h-full hover:bg-gray-material" (click)="toggleMenu()">
-      <mat-icon class="text-blue-primary mt-2" fontIcon="more_horiz" />
+      <ui-icon className="text-blue-primary mt-2" [iconVariant]="'more_horiz'" />
     </button>
     
     <div
@@ -23,7 +23,7 @@
           class="flex items-center gap-2 p-2 w-full hover:bg-gray-material"
           (click)="onMenuItemClick(menuItem)"
         >
-          <mat-icon class="text-blue-primary" [fontIcon]="menuItem.icon" />
+          <ui-icon className="text-blue-primary" [iconVariant]="menuItem.icon" />
           <span>{{ menuItem.name }}</span>
         </button>
       }
@@ -34,13 +34,13 @@
 </div>
 
 @if (handleModalVariantOpen(_EModalVariants.NewCategory)) {
-  <app-modal [title]="_texts.categoryModalTitle" (onClose)="toggleModal(_EModalVariants.NewCategory)">
+  <ui-modal [title]="_texts.categoryModalTitle" (onClose)="toggleModal(_EModalVariants.NewCategory)">
     <app-new-category (toggleModal)="toggleModal($event)" />
-  </app-modal>
+  </ui-modal>
 }
 
 @if (handleModalVariantOpen(_EModalVariants.EditOrRemoveCategory)) {
-  <app-modal [title]="_texts.categoryModalTitleEdit" (onClose)="toggleModal(_EModalVariants.EditOrRemoveCategory)">
+  <ui-modal [title]="_texts.categoryModalTitleEdit" (onClose)="toggleModal(_EModalVariants.EditOrRemoveCategory)">
     <app-edit-categories (toggleModal)="toggleModal($event)" />
-  </app-modal>
+  </ui-modal>
 }
