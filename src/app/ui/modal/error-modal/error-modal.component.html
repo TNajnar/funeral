@@ -1,6 +1,17 @@
 <ui-modal [title]="title()" (onClose)="onClearError()">
-  <div class="p-4 m-auto max-w-[40rem]">
-    <p>{{ message() }}</p>
+  <div class="flex flex-col gap-3 m-auto max-w-[40rem]">
+    <div class="flex flex-col gap-1">
+      <p>{{ message() }}</p>
+  
+      <p>Kontaktujte nás:
+        <a
+          href="https://www.ourcompany.com"
+          class="text-blue-primary hover:text-blue-primary-hover hover:underline"
+        >
+          Our company
+        </a>
+      </p>
+    </div>
 
     <ui-button-secondary class="flex justify-end gap-4 mt-4" [variant]="'base'" (click)="onClearError()">
       {{ texts.ok }}

@@ -13,6 +13,7 @@ module.exports = {
         'blue-bgm': '#ccdefa',
         'blue-bgm-light': '#dee9fc',
         'blue-fresh': '#3498DB',
+        'blue-primary-hover': '#1e3a8a',
 
         'gray': '#bbbbbb',
         'gray-light': '#f5f5f5',

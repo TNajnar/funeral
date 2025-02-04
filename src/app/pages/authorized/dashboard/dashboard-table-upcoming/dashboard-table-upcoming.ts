@@ -3,8 +3,8 @@ import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
-import type { TPlannedFuneralTable } from '../lib/dashboard.types';
 import { UPCOMING_TABLE_COLUMNS } from '../lib/consts';
+import type { TPlannedFuneralTable } from '../lib';
 import { MOCK_FUNERAL_DATA } from '../lib/mockData';
 
 @Component({
@@ -12,9 +12,7 @@ import { MOCK_FUNERAL_DATA } from '../lib/mockData';
   standalone: true,
   imports: [FormsModule, DatePipe, MatTableModule],
   templateUrl: './dashboard-table-upcoming.component.html',
-  host: {
-    class: 'base-table-border',
-  },
+  host: { class: 'base-table-border' },
 })
 export class DashboardTableUpcomingComponent {
   displayedColumns: string[] = UPCOMING_TABLE_COLUMNS;

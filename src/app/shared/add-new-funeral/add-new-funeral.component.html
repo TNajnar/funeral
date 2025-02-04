@@ -1,1 +1,102 @@
-<p>negotiate-new-funeral works!</p>
+<form class="flex flex-col gap-2" #form="ngForm" (ngSubmit)="_onSubmit(form)">
+  <div class="grid grid-cols-2 gap-3">
+    <mat-form-field>
+      <mat-label for="placeCeremony">placeCeremony</mat-label>
+      <input
+        matInput
+        type="number"
+        name="placeCeremony"
+        id="placeCeremony"
+        ngModel
+        required
+        #placeCeremony="ngModel"
+      />
+  
+      @if (placeCeremony.touched && placeCeremony.dirty && placeCeremony.invalid) {
+        <mat-error>placeCeremony err</mat-error>
+      }
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="date">timeCeremony</mat-label>
+      <input
+        matInput
+        type="date"
+        name="date"
+        id="date"
+        [matDatepicker]="picker"
+        ngModel
+        date
+        #date="ngModel"
+      />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="deceased">deceased</mat-label>
+      <input
+        matInput
+        type="number"
+        name="deceased"
+        id="deceased"
+        ngModel
+        required
+        #deceased="ngModel"
+      />
+  
+      @if (deceased.touched && deceased.dirty && deceased.invalid) {
+        <mat-error>deceased err</mat-error>
+      }
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="customer">customer</mat-label>
+      <input
+        matInput
+        type="number"
+        name="customer"
+        id="customer"
+        ngModel
+        required
+        #customer="ngModel"
+      />
+  
+      @if (customer.touched && customer.dirty && customer.invalid) {
+        <mat-error>customer err</mat-error>
+      }
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="contact">contact</mat-label>
+      <input
+        matInput
+        type="number"
+        name="contact"
+        id="contact"
+        ngModel
+        required
+        #contact="ngModel"
+      />
+  
+      @if (contact.touched && contact.dirty && contact.invalid) {
+        <mat-error>contact err</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="flex justify-end gap-6 mt-auto">
+    <ui-button-secondary
+      [disabled]="form.invalid ?? false"
+      [type]="'submit'"
+      [variant]="'base'"
+    >
+      {{ _texts.submit }}
+    </ui-button-secondary>
+
+    <ui-button-primary [variant]="'base'" (click)="_handleClose()">
+      {{ _texts.cancel }}
+    </ui-button-primary>
+  </div>
+</form>

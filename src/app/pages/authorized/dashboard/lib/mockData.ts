@@ -1,4 +1,4 @@
-import { TPlannedFuneralTable } from './dashboard.types';
+import { TPlannedFuneralTable } from './dashboard.gateway.types';
 
 export const MOCK_FUNERAL_DATA: TPlannedFuneralTable[] = [
   {

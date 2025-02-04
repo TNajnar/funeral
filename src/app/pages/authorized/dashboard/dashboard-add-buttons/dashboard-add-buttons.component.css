@@ -6,7 +6,7 @@
   border-radius: 6px;
 }
   
-.mat-raised-button.custom-button-service {
+.mat-raised-button.custom-button-company {
   width: 200px;
   height: 70px;
   background-color: theme('colors.purple');

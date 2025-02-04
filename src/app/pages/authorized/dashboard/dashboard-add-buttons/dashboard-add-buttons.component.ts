@@ -6,17 +6,8 @@ import { AddNewCompanyComponent } from '@app/shared/add-new-company/add-new-comp
 import { ModalComponent } from '@app/ui/modal/modal.component';
 import { AddNewFuneralComponent } from '@app/shared/add-new-funeral/add-new-funeral.component';
 import { IconComponent } from '@app/ui/icon/icon.component';
+import { EDashboardModalVariants, type TDashboardModalVariants } from '../lib';
 import { dashboard } from '@lib/staticTexts';
-
-enum EDashboardModalVariants {
-  NewCompany = 'NEW_COMPANY',
-  NewFuneral = 'NEW_FUNERAL',
-}
-
-type TDashboardModalVariants = {
-  [EDashboardModalVariants.NewCompany]: boolean;
-  [EDashboardModalVariants.NewFuneral]: boolean;
-};
 
 @Component({
   selector: 'app-dashboard-add-buttons',

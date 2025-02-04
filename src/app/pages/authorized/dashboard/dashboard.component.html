@@ -1,20 +1,20 @@
 <div class="flex flex-col justify-between gap-10 md:flex-row">
   <div class="relative flex items-center w-percent-55">
-    <span class="w-full text-gray-dark text-lg font-se">
+    <span class="w-full text-gray-dark text-lg font-semibold">
       {{ _texts.graphText }} {{ _currentMonth.toLocaleLowerCase() }}
     </span>
 
     <shared-graph
       [data]="[10, 15]"
-      [labels]="['Realizované pohřby', 'Nadcházející pohřby']"
-      label="# počet"
+      [labels]="_texts.graphLabels"
+      label="_texts.graphLabel"
       chartType="doughnut"
       [colors]="['#3498DB', '#9B59B6']"
     />
   </div>
 
   <div class="flex flex-col gap-5 w-percent-45">
-    <app-reminder />
+    <app-companies />
 
     <app-dashboard-add-buttons />
   </div>
@@ -22,7 +22,7 @@
 
 <div class="flex flex-col gap-4 w-full">
   <h2>
-    <a [routerLink]="['/' + planningRoute]">{{ _texts.services }}</a>
+    <a [routerLink]="['/' + planningRoute]">{{ _texts.funerals }}</a>
     <ui-icon class="icon" className="pt-1" [iconVariant]="'link'"/>
   </h2>
   

@@ -1,10 +1,6 @@
-export type TPlannedFuneralTable = {
-  companyId: number;
-  contact: string
-  customer: string;
-  dateOfNegotiation: string;
-  deceased: string;
-  id: number;
-  placeCeremony: string;
-  timeCeremony: string;
-}
+import { EDashboardModalVariants } from './enums';
+
+export type TDashboardModalVariants = {
+  [EDashboardModalVariants.NewCompany]: boolean;
+  [EDashboardModalVariants.NewFuneral]: boolean;
+};

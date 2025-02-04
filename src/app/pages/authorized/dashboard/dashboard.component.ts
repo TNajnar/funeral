@@ -3,8 +3,8 @@ import { RouterLink } from '@angular/router';
 
 import { DashboardTableUpcomingComponent } from './dashboard-table-upcoming/dashboard-table-upcoming';
 import { DashboardAddButtonsComponent } from './dashboard-add-buttons/dashboard-add-buttons.component';
-import { ReminderComponent } from './reminder/reminder.component';
 import { GraphComponent } from '@app/shared/graph/graph.component';
+import { CompaniesComponent } from './companies/companies.component';
 import { IconComponent } from '@app/ui/icon/icon.component';
 import { getCurrentMonthName } from '@lib/utils';
 import { ERoutes } from '@lib/enums';
@@ -13,8 +13,8 @@ import { dashboard } from '@lib/staticTexts';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, GraphComponent, ReminderComponent, DashboardTableUpcomingComponent,
-    DashboardAddButtonsComponent, IconComponent,
+  imports: [RouterLink, GraphComponent, DashboardTableUpcomingComponent,
+    DashboardAddButtonsComponent, IconComponent, CompaniesComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',

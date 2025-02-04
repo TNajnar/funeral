@@ -7,11 +7,12 @@ export const app = {
 export const dashboard = {
   graphText: 'Graf o realizovaných a nadchazejících pohřbech za měsíc ',
   newFuneral: 'Nový pohřeb',
-  newService: 'Nová služba',
+  newCompany: 'Nová pobočka',
   funerals: 'Naplánované pohřby',
-  services: 'Naplánované služby',
   funeralTooltip: 'Přidej nový pohřeb',
-  serviceTooltip: 'Přidej novou službu',
+  companyTooltip: 'Přidej novou pobočku',
+  graphLabels: ['Realizované pohřby', 'Nadcházející pohřby'],
+  graphLabel: '# počet',
 };
 
 export const loginTexts = {
@@ -104,6 +105,15 @@ export const warehouseControl = {
     monthDetailStatsPurchased: '# Nakoupený počet kusů',
     monthDetailStatsSold: '# Prodaný počet kusů',
   },
+};
+
+/* #endregion */
+
+/* region Shared */
+
+export const formButtonsTemplate = {
+  submit: 'Potvrdit',
+  cancel: 'Zrušit',
 };
 
 /* #endregion */

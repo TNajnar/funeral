@@ -14,7 +14,7 @@ export function resolveNewItemArgs(formData: TNewItemForm): TNewItemArgs {
     name: formData.name,
     inStock: formData.availableAmount,
     isFlagged: false,
-    type: formData.type
+    type: formData.type,
   };
 }
 
