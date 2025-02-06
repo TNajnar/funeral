@@ -24,6 +24,13 @@ public class FuneralGetResponse {
     private final long companyId;
 
     /**
+     * When order was created.
+     */
+    @Nonnull
+    @Schema(description = "When order was created.", example = "2025-01-01T8:46:00+02:00", requiredMode = Schema.RequiredMode.REQUIRED)
+    private final OffsetDateTime created;
+
+    /**
      * Name of deceased.
      */
     @Nonnull
@@ -35,13 +42,13 @@ public class FuneralGetResponse {
      */
     @Nonnull
     @Schema(description = "Ceremony address.", example = "Kostel Sv. Bartoloměje", requiredMode = Schema.RequiredMode.REQUIRED)
-    private final String ceremonyVenue;
+    private final String placeCeremony;
 
     /**
      * Beginning of ceremony.
      */
     @Nonnull
     @Schema(description = "Beginning of ceremony.", example = "2025-01-05T08:00:00+01:00", requiredMode = Schema.RequiredMode.REQUIRED)
-    private final OffsetDateTime date;
+    private final OffsetDateTime timeCeremony;
 
 }
