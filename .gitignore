@@ -42,5 +42,6 @@ testem.log
 Thumbs.db
 
 # Backend
-/backend/backend/bin
-/backend/backend/obj
+/backend/bin
+/backend/obj
+/funeral.sln
