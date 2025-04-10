@@ -1,6 +1,6 @@
 using Funeral.Models;
 
-namespace Funeral.DataAccess
+namespace Funeral.Data.DataAccess
 {
     public interface ICompanyDataAccess
     {

@@ -2,15 +2,15 @@ using Microsoft.AspNetCore.Mvc;
 
 using Funeral.Services;
 
-namespace Funeral.Controllers
+namespace Funeral.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CompanyController : ControllerBase
+    [Route("api/company")]
+    public class CompanyController : ApiControllerBase
     {
         private readonly ICompanyService _companyService;
 
-        public CompanyController(ICompanyService companyService)
+        public CompanyController(ICompanyService companyService, ILogger<CompanyController> logger) : base(logger)
         {
             _companyService = companyService;
         }
@@ -18,16 +18,12 @@ namespace Funeral.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCompany()
         {
-            try
+            return await HandleRequest(async () =>
             {
                 var funeralCompany = await _companyService.GetCompanyAsync();
 
-                return Ok(new { company = funeralCompany });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return NotFound(new { ex.Message });
-            }
+                return new { company = funeralCompany };
+            });
         }
     }
 }

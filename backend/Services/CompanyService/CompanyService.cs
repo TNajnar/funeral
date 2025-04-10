@@ -1,4 +1,4 @@
-using Funeral.DataAccess;
+using Funeral.Data.DataAccess;
 using Funeral.Dto;
 
 namespace Funeral.Services
@@ -20,12 +20,12 @@ namespace Funeral.Services
             {
                 Id = company.Id,
                 Name = company.Name,
-                Branches = company.Branches.Select(b => new BranchDto
+                Branches = company.Branches.Select(branch => new BranchDto
                 {
-                    Id = b.Id,
-                    Name = b.Name,
-                    Address = b.Address,
-                    PhoneNumber = b.PhoneNumber
+                    Id = branch.Id,
+                    Name = branch.Name,
+                    Address = branch.Address,
+                    PhoneNumber = branch.PhoneNumber
                 }).ToList()
             };
 

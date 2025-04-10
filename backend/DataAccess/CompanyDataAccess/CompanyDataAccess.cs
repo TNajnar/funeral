@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-using Funeral.Data;
 using Funeral.Models;
 
-namespace Funeral.DataAccess
+namespace Funeral.Data.DataAccess
 {
     public class CompanyDataAccess : ICompanyDataAccess
     {
